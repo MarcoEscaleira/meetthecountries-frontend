@@ -1,13 +1,13 @@
-name: "Deploy Prod"
+name: "Deploy QA"
 
 on:
   push:
-    branches: [ prod ]
+    branches: [ qa ]
 
 jobs:
   vercel:
     runs-on: ubuntu-latest
-    name: "Deploy Prod"
+    name: "Deploy QA"
 
     steps:
       - uses: actions/checkout@v3
@@ -15,8 +15,8 @@ jobs:
         with:
           node-version: 18
 
-      - name: "Deploy to Vercel Production"
-        run: npx vercel --token ${VERCEL_TOKEN} --prod
+      - name: "Deploy to Vercel QA"
+        run: npx vercel --token ${VERCEL_TOKEN}
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
