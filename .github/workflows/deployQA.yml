@@ -1,23 +1,38 @@
 name: "Deploy QA"
+env:
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
 on:
+  workflow_dispatch:
   push:
-    branches: [ qa ]
+    branches:
+      - qa
 
 jobs:
   vercel:
+    if: github.repository == 'MarcoEscaleira/meetthecountries-frontend'
     runs-on: ubuntu-latest
-    name: "Deploy QA"
-
+    name: "Deploy Prod"
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
           node-version: 18
 
-      - name: "Deploy to Vercel QA"
-        run: npx vercel --token ${VERCEL_TOKEN}
-        env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+      - name: Pull Vercel environment information
+        run: vercel pull --yes --environment=Development --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Build project artifacts
+        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Deploy project artifacts to Vercel
+        run: |
+          OUTPUT=$(du --inodes -d 5 .vercel/output)
+          echo "$OUTPUT"
+          LAST=$(echo "$OUTPUT" | tail -n 1)
+          PERCENTAGE=$(echo "$LAST" | awk 'BEGIN {maxtotal=15000} { printf "%.2f%%", ($1/maxtotal*100) }')
+          echo "Vercel file usage percentage" >> $GITHUB_STEP_SUMMARY
+          echo "$PERCENTAGE" >> v$GITHUB_STEP_SUMMARY
+          vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} > domain.txt
+          vercel alias --token=${{ secrets.VERCEL_TOKEN }} set `cat domain.txt` qa.meetthecountries.com
