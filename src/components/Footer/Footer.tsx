@@ -1,5 +1,4 @@
 import Image from "next/image";
-import mtcLogo from "../../../public/images/mtc-logo.svg";
 import Link from "next/link";
 
 export function Footer() {
@@ -7,7 +6,7 @@ export function Footer() {
     <footer className="bg-white">
       <div className="container flex flex-col items-center justify-between p-6 mx-auto space-y-4 sm:space-y-0 sm:flex-row">
         <Link href="/">
-          <Image src={mtcLogo} width={58} height={54} alt="Planet Earth" className="" />
+          <Image src="/images/mtc-logo.svg" width={58} height={54} alt="Planet Earth" className="" />
         </Link>
 
         <p className="text-sm text-gray-600 dark:text-gray-300">

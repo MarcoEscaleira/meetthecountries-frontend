@@ -3,7 +3,6 @@ import { FC } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { UserIcon } from "@heroicons/react/24/solid";
-import mtcLogo from "../../../public/images/mtc-logo.svg";
 import { usePathname } from "next/navigation";
 
 export const MenuLink: FC<{
@@ -30,7 +29,7 @@ export function Header() {
     <header className="w-full h-16 px-2 sm:px-8 flex justify-center">
       <div className="flex container gap-2 justify-between items-center">
         <Link href="/">
-          <Image src={mtcLogo} alt="Planet Earth" className="w-10 sm:w-16" />
+          <Image src="/images/mtc-logo.svg" width={40} height={40} alt="Planet Earth" className="w-10 sm:w-16" />
         </Link>
         <nav className="flex gap-2 sm:gap-8 items-center">
           <MenuLink href="/" title="Home" isActive={pathname === "/"} />
