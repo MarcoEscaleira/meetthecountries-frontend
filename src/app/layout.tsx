@@ -14,6 +14,9 @@ export const metadata: Metadata = {
   title: "Meet the Countries",
   description:
     "An app to get to know more about the countries around the globe. Come and meet unknown countries by playing quizzes about them and interacting with friends",
+  icons: {
+    icon: "/images/planet-earth.svg",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
