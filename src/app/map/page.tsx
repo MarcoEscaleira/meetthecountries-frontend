@@ -15,7 +15,7 @@ export default function MapPage() {
             zoom: 4,
           }}
           style={{ width: "100%", height: "100%" }}
-          mapStyle="mapbox://styles/mapbox/streets-v11"
+          mapStyle="mapbox://styles/marcoescaleiradmu/clp7mzxrf01q701qycptw1thq"
         >
           <NavigationControl position="bottom-right" showCompass />
         </Map>

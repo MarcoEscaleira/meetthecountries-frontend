@@ -24,7 +24,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body className={roboto.className}>
         <Header />
-        <main className="flex flex-col w-full h-[calc(100%-64px)]">{children}</main>
+        <main className="flex flex-col w-full h-[calc(100%-64px-174px)] sm:h-[calc(100%-64px-102px)]">{children}</main>
         <Footer />
       </body>
     </html>

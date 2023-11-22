@@ -33,7 +33,7 @@ export function Header() {
         </Link>
         <nav className="flex gap-2 sm:gap-8 items-center">
           <MenuLink href="/" title="Home" isActive={pathname === "/"} />
-          <MenuLink href="/map" title="Map" isActive={pathname === "/map"} />
+          <MenuLink href="/game" title="Game" isActive={pathname === "/game"} />
           <MenuLink href="/about" title="About" isActive={pathname === "/about"} />
         </nav>
         <UserIcon className="w-8 sm:w-10 h-10 cursor-pointer" />
