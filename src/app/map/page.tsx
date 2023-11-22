@@ -4,7 +4,7 @@ import "mapbox-gl/dist/mapbox-gl.css";
 
 export default function MapPage() {
   return (
-    <div className="flex w-full justify-center items-center">
+    <div className="w-full h-full flex justify-center items-center">
       <MapProvider>
         <Map
           id="quizMap"
