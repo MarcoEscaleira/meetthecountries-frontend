@@ -4,8 +4,9 @@ import { Header } from "@/components/Header";
 import "./globals.css";
 
 const roboto = Roboto({
-  weight: "400",
+  weight: ["300", "400", "500", "700"],
   subsets: ["latin"],
+  preload: true,
 });
 
 export const metadata: Metadata = {
