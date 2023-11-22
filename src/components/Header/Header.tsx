@@ -1,17 +1,22 @@
+"use client";
 import { FC } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { UserIcon } from "@heroicons/react/24/solid";
 import mtcLogo from "../../../public/images/mtc-logo.svg";
+import { usePathname } from "next/navigation";
 
 export const MenuLink: FC<{
   href: string;
   title: string;
-}> = ({ href, title }) => {
+  isActive: boolean;
+}> = ({ href, title, isActive }) => {
   return (
     <Link
       href={href}
-      className="w-32 text-center px-6 py-2 font-medium text-white transition-colors duration-300 transform bg-blue-200 rounded-lg hover:bg-blue-500"
+      className={`w-16 sm:w-32 text-sm sm:text-md py-2 font-medium text-center text-white ${
+        isActive ? "bg-blue-500" : ""
+      } transition-colors duration-300 transform bg-blue-200 rounded-lg hover:bg-blue-500`}
     >
       {title}
     </Link>
@@ -19,15 +24,21 @@ export const MenuLink: FC<{
 };
 
 export function Header() {
+  const pathname = usePathname();
+
   return (
-    <header className="flex w-full justify-between items-center h-16 px-8">
-      <Image src={mtcLogo} width={58} height={54} alt="Planet Earth" className="" />
-      <nav className="flex gap-8 items-center">
-        <MenuLink href="/" title="Home" />
-        <MenuLink href="/map" title="Map" />
-        <MenuLink href="/about" title="About" />
-      </nav>
-      <UserIcon className="w-10 h-10" />
+    <header className="w-full h-16 px-2 sm:px-8 flex justify-center">
+      <div className="flex container gap-2 justify-between items-center">
+        <Link href="/">
+          <Image src={mtcLogo} alt="Planet Earth" className="w-10 sm:w-16" />
+        </Link>
+        <nav className="flex gap-2 sm:gap-8 items-center">
+          <MenuLink href="/" title="Home" isActive={pathname === "/"} />
+          <MenuLink href="/map" title="Map" isActive={pathname === "/map"} />
+          <MenuLink href="/about" title="About" isActive={pathname === "/about"} />
+        </nav>
+        <UserIcon className="w-8 sm:w-10 h-10 cursor-pointer" />
+      </div>
     </header>
   );
 }

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import { Header } from "@/components/Header";
 import "./globals.css";
+import { Footer } from "@/components/Footer";
 
 const roboto = Roboto({
   weight: ["300", "400", "500", "700"],
@@ -21,6 +22,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={roboto.className}>
         <Header />
         <main className="flex w-full h-[calc(100%-64px)]">{children}</main>
+        <Footer />
       </body>
     </html>
   );
