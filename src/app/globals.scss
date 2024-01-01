@@ -11,3 +11,7 @@ body {
   height: 100vh;
   background: rgb(var(--background-color));
 }
+
+.mapboxgl-ctrl-logo {
+  display: none !important;
+}

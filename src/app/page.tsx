@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { Map, MapProvider, NavigationControl } from "react-map-gl";
+import { Map, MapProvider } from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 
 export default function Home() {
@@ -10,6 +10,7 @@ export default function Home() {
       <Map
         id="quizMap"
         mapboxAccessToken="pk.eyJ1IjoibWFyY29lc2NhbGVpcmFkbXUiLCJhIjoiY2xwN29ldHIwMG16bjJxbXJhZXc5dXUxOSJ9.ZP0gYeYBB-nL5py2RANUOw"
+        attributionControl={false}
         initialViewState={{
           longitude: 5,
           latitude: 46,
@@ -42,8 +43,6 @@ export default function Home() {
             </Link>
           </div>
         </section>
-
-        <NavigationControl position="bottom-right" showCompass />
       </Map>
     </MapProvider>
   );

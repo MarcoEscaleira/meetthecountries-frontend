@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import { Footer, Header } from "@/components";
 import "react-modal-global/styles/modal.scss";
-import "./globals.css";
+import "./globals.scss";
 
 const roboto = Roboto({
   weight: ["300", "400", "500", "700"],
