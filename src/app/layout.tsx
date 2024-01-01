@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
-import { Footer } from "@/components/Footer";
-import { Header } from "@/components/Header";
+import { Footer, Header } from "@/components";
+import "react-modal-global/styles/modal.scss";
 import "./globals.css";
 
 const roboto = Roboto({
@@ -21,12 +21,14 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body className={roboto.className}>
-        <Header />
-        <main className="flex flex-col w-screen h-screen relative">{children}</main>
-        <Footer />
-      </body>
-    </html>
+    <>
+      <html lang="en">
+        <body className={roboto.className}>
+          <Header />
+          <main className="relative flex h-screen w-screen flex-col">{children}</main>
+          <Footer />
+        </body>
+      </html>
+    </>
   );
 }
