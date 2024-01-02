@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import { Footer, Header } from "@/components";
-import "react-modal-global/styles/modal.scss";
 import "./globals.scss";
 
 const roboto = Roboto({
@@ -23,7 +22,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <>
       <html lang="en">
-        <body className={roboto.className}>
+        <body className={roboto.className} id="root">
           <Header />
           <main className="relative flex h-screen w-screen flex-col">{children}</main>
           <Footer />
