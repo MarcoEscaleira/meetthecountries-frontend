@@ -12,6 +12,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@apollo/client": "^3.8.8",
+    "@apollo/experimental-nextjs-app-support": "^0.5.2",
     "@heroicons/react": "^2.1.1",
     "@hookform/resolvers": "^3.3.3",
     "graphql": "^16.8.1",

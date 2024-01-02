@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import { gql, useMutation } from "@apollo/client";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useParams } from "next/navigation";
@@ -7,7 +8,14 @@ import { useForm } from "react-hook-form";
 import ReactModal from "react-modal";
 import { object, string } from "yup";
 
-ReactModal.setAppElement("#root");
+const LOGIN_USER = gql`
+  mutation LoginUser($input: LoginInput!) {
+    loginUser(input: $input) {
+      access_token
+      status
+    }
+  }
+`;
 
 const schema = object().shape({
   email: string().email().required(),
@@ -17,6 +25,7 @@ const schema = object().shape({
 export function LoginModal() {
   const [isOpen, setIsOpen] = useState(false);
   const params = useParams();
+
   const {
     register,
     handleSubmit,
@@ -26,6 +35,8 @@ export function LoginModal() {
     resolver: yupResolver(schema),
   });
 
+  const [loginMutation, { data, loading, error }] = useMutation(LOGIN_USER);
+
   useEffect(() => {
     if (window.location.hash.includes("login")) {
       setIsOpen(true);
@@ -33,9 +44,19 @@ export function LoginModal() {
     }
   }, [params]);
 
-  const loginFormSubmit = handleSubmit(data => {
-    // handle submitting the form
-    console.log(data);
+  const loginFormSubmit = handleSubmit(async data => {
+    try {
+      await loginMutation({
+        variables: {
+          input: {
+            email: data.email,
+            password: data.password,
+          },
+        },
+      });
+    } catch (e) {
+      console.log("Something went wrong", e);
+    }
   });
 
   return (
