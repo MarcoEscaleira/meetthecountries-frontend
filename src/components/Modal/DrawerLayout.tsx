@@ -25,5 +25,3 @@ export function DrawerLayout(props: DrawerLayoutProps) {
     </div>
   );
 }
-
-export default DrawerLayout;

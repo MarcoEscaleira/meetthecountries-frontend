@@ -4,6 +4,8 @@ import { ModalContainer } from "react-modal-global";
 import { Modal, ModalType } from "@/components";
 
 export function Header() {
+  let isClient = typeof window !== "undefined";
+
   return (
     <>
       <header className="absolute left-0 top-0 z-10 w-full px-4 py-2 sm:px-6 sm:py-4">
@@ -16,7 +18,7 @@ export function Header() {
           />
         </div>
       </header>
-      <ModalContainer controller={Modal} />
+      {isClient && <ModalContainer controller={Modal} />}
     </>
   );
 }

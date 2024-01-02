@@ -25,5 +25,3 @@ export function PopupLayout(props: PopupLayoutProps) {
     </div>
   );
 }
-
-export default PopupLayout;
