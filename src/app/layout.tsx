@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
+import { ToastContainer } from "react-toastify";
 import { Footer, Header } from "@/components";
 import { ApolloWrapper } from "@/lib/apollo-wrapper";
+import "react-toastify/dist/ReactToastify.css";
 import "./globals.scss";
 
 const roboto = Roboto({
@@ -28,6 +30,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <Header />
             <main className="relative flex h-screen w-screen flex-col">{children}</main>
             <Footer />
+
+            <ToastContainer />
           </ApolloWrapper>
         </body>
       </html>

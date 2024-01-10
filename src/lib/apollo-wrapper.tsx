@@ -1,5 +1,5 @@
 "use client";
-import { ApolloClient, ApolloLink, HttpLink } from "@apollo/client";
+import { ApolloLink, HttpLink } from "@apollo/client";
 import {
   ApolloNextAppProvider,
   NextSSRApolloClient,
@@ -10,6 +10,7 @@ import {
 function makeClient() {
   const httpLink = new HttpLink({
     uri: "http://localhost:8000/graphql",
+    credentials: "include",
   });
 
   return new NextSSRApolloClient({

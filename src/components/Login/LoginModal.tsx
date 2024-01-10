@@ -22,7 +22,7 @@ const schema = object().shape({
   password: string().required().min(4),
 });
 
-export function LoginModal() {
+export function LoginModal({ refetchUser }: { refetchUser: () => void }) {
   const [isOpen, setIsOpen] = useState(false);
   const params = useParams();
 
@@ -35,7 +35,7 @@ export function LoginModal() {
     resolver: yupResolver(schema),
   });
 
-  const [loginMutation, { data, loading, error }] = useMutation(LOGIN_USER);
+  const [loginMutation, { data, loading: isLoadingLogin, error: mutationError }] = useMutation(LOGIN_USER);
 
   useEffect(() => {
     if (window.location.hash.includes("login")) {
@@ -43,6 +43,12 @@ export function LoginModal() {
       history.replaceState("", document.title, location.pathname + location.search);
     }
   }, [params]);
+
+  useEffect(() => {
+    if (data?.loginUser?.status === "success" && !isLoadingLogin) {
+      refetchUser();
+    }
+  }, [data, isLoadingLogin]);
 
   const loginFormSubmit = handleSubmit(async data => {
     try {
@@ -110,6 +116,7 @@ export function LoginModal() {
             />
             {errors.password && <p className="text-sm text-red-500">Enter a password.</p>}
           </div>
+          {mutationError?.message && <p className="text-sm text-red-500">{mutationError.message}</p>}
           <button
             type="submit"
             className="w-full rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300"
