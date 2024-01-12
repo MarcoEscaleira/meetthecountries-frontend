@@ -1,21 +1,22 @@
 "use client";
 import { useEffect, useState } from "react";
-import { gql, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import ReactModal from "react-modal";
 import { object, string } from "yup";
+import { gql } from "@/__generated__";
 
-const LOGIN_USER = gql`
+const LOGIN_USER = gql(/* GraphQL */ `
   mutation LoginUser($input: LoginInput!) {
     loginUser(input: $input) {
       access_token
       status
     }
   }
-`;
+`);
 
 const schema = object().shape({
   email: string().email().required(),

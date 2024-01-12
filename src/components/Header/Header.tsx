@@ -1,17 +1,18 @@
 "use client";
 import { useEffect } from "react";
-import { gql, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { UserIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
+import { gql } from "@/__generated__";
 import { LoginModal } from "@/components";
 import { useUserStore } from "@/state";
 
-const GET_USER = gql`
+const GET_USER = gql(/* GraphQL */ `
   query GetMe {
     getCurrentlyLoggedInUser {
       status
       user {
-        id
+        _id
         email
         firstName
         lastName
@@ -22,7 +23,7 @@ const GET_USER = gql`
       }
     }
   }
-`;
+`);
 
 export function Header() {
   const { user, setUser } = useUserStore();
@@ -31,16 +32,17 @@ export function Header() {
 
   useEffect(() => {
     if (data?.getCurrentlyLoggedInUser?.status === "success") {
-      const user = data.getCurrentlyLoggedInUser.user;
+      const { _id, email, firstName, lastName, dateOfBirth, role, createdAt, updatedAt } =
+        data.getCurrentlyLoggedInUser.user;
       setUser({
-        userId: user.id,
-        email: user.email,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        dateOfBirth: user.dateOfBirth,
-        role: user.role,
-        createdAt: user.createdAt,
-        updatedAt: user.updatedAt,
+        userId: _id,
+        email,
+        firstName,
+        lastName,
+        dateOfBirth,
+        role,
+        createdAt,
+        updatedAt,
       });
     }
   }, [data, loading]);

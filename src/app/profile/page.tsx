@@ -1,14 +1,15 @@
 "use client";
-import { gql, useLazyQuery } from "@apollo/client";
+import { useLazyQuery } from "@apollo/client";
 import { redirect } from "next/navigation";
 import { toast } from "react-toastify";
+import { gql } from "@/__generated__";
 import { useUserStore } from "@/state";
 
-const LOGOUT_USER = gql`
+const LOGOUT_USER = gql(/* GraphQL */ `
   query Query {
     logoutUser
   }
-`;
+`);
 
 export default function Profile() {
   const { email, firstName, lastName, dateOfBirth, role, createdAt, updatedAt } = useUserStore(state => state.user);

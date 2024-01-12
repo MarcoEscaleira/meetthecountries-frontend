@@ -3,7 +3,7 @@ import { devtools, persist } from "zustand/middleware";
 import type {} from "@redux-devtools/extension";
 
 export interface User {
-  userId: number;
+  userId: string;
   email: string;
   firstName: string;
   lastName: string;
@@ -20,7 +20,7 @@ interface UserState {
 }
 
 const defaultUser = {
-  userId: 0,
+  userId: "",
   email: "",
   firstName: "",
   lastName: "",
@@ -32,15 +32,13 @@ const defaultUser = {
 
 export const useUserStore = create<UserState>()(
   devtools(
-    persist(
-      set => ({
-        user: defaultUser,
-        setUser: newUser => set(() => ({ user: newUser })),
-        resetUser: () => set(() => ({ user: defaultUser })),
-      }),
-      {
-        name: "user-storage",
-      }
-    )
+    set => ({
+      user: defaultUser,
+      setUser: newUser => set(() => ({ user: newUser })),
+      resetUser: () => set(() => ({ user: defaultUser })),
+    }),
+    {
+      name: "user-storage",
+    }
   )
 );
