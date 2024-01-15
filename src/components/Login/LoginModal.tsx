@@ -1,13 +1,12 @@
-"use client";
 import { useEffect, useState } from "react";
 import { useMutation } from "@apollo/client";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import ReactModal from "react-modal";
+import { useLocation } from "react-router-dom";
 import { object, string } from "yup";
-import { gql } from "@/__generated__";
+import { gql } from "@generated/index.ts";
 
 const LOGIN_USER = gql(/* GraphQL */ `
   mutation LoginUser($input: LoginInput!) {
@@ -25,7 +24,7 @@ const schema = object().shape({
 
 export function LoginModal({ refetchUser }: { refetchUser: () => void }) {
   const [isOpen, setIsOpen] = useState(false);
-  const params = useParams();
+  const params = useLocation();
 
   const {
     register,

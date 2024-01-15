@@ -1,9 +1,8 @@
-"use client";
 import { useLazyQuery } from "@apollo/client";
-import { redirect } from "next/navigation";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { gql } from "@/__generated__";
-import { useUserStore } from "@/state";
+import { gql } from "@generated/gql.ts";
+import { useUserStore } from "@state/userStore.ts";
 
 const LOGOUT_USER = gql(/* GraphQL */ `
   query Query {
@@ -12,6 +11,7 @@ const LOGOUT_USER = gql(/* GraphQL */ `
 `);
 
 export default function Profile() {
+  const navigate = useNavigate();
   const { email, firstName, lastName, dateOfBirth, role, createdAt, updatedAt } = useUserStore(state => state.user);
 
   const [makeLogout] = useLazyQuery(LOGOUT_USER);
@@ -33,7 +33,7 @@ export default function Profile() {
           onClick={async () => {
             await makeLogout();
             toast("Logout successful");
-            redirect("/");
+            navigate("/");
           }}
           className="mt-12 w-full rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white"
         >

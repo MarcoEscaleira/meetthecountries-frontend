@@ -1,8 +1,7 @@
-"use client";
-import React, { Dispatch, FC, memo, SetStateAction } from "react";
+import { Dispatch, FC, SetStateAction } from "react";
 import { ZoomableGroup, ComposableMap, Geographies, Geography } from "react-simple-maps";
 
-const MapChart: FC<{
+export const MapChart: FC<{
   setTooltipContent: Dispatch<SetStateAction<string>>;
 }> = ({ setTooltipContent }) => {
   return (
@@ -45,5 +44,3 @@ const MapChart: FC<{
     </div>
   );
 };
-
-export default memo(MapChart);

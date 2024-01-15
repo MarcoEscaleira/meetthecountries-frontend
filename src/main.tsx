@@ -1,0 +1,20 @@
+import React from "react";
+import { ApolloProvider } from "@apollo/client";
+import ReactDOM from "react-dom/client";
+import { RouterProvider } from "react-router-dom";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
+import UnhandledError from "@pages/error";
+import { router } from "@pages/router.tsx";
+import { apolloClient } from "@utils/apolloSetup.ts";
+import "./global.scss";
+
+ReactDOM.createRoot(document.getElementById("root")!).render(
+  <React.StrictMode>
+    <ApolloProvider client={apolloClient}>
+      <RouterProvider router={router} fallbackElement={<UnhandledError />} />
+    </ApolloProvider>
+
+    <ToastContainer />
+  </React.StrictMode>
+);
