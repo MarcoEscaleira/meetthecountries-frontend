@@ -1,5 +1,6 @@
 import React from "react";
 import { ApolloProvider } from "@apollo/client";
+import { Analytics } from "@vercel/analytics/react";
 import ReactDOM from "react-dom/client";
 import { RouterProvider } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
@@ -16,5 +17,6 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     </ApolloProvider>
 
     <ToastContainer />
+    <Analytics />
   </React.StrictMode>
 );
