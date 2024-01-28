@@ -14,9 +14,12 @@ module.exports = {
     __API_SERVICE__: "readonly",
     __MAPBOX_TOKEN__: "readonly",
   },
-  ignorePatterns: ["dist", ".eslintrc.cjs", "vite.config.ts", '__generated__'],
+  ignorePatterns: ["dist", ".eslintrc.cjs", "vite.config.ts", "__generated__"],
   parser: "@typescript-eslint/parser",
   settings: {
+    react: {
+      version: "detect",
+    },
     "import/parsers": {
       "@typescript-eslint/parser": [".ts", ".tsx"],
     },
