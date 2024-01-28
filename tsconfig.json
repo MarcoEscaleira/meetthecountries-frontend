@@ -47,8 +47,8 @@
       "@utils/*": ["utils/*"],
       "@state/*": ["state/*"],
       "@hooks/*": ["hooks/*"],
-      "@assets/*": ["assets/*"],
-    }
+      "@queries/*": ["queries/*"],
+    },
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules"],

@@ -1,24 +1,22 @@
 import { useEffect } from "react";
-import { gql, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { UserIcon } from "@heroicons/react/24/solid";
 import { Link } from "react-router-dom";
 import { LoginModal } from "@components/Login/LoginModal.tsx";
+import { gql } from "@generated/index.ts";
 import { useUserStore } from "@state/userStore.ts";
 
 const GET_USER = gql(/* GraphQL */ `
   query GetMe {
     getCurrentlyLoggedInUser {
-      status
-      user {
-        id
-        email
-        firstName
-        lastName
-        dateOfBirth
-        role
-        createdAt
-        updatedAt
-      }
+      id
+      email
+      firstName
+      lastName
+      dateOfBirth
+      role
+      createdAt
+      updatedAt
     }
   }
 `);
@@ -29,15 +27,14 @@ export function Header() {
   const { data, loading, refetch } = useQuery(GET_USER);
 
   useEffect(() => {
-    if (data?.getCurrentlyLoggedInUser?.status === "success") {
-      const { id, email, firstName, lastName, dateOfBirth, role, createdAt, updatedAt } =
-        data.getCurrentlyLoggedInUser.user;
+    if (data?.getCurrentlyLoggedInUser) {
+      const { id, email, firstName, lastName, dateOfBirth, role, createdAt, updatedAt } = data.getCurrentlyLoggedInUser;
       setUser({
         userId: id,
         email,
         firstName,
         lastName,
-        dateOfBirth,
+        dateOfBirth: dateOfBirth || "",
         role,
         createdAt,
         updatedAt,

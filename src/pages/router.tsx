@@ -1,5 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import { Layout } from "@components/Layout/Layout.tsx";
+import UnhandledError from "@pages/error";
 import About from "./about";
 import Game from "./game";
 import Home from "./home";
@@ -10,6 +11,7 @@ export const router = createBrowserRouter([
   {
     path: "/",
     element: <Layout />,
+    errorElement: <UnhandledError />,
     children: [
       {
         path: "/",

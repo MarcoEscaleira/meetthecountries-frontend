@@ -12,7 +12,6 @@ const LOGIN_USER = gql(/* GraphQL */ `
   mutation LoginUser($input: LoginInput!) {
     loginUser(input: $input) {
       access_token
-      status
     }
   }
 `);
@@ -45,7 +44,7 @@ export function LoginModal({ refetchUser }: { refetchUser: () => void }) {
   }, [params]);
 
   useEffect(() => {
-    if (data?.loginUser?.status === "success" && !isLoadingLogin) {
+    if (data?.loginUser && !isLoadingLogin) {
       refetchUser();
     }
   }, [data, isLoadingLogin]);
