@@ -27,7 +27,7 @@ export function Header() {
   const { data, loading, refetch } = useQuery(GET_USER);
 
   useEffect(() => {
-    if (data?.getCurrentlyLoggedInUser) {
+    if (data?.getCurrentlyLoggedInUser && !loading) {
       const { id, email, firstName, lastName, dateOfBirth, role, createdAt, updatedAt } = data.getCurrentlyLoggedInUser;
       setUser({
         userId: id,

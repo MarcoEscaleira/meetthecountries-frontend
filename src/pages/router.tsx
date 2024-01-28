@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import { Layout } from "@components/Layout/Layout.tsx";
 import UnhandledError from "@pages/error";
+import { ProtectedRoute } from "@pages/ProtectedRoute";
 import About from "./about";
 import Game from "./game";
 import Home from "./home";
@@ -23,7 +24,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "/profile",
-        element: <Profile />,
+        element: (
+          <ProtectedRoute>
+            <Profile />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/about",
