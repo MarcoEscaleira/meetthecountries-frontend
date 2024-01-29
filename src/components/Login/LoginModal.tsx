@@ -31,6 +31,7 @@ export function LoginModal({ refetchUser }: { refetchUser: () => void }) {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm({
     mode: "onSubmit",
     resolver: yupResolver(schema),
@@ -41,6 +42,7 @@ export function LoginModal({ refetchUser }: { refetchUser: () => void }) {
       data.loginUser.access_token && refetchUser();
       toast.success("Logged in successfully!");
       setIsOpen(false);
+      reset();
     },
   });
 

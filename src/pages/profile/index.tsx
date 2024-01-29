@@ -12,7 +12,10 @@ const LOGOUT_USER = gql(/* GraphQL */ `
 
 export default function Profile() {
   const navigate = useNavigate();
-  const { email, firstName, lastName, dateOfBirth, role, createdAt, updatedAt } = useUserStore(state => state.user);
+  const {
+    user: { email, firstName, lastName, dateOfBirth, role, createdAt, updatedAt },
+    resetUser,
+  } = useUserStore();
 
   const [makeLogout] = useLazyQuery(LOGOUT_USER);
 
@@ -32,6 +35,7 @@ export default function Profile() {
         <button
           onClick={async () => {
             await makeLogout();
+            resetUser();
             toast.success("Logout successful");
             navigate("/");
           }}

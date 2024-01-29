@@ -16,7 +16,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       <RouterProvider router={router} fallbackElement={<UnhandledError />} />
     </ApolloProvider>
 
-    <ToastContainer />
+    <ToastContainer position="bottom-center" />
     <Analytics />
   </React.StrictMode>
 );
