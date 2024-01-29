@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useQuery } from "@apollo/client";
-import { UserIcon } from "@heroicons/react/24/solid";
+import { CircleUser } from "lucide-react";
 import { Link } from "react-router-dom";
 import { LoginModal } from "@components/Login/LoginModal.tsx";
 import { gql } from "@generated/index.ts";
@@ -52,7 +52,7 @@ export function Header() {
       <header className="absolute left-0 top-0 z-10 w-full px-4 py-2 sm:px-6 sm:py-4">
         <div className="flex items-center justify-end">
           <Link to={user.userId ? "/profile" : "#login"}>
-            <UserIcon className="h-10 w-8 cursor-pointer sm:w-10" />
+            <CircleUser className="h-10 w-8 cursor-pointer sm:w-10" />
           </Link>
         </div>
       </header>
