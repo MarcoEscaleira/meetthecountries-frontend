@@ -5,6 +5,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import ReactModal from "react-modal";
 import { useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
 import { object, string } from "yup";
 import { gql } from "@generated/index.ts";
 
@@ -34,7 +35,13 @@ export function LoginModal({ refetchUser }: { refetchUser: () => void }) {
     resolver: yupResolver(schema),
   });
 
-  const [loginMutation, { data, loading: isLoadingLogin, error: mutationError }] = useMutation(LOGIN_USER);
+  const [loginMutation, { error: mutationError }] = useMutation(LOGIN_USER, {
+    onCompleted: data => {
+      data.loginUser.access_token && refetchUser();
+      toast.success("Logged in successfully!");
+      setIsOpen(false);
+    },
+  });
 
   useEffect(() => {
     if (window.location.hash.includes("login")) {
@@ -42,12 +49,6 @@ export function LoginModal({ refetchUser }: { refetchUser: () => void }) {
       history.replaceState("", document.title, location.pathname + location.search);
     }
   }, [params]);
-
-  useEffect(() => {
-    if (data?.loginUser && !isLoadingLogin) {
-      refetchUser();
-    }
-  }, [data, isLoadingLogin]);
 
   const loginFormSubmit = handleSubmit(async data => {
     try {
@@ -88,14 +89,13 @@ export function LoginModal({ refetchUser }: { refetchUser: () => void }) {
             </label>
             <input
               type="email"
-              id="email"
               className={`block w-full rounded-lg border bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 ${
                 errors.email ? "border-red-400" : "border-gray-300"
               }`}
               placeholder="name@mail.com"
               {...register("email")}
             />
-            {errors.email && <p className="text-sm text-red-500">Enter a valid email.</p>}
+            {errors.email && <p className="mt-1 text-sm text-red-500">Enter a valid email.</p>}
           </div>
           <div>
             <label
@@ -113,7 +113,7 @@ export function LoginModal({ refetchUser }: { refetchUser: () => void }) {
               }`}
               {...register("password")}
             />
-            {errors.password && <p className="text-sm text-red-500">Enter a password.</p>}
+            {errors.password && <p className="mt-1 text-sm text-red-500">Enter a password.</p>}
           </div>
           {mutationError?.message && <p className="text-sm text-red-500">{mutationError.message}</p>}
           <button

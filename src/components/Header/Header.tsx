@@ -22,23 +22,28 @@ const GET_USER = gql(/* GraphQL */ `
 `);
 
 export function Header() {
-  const { user, setUser } = useUserStore();
+  const { user, setUser, setIsSessionLoading } = useUserStore();
 
   const { data, loading, refetch } = useQuery(GET_USER);
 
   useEffect(() => {
-    if (data?.getCurrentlyLoggedInUser && !loading) {
-      const { id, email, firstName, lastName, dateOfBirth, role, createdAt, updatedAt } = data.getCurrentlyLoggedInUser;
-      setUser({
-        userId: id,
-        email,
-        firstName,
-        lastName,
-        dateOfBirth: dateOfBirth || "",
-        role,
-        createdAt,
-        updatedAt,
-      });
+    if (!loading) {
+      if (data?.getCurrentlyLoggedInUser) {
+        const { id, email, firstName, lastName, dateOfBirth, role, createdAt, updatedAt } =
+          data.getCurrentlyLoggedInUser;
+        setUser({
+          userId: id,
+          email,
+          firstName,
+          lastName,
+          dateOfBirth: dateOfBirth || "",
+          role,
+          createdAt,
+          updatedAt,
+        });
+      }
+
+      setIsSessionLoading(false);
     }
   }, [data, loading]);
 

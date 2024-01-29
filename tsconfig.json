@@ -41,13 +41,12 @@
     "downlevelIteration": true,
 
     "paths": {
+      "@/*": ["./*"],
       "@generated/*": ["__generated__/*"],
       "@components/*": ["components/*"],
       "@pages/*": ["pages/*"],
       "@utils/*": ["utils/*"],
       "@state/*": ["state/*"],
-      "@hooks/*": ["hooks/*"],
-      "@queries/*": ["queries/*"],
     },
   },
   "include": ["src/**/*"],

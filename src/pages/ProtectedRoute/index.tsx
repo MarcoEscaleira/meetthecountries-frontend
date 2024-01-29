@@ -3,9 +3,14 @@ import { Navigate } from "react-router-dom";
 import { useUserStore } from "@state/userStore.ts";
 
 export const ProtectedRoute = ({ children }: PropsWithChildren) => {
-  const { userId } = useUserStore(state => state.user);
+  const { user, isSessionLoading } = useUserStore();
 
-  if (!userId) {
+  if (isSessionLoading) {
+    // TODO: Create a page loader for protected routes
+    return <p>Loading...</p>;
+  }
+
+  if (!user.userId && !isSessionLoading) {
     return <Navigate to="/#login" />;
   }
 

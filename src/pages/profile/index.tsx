@@ -32,7 +32,7 @@ export default function Profile() {
         <button
           onClick={async () => {
             await makeLogout();
-            toast("Logout successful");
+            toast.success("Logout successful");
             navigate("/");
           }}
           className="mt-12 w-full rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white"
