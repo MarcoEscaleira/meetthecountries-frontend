@@ -11,7 +11,7 @@ export const ProtectedRoute = ({ children }: PropsWithChildren) => {
   }
 
   if (!user.userId && !isSessionLoading) {
-    return <Navigate to="/#login" />;
+    return <Navigate to="/" />;
   }
 
   return children;

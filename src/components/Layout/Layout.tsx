@@ -16,7 +16,7 @@ export function Layout() {
   return (
     <>
       <Header />
-      <main className="relative flex h-screen w-screen flex-col">
+      <main className="relative flex h-screen w-screen flex-col items-center">
         <Outlet />
       </main>
       <Footer />

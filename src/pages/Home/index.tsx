@@ -1,3 +1,4 @@
+import { Typography } from "@material-tailwind/react";
 import { Map, MapProvider } from "react-map-gl";
 import { Link } from "react-router-dom";
 import "mapbox-gl/dist/mapbox-gl.css";
@@ -23,13 +24,15 @@ export default function Home() {
             width={180}
             height={180}
             alt="Planet Earth"
-            className="mb-10 h-32 w-32 sm:h-44 sm:w-44"
+            className="mb-6 h-32 w-32 sm:mb-8 sm:h-44 sm:w-44"
           />
-          <h1 className="mb-4 text-center text-3xl font-semibold text-blue-950 sm:text-4xl">Meet the Countries</h1>
-          <p className="mb-4 w-full text-center text-base font-light text-black sm:mb-8 sm:w-2/3 sm:text-lg">
+          <Typography variant="h3" className="mb-4 font-semibold">
+            Meet the Countries
+          </Typography>
+          <Typography className="mb-6 text-center text-base font-light text-black sm:mb-8 sm:w-2/3 sm:text-lg">
             Do you dare to come with us on this journey to meet countries never explored?
-          </p>
-          <div className="flex items-center justify-center gap-6">
+          </Typography>
+          <div className="flex items-center justify-center">
             <Link
               to="/game"
               className="group inline-flex items-center justify-center rounded-lg bg-gradient-to-br from-green-400 to-blue-600 p-0.5 text-sm font-medium text-gray-900 shadow-md hover:text-white focus:outline-none focus:ring-4 focus:ring-green-200 group-hover:from-green-400 group-hover:to-blue-600"
