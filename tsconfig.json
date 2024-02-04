@@ -41,7 +41,6 @@
     "downlevelIteration": true,
 
     "paths": {
-      "@/*": ["./*"],
       "@generated/*": ["__generated__/*"],
       "@components/*": ["components/*"],
       "@pages/*": ["pages/*"],

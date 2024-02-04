@@ -1,10 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2 } from "lucide-react";
-import { useForm } from "react-hook-form";
+import { Input, Typography, Button } from "@material-tailwind/react";
+import { useForm, Form } from "react-hook-form";
 import { z } from "zod";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@components/ui/button.tsx";
 
 const formSchema = z.object({
   email: z.string().email({ message: "Enter a valid email." }),
@@ -28,37 +25,33 @@ export function RegisterForm() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3 py-4">
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Username</FormLabel>
-              <FormControl>
-                <Input placeholder="name@mail.com" type="email" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+        <Typography variant="h6" color="blue-gray" className="-mb-3">
+          Your Email
+        </Typography>
+        <Input
+          size="lg"
+          placeholder="name@mail.com"
+          className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
+          labelProps={{
+            className: "before:content-none after:content-none",
+          }}
         />
-
-        <FormField
-          control={form.control}
+        <Typography variant="h6" color="blue-gray" className="-mb-3">
+          Password
+        </Typography>
+        <Input
           name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Password</FormLabel>
-              <FormControl>
-                <Input placeholder="Your password" type="password" {...field} />
-              </FormControl>
-              <FormDescription>Make sure to always keep your password safe.</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
+          type="password"
+          crossOrigin="a"
+          size="lg"
+          placeholder="********"
+          className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
+          labelProps={{
+            className: "before:content-none after:content-none",
+          }}
         />
 
-        <Button type="submit" disabled={false}>
-          {false && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+        <Button type="submit" placeholder="Create account" disabled={false} loading={false}>
           Create
         </Button>
       </form>

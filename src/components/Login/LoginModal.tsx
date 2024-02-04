@@ -1,15 +1,13 @@
 import { useEffect, useState } from "react";
 import { useMutation } from "@apollo/client";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2, X } from "lucide-react";
-import { useForm } from "react-hook-form";
+import { Button, Input, Typography } from "@material-tailwind/react";
+import { X } from "lucide-react";
+import { SubmitHandler, useForm } from "react-hook-form";
 import ReactModal from "react-modal";
 import { Link, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { z } from "zod";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@components/ui/button.tsx";
 import { gql } from "@generated/index.ts";
 
 const LOGIN_USER = gql(/* GraphQL */ `
@@ -29,9 +27,12 @@ export function LoginModal({ refetchUser }: { refetchUser: () => void }) {
   const [isOpen, setIsOpen] = useState(false);
   const params = useLocation();
 
-  const form = useForm<z.infer<typeof formSchema>>({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    mode: "onSubmit",
     defaultValues: {
       email: "",
       password: "",
@@ -54,7 +55,11 @@ export function LoginModal({ refetchUser }: { refetchUser: () => void }) {
     }
   }, [params]);
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+  const onSubmit: SubmitHandler<z.infer<typeof formSchema>> = async (values, event) => {
+    event?.preventDefault();
+
+    console.log(values);
+
     try {
       await loginMutation({
         variables: {
@@ -78,57 +83,46 @@ export function LoginModal({ refetchUser }: { refetchUser: () => void }) {
       shouldCloseOnOverlayClick
     >
       <div className="w-full rounded-lg bg-white p-4 shadow">
-        <div className="flex w-96 items-center justify-between rounded-t border-b p-4 md:p-5">
-          <h3 className="text-xl font-semibold text-gray-900">Sign in</h3>
+        <div className="flex w-96 items-center justify-between rounded-t border-b pb-4 md:pb-4">
+          <Typography variant="h3" color="blue-gray">
+            Sign in
+          </Typography>
           <X onClick={() => setIsOpen(false)} className="h-6 w-6 cursor-pointer sm:w-10" />
         </div>
 
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3 py-4">
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Username</FormLabel>
-                  <FormControl>
-                    <Input placeholder="name@mail.com" type="email" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-3 py-4">
+          <Input
+            {...register("email")}
+            name="email"
+            size="lg"
+            label="Email address"
+            placeholder="name@mail.com"
+            error={!!errors.email}
+          />
 
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Your password" type="password" {...field} />
-                  </FormControl>
-                  <FormDescription>Make sure to always keep your password safe.</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+          <Input
+            {...register("password")}
+            name="password"
+            size="lg"
+            type="password"
+            label="Password"
+            placeholder="*******"
+            error={!!errors.password}
+          />
 
-            {mutationError?.message && <p className="text-sm text-red-500">{mutationError.message}</p>}
+          {mutationError?.message && <p className="text-sm text-red-500">{mutationError.message}</p>}
 
-            <Button type="submit" disabled={isLoadingLogin}>
-              {isLoadingLogin && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              Login to your account
-            </Button>
+          <Button type="submit" disabled={isLoadingLogin} loading={isLoadingLogin}>
+            Login to your account
+          </Button>
 
-            <div className="text-sm font-medium text-gray-500">
-              Not registered?&nbsp;
-              <Link to="/register" className="text-blue-700 hover:underline">
-                Create an account
-              </Link>
-            </div>
-          </form>
-        </Form>
+          <div className="text-sm font-medium text-gray-500">
+            Not registered?&nbsp;
+            <Link to="/register" className="text-blue-700 hover:underline">
+              Create an account
+            </Link>
+          </div>
+        </form>
       </div>
     </ReactModal>
   );

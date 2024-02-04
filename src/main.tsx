@@ -1,5 +1,6 @@
 import React from "react";
 import { ApolloProvider } from "@apollo/client";
+import { ThemeProvider } from "@material-tailwind/react";
 import { Analytics } from "@vercel/analytics/react";
 import ReactDOM from "react-dom/client";
 import { RouterProvider } from "react-router-dom";
@@ -13,7 +14,9 @@ import "./global.scss";
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <ApolloProvider client={apolloClient}>
-      <RouterProvider router={router} fallbackElement={<UnhandledError />} />
+      <ThemeProvider>
+        <RouterProvider router={router} fallbackElement={<UnhandledError />} />
+      </ThemeProvider>
     </ApolloProvider>
 
     <ToastContainer position="bottom-center" />
