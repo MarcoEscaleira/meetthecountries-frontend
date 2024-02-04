@@ -1,6 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input, Typography, Button } from "@material-tailwind/react";
-import { useForm, Form } from "react-hook-form";
+import { Info } from "lucide-react";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 const formSchema = z.object({
@@ -9,7 +10,11 @@ const formSchema = z.object({
 });
 
 export function RegisterForm() {
-  const form = useForm<z.infer<typeof formSchema>>({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     mode: "onSubmit",
     defaultValues: {
@@ -23,38 +28,33 @@ export function RegisterForm() {
   };
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3 py-4">
-        <Typography variant="h6" color="blue-gray" className="-mb-3">
-          Your Email
-        </Typography>
-        <Input
-          size="lg"
-          placeholder="name@mail.com"
-          className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
-          labelProps={{
-            className: "before:content-none after:content-none",
-          }}
-        />
-        <Typography variant="h6" color="blue-gray" className="-mb-3">
-          Password
-        </Typography>
-        <Input
-          name="password"
-          type="password"
-          crossOrigin="a"
-          size="lg"
-          placeholder="********"
-          className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
-          labelProps={{
-            className: "before:content-none after:content-none",
-          }}
-        />
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-3 py-4">
+      <Input
+        {...register("email")}
+        name="email"
+        size="lg"
+        label="Email address"
+        placeholder="name@mail.com"
+        error={!!errors.email}
+      />
 
-        <Button type="submit" placeholder="Create account" disabled={false} loading={false}>
-          Create
-        </Button>
-      </form>
-    </Form>
+      <Input
+        {...register("password")}
+        name="password"
+        size="lg"
+        type="password"
+        label="Password"
+        placeholder="*******"
+        error={!!errors.password}
+      />
+      <Typography variant="small" color="gray" className="mt-2 flex items-center gap-1 font-normal">
+        <Info className='w-4' />
+        Use at least 8 characters, one uppercase, one lowercase and one number.
+      </Typography>
+
+      <Button type="submit" placeholder="Create account" disabled={false} loading={false}>
+        Create
+      </Button>
+    </form>
   );
 }

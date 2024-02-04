@@ -19,8 +19,8 @@ const LOGIN_USER = gql(/* GraphQL */ `
 `);
 
 const formSchema = z.object({
-  email: z.string().email({ message: "Enter a valid email." }),
-  password: z.string().min(1, { message: "Enter a password." }),
+  email: z.string().email(),
+  password: z.string().min(1),
 });
 
 export function LoginModal({ refetchUser }: { refetchUser: () => void }) {
@@ -30,6 +30,7 @@ export function LoginModal({ refetchUser }: { refetchUser: () => void }) {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -44,7 +45,7 @@ export function LoginModal({ refetchUser }: { refetchUser: () => void }) {
       data.loginUser.access_token && refetchUser();
       toast.success("Logged in successfully!");
       setIsOpen(false);
-      form.reset();
+      reset();
     },
   });
 
