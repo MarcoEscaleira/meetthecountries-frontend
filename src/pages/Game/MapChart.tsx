@@ -7,7 +7,9 @@ export const MapChart: FC<{
   return (
     <div className="w-full">
       <ComposableMap>
+        {/* @ts-expect-error: due to a temporary update on the @types/react */}
         <ZoomableGroup center={[5, 46]} zoom={4}>
+          {/* @ts-expect-error: due to a temporary update on the @types/react */}
           <Geographies geography="/features.json">
             {({ geographies }) =>
               geographies.map(geo => (
