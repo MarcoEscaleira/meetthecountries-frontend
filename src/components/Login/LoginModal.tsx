@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2, X } from "lucide-react";
 import { useForm } from "react-hook-form";
 import ReactModal from "react-modal";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { z } from "zod";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
@@ -84,7 +84,7 @@ export function LoginModal({ refetchUser }: { refetchUser: () => void }) {
         </div>
 
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="py-4 space-y-3">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3 py-4">
             <FormField
               control={form.control}
               name="email"
@@ -123,9 +123,9 @@ export function LoginModal({ refetchUser }: { refetchUser: () => void }) {
 
             <div className="text-sm font-medium text-gray-500">
               Not registered?&nbsp;
-              <a href="#" className="text-blue-700 hover:underline">
+              <Link to="/register" className="text-blue-700 hover:underline">
                 Create an account
-              </a>
+              </Link>
             </div>
           </form>
         </Form>

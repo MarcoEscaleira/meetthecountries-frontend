@@ -1,12 +1,13 @@
 import { createBrowserRouter } from "react-router-dom";
 import { Layout } from "@components/Layout/Layout.tsx";
-import UnhandledError from "@pages/error";
 import { ProtectedRoute } from "@pages/ProtectedRoute";
-import About from "./about";
-import Game from "./game";
-import Home from "./home";
-import NotFound from "./notFound";
-import Profile from "./profile";
+import About from "./About";
+import UnhandledError from "./Error";
+import Game from "./Game";
+import Home from "./Home";
+import NotFound from "./NotFound";
+import Profile from "./Profile";
+import Register from "./Register";
 
 export const router = createBrowserRouter([
   {
@@ -21,6 +22,10 @@ export const router = createBrowserRouter([
       {
         path: "/game",
         element: <Game />,
+      },
+      {
+        path: "/register",
+        element: <Register />,
       },
       {
         path: "/profile",
