@@ -18,7 +18,7 @@ export const DatePicker: FC<DatePickerProps> = ({ name, label, ...props }) => {
   return (
     <Popover placement="bottom">
       <PopoverHandler>
-        <Input {...register(name)} label={label} value={date ? format(date, "PPP") : ""} />
+        <Input {...register(name)} label={label} value={date ? format(date, "dd MMM yyyy") : ""} />
       </PopoverHandler>
       <PopoverContent>
         <DayPicker

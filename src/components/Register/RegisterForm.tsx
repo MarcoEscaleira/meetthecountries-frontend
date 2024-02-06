@@ -96,30 +96,32 @@ export function RegisterForm() {
         />
 
         <div>
-          <Input
-            {...register("password")}
-            name="password"
-            size="lg"
-            type="password"
-            label="Password"
-            placeholder="*******"
-            error={!!errors.password}
-          />
+          <div className="flex space-x-4">
+            <Input
+              {...register("password")}
+              name="password"
+              size="lg"
+              type="password"
+              label="Password"
+              placeholder="*******"
+              error={!!errors.password}
+            />
+            <Input
+              {...register("passwordConfirm")}
+              name="passwordConfirm"
+              size="lg"
+              type="password"
+              label="Password confirmation"
+              placeholder="*******"
+              error={!!errors.passwordConfirm}
+            />
+          </div>
+
           <Typography variant="small" color="gray" className="mt-2 flex items-center gap-1 font-normal">
             <Info className="w-7 md:w-5" />
             Use at least 8 characters, one uppercase, one lowercase and one number and one special character.
           </Typography>
         </div>
-
-        <Input
-          {...register("passwordConfirm")}
-          name="passwordConfirm"
-          size="lg"
-          type="password"
-          label="Password confirmation"
-          placeholder="*******"
-          error={!!errors.passwordConfirm}
-        />
 
         <Input
           {...register("firstName")}
