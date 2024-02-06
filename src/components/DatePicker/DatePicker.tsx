@@ -2,18 +2,18 @@ import { FC, useState } from "react";
 import { Input, Popover, PopoverHandler, PopoverContent } from "@material-tailwind/react";
 import { format } from "date-fns";
 import { ChevronRightIcon, ChevronLeftIcon } from "lucide-react";
-import { DayPicker } from "react-day-picker";
+import { DayPicker, DayPickerProps } from "react-day-picker";
 import { useFormContext } from "react-hook-form";
 
-interface DatePickerProps {
+type DatePickerProps = {
   name: string;
   label?: string;
-}
+} & DayPickerProps;
 
-export const DatePicker: FC<DatePickerProps> = ({ name, label }) => {
+export const DatePicker: FC<DatePickerProps> = ({ name, label, ...props }) => {
   const [date, setDate] = useState<Date>();
 
-  const { register } = useFormContext();
+  const { register, setValue } = useFormContext();
 
   return (
     <Popover placement="bottom">
@@ -24,8 +24,12 @@ export const DatePicker: FC<DatePickerProps> = ({ name, label }) => {
         <DayPicker
           mode="single"
           selected={date}
-          onSelect={setDate}
-          showOutsideDays
+          // @ts-expect-error: due to the props spread below
+          onSelect={newDate => {
+            setDate(newDate);
+            setValue(name, newDate);
+          }}
+          {...props}
           className="border-0"
           classNames={{
             caption: "flex justify-center py-2 mb-4 relative items-center",
