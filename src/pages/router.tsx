@@ -1,13 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import { Layout } from "@components/Layout/Layout.tsx";
-import { ProtectedRoute } from "@pages/ProtectedRoute";
-import About from "./About";
+import NotFound from "@pages/NotFound";
 import UnhandledError from "./Error";
-import Game from "./Game";
-import Home from "./Home";
-import NotFound from "./NotFound";
-import Profile from "./Profile";
-import Register from "./Register";
 
 export const router = createBrowserRouter([
   {
@@ -16,28 +10,24 @@ export const router = createBrowserRouter([
     errorElement: <UnhandledError />,
     children: [
       {
-        path: "/",
-        element: <Home />,
+        index: true,
+        lazy: () => import("./Home"),
       },
       {
         path: "/game",
-        element: <Game />,
+        lazy: () => import("./Game"),
       },
       {
         path: "/register",
-        element: <Register />,
+        lazy: () => import("./Register"),
       },
       {
         path: "/profile",
-        element: (
-          <ProtectedRoute>
-            <Profile />
-          </ProtectedRoute>
-        ),
+        lazy: () => import("./Profile"),
       },
       {
         path: "/about",
-        element: <About />,
+        lazy: () => import("./About"),
       },
     ],
   },

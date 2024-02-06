@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Tooltip } from "react-tooltip";
 import { MapChart } from "./MapChart.tsx";
 
-export default function GamePage() {
+export function Component() {
   const [content, setContent] = useState("");
 
   return (

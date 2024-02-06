@@ -1,7 +1,7 @@
 import { Typography } from "@material-tailwind/react";
 import { useUserStore } from "@state/userStore.ts";
 
-export default function Profile() {
+export function Component() {
   const {
     user: { email, firstName, lastName, dateOfBirth, role, createdAt, updatedAt },
   } = useUserStore();

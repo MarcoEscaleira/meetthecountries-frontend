@@ -6,14 +6,6 @@ const cache = new InMemoryCache();
 export const apolloClient = new ApolloClient({
   link: ApolloLink.from([
     onError(({ graphQLErrors, networkError }) => {
-      if (graphQLErrors) {
-        // sendToLoggingService(graphQLErrors);
-        // TODO: Send user to do login
-      }
-      if (networkError) {
-        // logoutUser();
-        // TODO: Logout the user
-      }
       console.error(graphQLErrors);
       console.error(networkError);
     }),

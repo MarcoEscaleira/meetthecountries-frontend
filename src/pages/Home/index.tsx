@@ -3,7 +3,7 @@ import { Map, MapProvider } from "react-map-gl";
 import { Link } from "react-router-dom";
 import "mapbox-gl/dist/mapbox-gl.css";
 
-export default function Home() {
+export function Component() {
   return (
     <MapProvider>
       <Map

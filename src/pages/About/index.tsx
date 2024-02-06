@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Accordion, AccordionBody, AccordionHeader, Button, Typography } from "@material-tailwind/react";
 import { ArrowRight } from "lucide-react";
 
-export default function About() {
+export function Component() {
   const [open, setOpen] = useState(1);
 
   const handleOpen = (value: number) => setOpen(open === value ? 0 : value);
