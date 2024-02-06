@@ -81,12 +81,14 @@ export function Header() {
         </div>
 
         <div className="flex flex-col items-center">
-          <Typography variant="h3" color="blue-gray" textGradient>
-            Hello {user.firstName || "explorer"}!
-          </Typography>
-          {!isLoggedIn && <Typography color="blue-gray">Get started and login to your account</Typography>}
+          <div className="flex flex-col border-b pb-4">
+            <Typography variant="h3" color="blue-gray" textGradient>
+              Hello {user.firstName || "explorer"}!
+            </Typography>
+            {!isLoggedIn && <Typography color="blue-gray">Get started and login to your account</Typography>}
+          </div>
 
-          <List className="mt-8 w-full">
+          <List className="mt-4 w-full">
             <Link to="/" onClick={toggleDrawer}>
               <ListItem>
                 <ListItemPrefix>
@@ -125,9 +127,9 @@ export function Header() {
 
           {!isLoggedIn && (
             <LoginForm
+              toggleDrawer={toggleDrawer}
               handleLoginSuccess={async () => {
                 await refetch();
-                toggleDrawer();
               }}
             />
           )}

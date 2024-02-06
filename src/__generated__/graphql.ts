@@ -18,30 +18,35 @@ export type Scalars = {
   DateTimeISO: { input: any; output: any; }
 };
 
-/** Answer data */
-export type AnswerData = {
-  __typename?: 'AnswerData';
-  /** If this answer is the correct one */
-  correct: Scalars['Boolean']['output'];
-  /** The answer text */
-  text: Scalars['String']['output'];
-};
-
-/** The input required to create an answer */
-export type AnswerInput = {
-  correct: Scalars['Boolean']['input'];
-  text: Scalars['String']['input'];
+/** Attempt data of a given quiz and user */
+export type AttemptData = {
+  __typename?: 'AttemptData';
+  /** When did the quiz attempt finished, as timestamp */
+  endTime: Scalars['DateTimeISO']['output'];
+  id: Scalars['ID']['output'];
+  /** List of questions played with answers */
+  questions: Array<QuestionData>;
+  /** The quiz attempted */
+  quiz: QuizData;
+  /** Attempt score as number to indicate percentage */
+  score: Scalars['Int']['output'];
+  /** When did the quiz attempt started, as timestamp */
+  startTime: Scalars['DateTimeISO']['output'];
+  /** The user that did this quiz attempt */
+  user: UserData;
 };
 
 /** Country data */
 export type CountryData = {
   __typename?: 'CountryData';
+  /** When was the country created */
   createdAt: Scalars['DateTimeISO']['output'];
   description: Scalars['String']['output'];
   id: Scalars['ID']['output'];
   /** Location in lat and lon of the current country. */
   location: LocationData;
   name: Scalars['String']['output'];
+  /** When was the country last updated at */
   updatedAt: Scalars['DateTimeISO']['output'];
   /** Defines how many users are registered to this country. */
   users: Scalars['Int']['output'];
@@ -56,6 +61,14 @@ export type CountryInput = {
   /** Country name (e.g: "Portugal") */
   name: Scalars['String']['input'];
 };
+
+/** The difficulty measurement */
+export enum Difficulty {
+  Easy = 'Easy',
+  Hard = 'Hard',
+  Medium = 'Medium',
+  Unknown = 'Unknown'
+}
 
 /** Location object using lat and lon */
 export type LocationData = {
@@ -113,8 +126,27 @@ export type MutationSignupUserArgs = {
   user: SignUpInput;
 };
 
+/** Option data */
+export type OptionData = {
+  __typename?: 'OptionData';
+  /** If this answer was the chosen answer. Only applicable when reading Attempts */
+  chosen: Scalars['Boolean']['output'];
+  /** If this answer is the correct one */
+  correct: Scalars['Boolean']['output'];
+  /** The answer text */
+  text: Scalars['String']['output'];
+};
+
+/** The input required to create an quiz option */
+export type OptionInput = {
+  chosen?: InputMaybe<Scalars['Boolean']['input']>;
+  correct: Scalars['Boolean']['input'];
+  text: Scalars['String']['input'];
+};
+
 export type Query = {
   __typename?: 'Query';
+  attempts: Array<AttemptData>;
   countries: Array<CountryData>;
   getCurrentlyLoggedInUser: UserData;
   logoutUser: Scalars['Boolean']['output'];
@@ -131,22 +163,37 @@ export type QueryQuizListArgs = {
 export type QuestionData = {
   __typename?: 'QuestionData';
   /** The list of answers for this question */
-  answers: Array<AnswerData>;
+  options: Array<OptionData>;
   /** The question name */
   question: Scalars['String']['output'];
+  /** The question type, where 0 is single choice and 1 is multi-choice */
+  type: Scalars['String']['output'];
 };
 
 /** The input required to create a question */
 export type QuestionInput = {
-  answers: Array<AnswerInput>;
+  options: Array<OptionInput>;
+  /** Question text */
   question: Scalars['String']['input'];
+  /** Question type */
+  type: Scalars['Float']['input'];
 };
 
 /** The input required to create a quiz */
 export type QuizAddInput = {
+  /** Quiz country that users the Countries list */
   country: Scalars['ID']['input'];
+  /** Quiz description in order to brief about the quiz */
   description: Scalars['String']['input'];
+  /** Quiz difficulty */
+  difficulty?: InputMaybe<Difficulty>;
+  /** Quiz array of questions */
   questions: Array<QuestionInput>;
+  /** Array of tags to describe the quiz in keywords */
+  tags?: InputMaybe<Array<Scalars['String']['input']>>;
+  /** Quiz time limit in minutes */
+  timeLimit?: InputMaybe<Scalars['Int']['input']>;
+  /** Quiz title definition */
   title: Scalars['String']['input'];
 };
 
@@ -155,11 +202,14 @@ export type QuizData = {
   __typename?: 'QuizData';
   /** The country where this quiz relates with */
   country: CountryData;
+  /** When was the quiz created */
   createdAt: Scalars['DateTimeISO']['output'];
   /** The user that created this quiz for the first time */
   creator: UserData;
   /** Description of the quiz */
   description: Scalars['String']['output'];
+  /** The quiz difficulty to indicate how hard this quiz can be */
+  difficulty?: Maybe<Difficulty>;
   id: Scalars['ID']['output'];
   /** Image of the quiz */
   image: Scalars['String']['output'];
@@ -167,12 +217,23 @@ export type QuizData = {
   lastEditor?: Maybe<UserData>;
   /** List of questions for this quiz */
   questions: Array<QuestionData>;
-  /** What is the percentage of success of this quiz */
-  successRate?: Maybe<Scalars['Float']['output']>;
+  /** Array of tags to describe the quiz in keywords */
+  tags?: Maybe<Array<Scalars['String']['output']>>;
+  /** The time limit of the quiz in minutes, if 0 there is no time limit */
+  timeLimit?: Maybe<Scalars['Int']['output']>;
   /** Title of the quiz */
   title: Scalars['String']['output'];
+  /** When was the quiz last updated at */
   updatedAt: Scalars['DateTimeISO']['output'];
 };
+
+/** The roles options for the users */
+export enum Roles {
+  /** The admin role which has the same permissions of an user but has also administrative rights */
+  Admin = 'Admin',
+  /** The regular user that has the ability to do most of the functionalities on the website */
+  User = 'User'
+}
 
 /** User sign up input mutation data */
 export type SignUpInput = {
@@ -195,21 +256,34 @@ export type SignUpInput = {
 /** User body data */
 export type UserData = {
   __typename?: 'UserData';
+  /** User country */
   country?: Maybe<CountryData>;
+  /** When was the user created */
   createdAt: Scalars['DateTimeISO']['output'];
+  /** User date of birth */
   dateOfBirth?: Maybe<Scalars['String']['output']>;
+  /** User email */
   email: Scalars['String']['output'];
+  /** User first given name */
   firstName: Scalars['String']['output'];
   id: Scalars['ID']['output'];
+  /** User family name */
   lastName: Scalars['String']['output'];
-  role: Scalars['String']['output'];
+  /** User role */
+  role: Roles;
+  /** When was the user last updated at */
   updatedAt: Scalars['DateTimeISO']['output'];
 };
+
+export type QueryQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type QueryQuery = { __typename?: 'Query', logoutUser: boolean };
 
 export type GetMeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetMeQuery = { __typename?: 'Query', getCurrentlyLoggedInUser: { __typename?: 'UserData', id: string, email: string, firstName: string, lastName: string, dateOfBirth?: string | null, role: string, createdAt: any, updatedAt: any } };
+export type GetMeQuery = { __typename?: 'Query', getCurrentlyLoggedInUser: { __typename?: 'UserData', id: string, email: string, firstName: string, lastName: string, dateOfBirth?: string | null, role: Roles, createdAt: any, updatedAt: any } };
 
 export type LoginUserMutationVariables = Exact<{
   input: LoginInput;
@@ -218,12 +292,15 @@ export type LoginUserMutationVariables = Exact<{
 
 export type LoginUserMutation = { __typename?: 'Mutation', loginUser: { __typename?: 'LoginResponse', access_token: string } };
 
-export type QueryQueryVariables = Exact<{ [key: string]: never; }>;
+export type SignupUserMutationVariables = Exact<{
+  user: SignUpInput;
+}>;
 
 
-export type QueryQuery = { __typename?: 'Query', logoutUser: boolean };
+export type SignupUserMutation = { __typename?: 'Mutation', signupUser: { __typename?: 'UserData', id: string } };
 
 
+export const QueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Query"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"logoutUser"}}]}}]} as unknown as DocumentNode<QueryQuery, QueryQueryVariables>;
 export const GetMeDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetMe"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getCurrentlyLoggedInUser"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"dateOfBirth"}},{"kind":"Field","name":{"kind":"Name","value":"role"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}}]}}]} as unknown as DocumentNode<GetMeQuery, GetMeQueryVariables>;
 export const LoginUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"LoginUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"LoginInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"loginUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"access_token"}}]}}]}}]} as unknown as DocumentNode<LoginUserMutation, LoginUserMutationVariables>;
-export const QueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Query"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"logoutUser"}}]}}]} as unknown as DocumentNode<QueryQuery, QueryQueryVariables>;
+export const SignupUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"SignupUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"user"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"SignUpInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"signupUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"user"},"value":{"kind":"Variable","name":{"kind":"Name","value":"user"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<SignupUserMutation, SignupUserMutationVariables>;

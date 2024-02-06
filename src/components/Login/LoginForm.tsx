@@ -20,7 +20,13 @@ const formSchema = z.object({
   password: z.string().min(1),
 });
 
-export function LoginForm({ handleLoginSuccess }: { handleLoginSuccess: () => Promise<void> }) {
+export function LoginForm({
+  handleLoginSuccess,
+  toggleDrawer,
+}: {
+  handleLoginSuccess: () => Promise<void>;
+  toggleDrawer: () => void;
+}) {
   const {
     register,
     handleSubmit,
@@ -44,7 +50,6 @@ export function LoginForm({ handleLoginSuccess }: { handleLoginSuccess: () => Pr
 
   const onSubmit: SubmitHandler<z.infer<typeof formSchema>> = async (values, event) => {
     event?.preventDefault();
-
     try {
       await loginMutation({
         variables: {
@@ -60,8 +65,8 @@ export function LoginForm({ handleLoginSuccess }: { handleLoginSuccess: () => Pr
   };
 
   return (
-    <div className="w-full p-4">
-      <div className="flex w-96 items-center justify-between rounded-t border-b pb-2">
+    <div className="mt-8 w-full px-5">
+      <div className="flex items-center rounded-t border-b pb-2">
         <Typography variant="h4" color="blue-gray">
           Sign in
         </Typography>
@@ -87,16 +92,22 @@ export function LoginForm({ handleLoginSuccess }: { handleLoginSuccess: () => Pr
           error={!!errors.password}
         />
 
-        {mutationError?.message && <p className="text-sm text-red-500">{mutationError.message}</p>}
+        {mutationError?.message && (
+          <Typography variant="small" color="red">
+            {mutationError.message}
+          </Typography>
+        )}
 
-        <Button type="submit" disabled={isLoadingLogin} loading={isLoadingLogin}>
+        <Button type="submit" fullWidth disabled={isLoadingLogin} loading={isLoadingLogin}>
           Login to your account
         </Button>
 
-        <div className="text-sm font-medium text-gray-500">
-          Not registered?&nbsp;
-          <Link to="/register" className="text-blue-700 hover:underline">
-            Create an account
+        <div className="flex items-center">
+          <Typography>Not registered?</Typography>&nbsp;
+          <Link to="/register" onClick={toggleDrawer} className="text-blue-700 hover:underline">
+            <Button size="sm" variant="text">
+              Create an account
+            </Button>
           </Link>
         </div>
       </form>

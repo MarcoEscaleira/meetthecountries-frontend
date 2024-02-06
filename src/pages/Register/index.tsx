@@ -1,9 +1,10 @@
+import { Typography } from "@material-tailwind/react";
 import { RegisterForm } from "@components/Register/RegisterForm.tsx";
 
 export default function Register() {
   return (
-    <div className="flex min-h-screen w-screen items-center justify-center flex-col">
-      <h1>Create your account</h1>
+    <div className="flex min-h-screen w-screen flex-col items-center justify-center p-4 md:p-0">
+      <Typography variant="h1" className='pb-8'>Create your account</Typography>
 
       <RegisterForm />
     </div>

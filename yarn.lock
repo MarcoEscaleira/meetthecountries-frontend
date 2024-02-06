@@ -5117,6 +5117,11 @@ quickselect@^2.0.0:
   resolved "https://registry.yarnpkg.com/quickselect/-/quickselect-2.0.0.tgz#f19680a486a5eefb581303e023e98faaf25dd018"
   integrity sha512-RKJ22hX8mHe3Y6wH/N3wCM6BWtjaxIyyUIkpHOvfFnxdI4yD4tBXEBKSbriGujF6jnSVkJrffuo6vxACiSSxIw==
 
+react-day-picker@^8.10.0:
+  version "8.10.0"
+  resolved "https://registry.yarnpkg.com/react-day-picker/-/react-day-picker-8.10.0.tgz#729c5b9564967a924213978fb9c0751884a60595"
+  integrity sha512-mz+qeyrOM7++1NCb1ARXmkjMkzWVh2GL9YiPbRjKe0zHccvekk4HE+0MPOZOrosn8r8zTHIIeOUXTmXRqmkRmg==
+
 react-dom@18.2.0, react-dom@^18.2.0:
   version "18.2.0"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-18.2.0.tgz#22aaf38708db2674ed9ada224ca4aa708d821e3d"
@@ -6114,6 +6119,11 @@ use-deep-compare-effect@^1.8.1:
   dependencies:
     "@babel/runtime" "^7.12.5"
     dequal "^2.0.2"
+
+use-react-countries@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/use-react-countries/-/use-react-countries-2.0.0.tgz#663d4d2b36739da6f465311456b41e0f050014c5"
+  integrity sha512-0D7YHhPZAQOtCxukJr7gkeLhPzYN+qOUFiaf+rZW7Ty8Uwk7hV7Mx8pP6rU44kz/LN6sjkuubbXhEf15dDS5dA==
 
 use-sync-external-store@1.2.0:
   version "1.2.0"
