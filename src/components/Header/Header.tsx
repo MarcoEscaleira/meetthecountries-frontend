@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { useLazyQuery, useQuery } from "@apollo/client";
+import { useState } from "react";
+import { useLazyQuery } from "@apollo/client";
 import { Button, Drawer, IconButton, List, ListItem, ListItemPrefix, Typography } from "@material-tailwind/react";
 import { Menu, Home, Play, FileQuestion, X, CircleUserRound } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -14,49 +14,12 @@ const LOGOUT_USER = gql(/* GraphQL */ `
   }
 `);
 
-const GET_USER = gql(/* GraphQL */ `
-  query GetMe {
-    getCurrentlyLoggedInUser {
-      id
-      email
-      firstName
-      lastName
-      dateOfBirth
-      role
-      createdAt
-      updatedAt
-    }
-  }
-`);
-
 export function Header() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const { user, setUser, setIsSessionLoading, resetUser } = useUserStore();
+  const { user, resetUser } = useUserStore();
   const isLoggedIn = !!user.userId;
 
-  const { data, loading, refetch } = useQuery(GET_USER);
   const [makeLogout] = useLazyQuery(LOGOUT_USER);
-
-  useEffect(() => {
-    if (!loading) {
-      if (data?.getCurrentlyLoggedInUser) {
-        const { id, email, firstName, lastName, dateOfBirth, role, createdAt, updatedAt } =
-          data.getCurrentlyLoggedInUser;
-        setUser({
-          userId: id,
-          email,
-          firstName,
-          lastName,
-          dateOfBirth: dateOfBirth || "",
-          role,
-          createdAt,
-          updatedAt,
-        });
-      }
-
-      setIsSessionLoading(false);
-    }
-  }, [data, loading]);
 
   const toggleDrawer = () => setIsDrawerOpen(!isDrawerOpen);
 
@@ -125,14 +88,7 @@ export function Header() {
             )}
           </List>
 
-          {!isLoggedIn && (
-            <LoginForm
-              toggleDrawer={toggleDrawer}
-              handleLoginSuccess={async () => {
-                await refetch();
-              }}
-            />
-          )}
+          {!isLoggedIn && <LoginForm toggleDrawer={toggleDrawer} />}
           {isLoggedIn && (
             <Button
               onClick={async () => {

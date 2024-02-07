@@ -3,7 +3,7 @@ import { useUserStore } from "@state/userStore.ts";
 
 export function Component() {
   const {
-    user: { email, firstName, lastName, dateOfBirth, role, createdAt, updatedAt },
+    user: { email, firstName, lastName, dateOfBirth, country, role, createdAt, updatedAt },
   } = useUserStore();
 
   return (
@@ -16,6 +16,7 @@ export function Component() {
         Full name: {firstName} {lastName}
       </p>
       <p>DoB: {dateOfBirth}</p>
+      <p>Country: {country}</p>
       <p>Role: {role}</p>
       <p>Created At: {createdAt}</p>
       <p>Updated At: {updatedAt}</p>

@@ -2,7 +2,7 @@ import { useMutation } from "@apollo/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Input, Typography } from "@material-tailwind/react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useRevalidator } from "react-router-dom";
 import { toast } from "react-toastify";
 import { z } from "zod";
 import { gql } from "@generated/index.ts";
@@ -20,13 +20,8 @@ const formSchema = z.object({
   password: z.string().min(1),
 });
 
-export function LoginForm({
-  handleLoginSuccess,
-  toggleDrawer,
-}: {
-  handleLoginSuccess: () => Promise<void>;
-  toggleDrawer: () => void;
-}) {
+export function LoginForm({ toggleDrawer }: { toggleDrawer: () => void }) {
+  const revalidator = useRevalidator();
   const {
     register,
     handleSubmit,
@@ -41,8 +36,8 @@ export function LoginForm({
   });
 
   const [loginMutation, { loading: isLoadingLogin, error: mutationError }] = useMutation(LOGIN_USER, {
-    onCompleted: async data => {
-      data.loginUser.access_token && (await handleLoginSuccess());
+    onCompleted: async ({ loginUser }) => {
+      loginUser.access_token && revalidator.revalidate();
       toast.success("Logged in successfully!");
       reset();
     },

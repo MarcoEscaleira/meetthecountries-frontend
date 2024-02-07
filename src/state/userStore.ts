@@ -8,6 +8,7 @@ export interface User {
   firstName: string;
   lastName: string;
   dateOfBirth: string;
+  country: string;
   role: string;
   createdAt: string;
   updatedAt: string;
@@ -15,10 +16,8 @@ export interface User {
 
 interface UserState {
   user: User;
-  isSessionLoading: boolean;
   setUser: (user: User) => void;
   resetUser: () => void;
-  setIsSessionLoading: (session: boolean) => void;
 }
 
 const defaultUser = {
@@ -27,6 +26,7 @@ const defaultUser = {
   firstName: "",
   lastName: "",
   dateOfBirth: "",
+  country: "",
   role: "",
   createdAt: "",
   updatedAt: "",
@@ -36,10 +36,8 @@ export const useUserStore = create<UserState>()(
   devtools(
     set => ({
       user: defaultUser,
-      isSessionLoading: true,
       setUser: newUser => set(() => ({ user: newUser })),
       resetUser: () => set(() => ({ user: defaultUser })),
-      setIsSessionLoading: isSessionLoading => set(() => ({ isSessionLoading })),
     }),
     {
       name: "user-storage",

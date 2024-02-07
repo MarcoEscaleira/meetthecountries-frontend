@@ -36,32 +36,6 @@ export type AttemptData = {
   user: UserData;
 };
 
-/** Country data */
-export type CountryData = {
-  __typename?: 'CountryData';
-  /** When was the country created */
-  createdAt: Scalars['DateTimeISO']['output'];
-  description: Scalars['String']['output'];
-  id: Scalars['ID']['output'];
-  /** Location in lat and lon of the current country. */
-  location: LocationData;
-  name: Scalars['String']['output'];
-  /** When was the country last updated at */
-  updatedAt: Scalars['DateTimeISO']['output'];
-  /** Defines how many users are registered to this country. */
-  users: Scalars['Int']['output'];
-};
-
-/** The input required to create a country */
-export type CountryInput = {
-  /** A brief country description to have an introduction about it. */
-  description: Scalars['String']['input'];
-  /** Country location data */
-  location?: InputMaybe<LocationInput>;
-  /** Country name (e.g: "Portugal") */
-  name: Scalars['String']['input'];
-};
-
 /** The difficulty measurement */
 export enum Difficulty {
   Easy = 'Easy',
@@ -69,19 +43,6 @@ export enum Difficulty {
   Medium = 'Medium',
   Unknown = 'Unknown'
 }
-
-/** Location object using lat and lon */
-export type LocationData = {
-  __typename?: 'LocationData';
-  lat: Scalars['Float']['output'];
-  lon: Scalars['Float']['output'];
-};
-
-/** The input to define a location */
-export type LocationInput = {
-  lat: Scalars['Float']['input'];
-  lon: Scalars['Float']['input'];
-};
 
 /** User login input data */
 export type LoginInput = {
@@ -100,15 +61,9 @@ export type LoginResponse = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  createCountry: CountryData;
   createQuiz: QuizData;
   loginUser: LoginResponse;
   signupUser: UserData;
-};
-
-
-export type MutationCreateCountryArgs = {
-  country: CountryInput;
 };
 
 
@@ -147,7 +102,6 @@ export type OptionInput = {
 export type Query = {
   __typename?: 'Query';
   attempts: Array<AttemptData>;
-  countries: Array<CountryData>;
   getCurrentlyLoggedInUser: UserData;
   logoutUser: Scalars['Boolean']['output'];
   quizList: Array<QuizData>;
@@ -181,8 +135,8 @@ export type QuestionInput = {
 
 /** The input required to create a quiz */
 export type QuizAddInput = {
-  /** Quiz country that users the Countries list */
-  country: Scalars['ID']['input'];
+  /** The country that this quiz relates */
+  country: Scalars['String']['input'];
   /** Quiz description in order to brief about the quiz */
   description: Scalars['String']['input'];
   /** Quiz difficulty */
@@ -201,7 +155,7 @@ export type QuizAddInput = {
 export type QuizData = {
   __typename?: 'QuizData';
   /** The country where this quiz relates with */
-  country: CountryData;
+  country: Scalars['String']['output'];
   /** When was the quiz created */
   createdAt: Scalars['DateTimeISO']['output'];
   /** The user that created this quiz for the first time */
@@ -257,7 +211,7 @@ export type SignUpInput = {
 export type UserData = {
   __typename?: 'UserData';
   /** User country */
-  country?: Maybe<CountryData>;
+  country?: Maybe<Scalars['String']['output']>;
   /** When was the user created */
   createdAt: Scalars['DateTimeISO']['output'];
   /** User date of birth */
@@ -268,7 +222,7 @@ export type UserData = {
   firstName: Scalars['String']['output'];
   id: Scalars['ID']['output'];
   /** User family name */
-  lastName: Scalars['String']['output'];
+  lastName?: Maybe<Scalars['String']['output']>;
   /** User role */
   role: Roles;
   /** When was the user last updated at */
@@ -283,7 +237,7 @@ export type QueryQuery = { __typename?: 'Query', logoutUser: boolean };
 export type GetMeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetMeQuery = { __typename?: 'Query', getCurrentlyLoggedInUser: { __typename?: 'UserData', id: string, email: string, firstName: string, lastName: string, dateOfBirth?: string | null, role: Roles, createdAt: any, updatedAt: any } };
+export type GetMeQuery = { __typename?: 'Query', getCurrentlyLoggedInUser: { __typename?: 'UserData', id: string, email: string, firstName: string, lastName?: string | null, dateOfBirth?: string | null, country?: string | null, role: Roles, createdAt: any, updatedAt: any } };
 
 export type LoginUserMutationVariables = Exact<{
   input: LoginInput;
@@ -301,6 +255,6 @@ export type SignupUserMutation = { __typename?: 'Mutation', signupUser: { __type
 
 
 export const QueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Query"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"logoutUser"}}]}}]} as unknown as DocumentNode<QueryQuery, QueryQueryVariables>;
-export const GetMeDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetMe"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getCurrentlyLoggedInUser"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"dateOfBirth"}},{"kind":"Field","name":{"kind":"Name","value":"role"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}}]}}]} as unknown as DocumentNode<GetMeQuery, GetMeQueryVariables>;
+export const GetMeDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetMe"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getCurrentlyLoggedInUser"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"dateOfBirth"}},{"kind":"Field","name":{"kind":"Name","value":"country"}},{"kind":"Field","name":{"kind":"Name","value":"role"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}}]}}]} as unknown as DocumentNode<GetMeQuery, GetMeQueryVariables>;
 export const LoginUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"LoginUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"LoginInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"loginUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"access_token"}}]}}]}}]} as unknown as DocumentNode<LoginUserMutation, LoginUserMutationVariables>;
 export const SignupUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"SignupUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"user"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"SignUpInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"signupUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"user"},"value":{"kind":"Variable","name":{"kind":"Name","value":"user"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<SignupUserMutation, SignupUserMutationVariables>;

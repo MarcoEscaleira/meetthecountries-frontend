@@ -1,5 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
-import { Layout } from "@components/Layout/Layout.tsx";
+import { Layout, sessionLoader, protectedRouteLoader } from "@components/Layout/Layout.tsx";
 import NotFound from "@pages/NotFound";
 import UnhandledError from "./Error";
 
@@ -7,6 +7,7 @@ export const router = createBrowserRouter([
   {
     path: "/",
     element: <Layout />,
+    loader: sessionLoader,
     errorElement: <UnhandledError />,
     children: [
       {
@@ -23,6 +24,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/profile",
+        loader: protectedRouteLoader,
         lazy: () => import("./Profile"),
       },
       {
