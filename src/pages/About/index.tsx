@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Accordion, AccordionBody, AccordionHeader, Button, Typography } from "@material-tailwind/react";
-import { ArrowRight } from "lucide-react";
+import { AtSign } from "lucide-react";
 
 export function Component() {
   const [open, setOpen] = useState(1);
@@ -8,8 +8,8 @@ export function Component() {
   const handleOpen = (value: number) => setOpen(open === value ? 0 : value);
 
   return (
-    <div className="container flex flex-col items-center p-6 md:p-12">
-      <Typography variant="h1" className="mb-8 mt-10 font-light md:mt-0">
+    <div className="container flex h-full flex-col items-center p-6 md:p-12">
+      <Typography variant="h1" className="mb-8 mt-16 text-3xl md:text-5xl font-light md:mt-2">
         About <b>Meet the Countries</b>
       </Typography>
 
@@ -33,9 +33,11 @@ export function Component() {
         </AccordionBody>
       </Accordion>
 
+      <div className="flex-grow" />
+
       <div className="mt-8 flex w-full items-center justify-center md:mt-10">
         <Typography className="mr-5 font-bold">Meet me</Typography>
-        <ArrowRight />
+        <AtSign className="w-6" />
         <a href="https://escaleira.dev" target="_blank" rel="noreferrer">
           <Button variant="text" className="ml-1">
             Escaleira.dev

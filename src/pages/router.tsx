@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
-import { Layout, sessionLoader, protectedRouteLoader } from "@components/Layout/Layout.tsx";
+import { Layout } from "@components/Layout/Layout.tsx";
 import NotFound from "@pages/NotFound";
+import { nonLoggedInRouteLoader, protectedRouteLoader, sessionLoader } from "@utils/routeLoaders.ts";
 import UnhandledError from "./Error";
 
 export const router = createBrowserRouter([
@@ -20,6 +21,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/register",
+        loader: nonLoggedInRouteLoader,
         lazy: () => import("./Register"),
       },
       {

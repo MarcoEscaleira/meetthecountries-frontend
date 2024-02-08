@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useLazyQuery } from "@apollo/client";
-import { Button, Drawer, IconButton, List, ListItem, ListItemPrefix, Typography } from "@material-tailwind/react";
-import { Menu, Home, Play, FileQuestion, X, CircleUserRound } from "lucide-react";
+import { Drawer, IconButton, List, ListItem, ListItemPrefix, Typography } from "@material-tailwind/react";
+import { Menu, Home, Play, FileQuestion, X, CircleUserRound, Power } from "lucide-react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { LoginForm } from "@components/Login/LoginForm.tsx";
@@ -15,6 +15,8 @@ const LOGOUT_USER = gql(/* GraphQL */ `
 `);
 
 export function Header() {
+  // const { notifications, clear, markAllAsRead, markAsRead, add, update, remove, find, sort, unreadCount } =
+  //   useNotificationCenter();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const { user, resetUser } = useUserStore();
   const isLoggedIn = !!user.userId;
@@ -31,24 +33,29 @@ export function Header() {
             <img src="/images/mtc-logo.svg" width={58} height={54} alt="Planet Earth" className="" />
           </Link>
           <IconButton onClick={toggleDrawer}>
-            <Menu />
+            {isDrawerOpen ? <X className="stroke-2" /> : <Menu className="stroke-2" />}
           </IconButton>
         </div>
       </header>
 
-      <Drawer open={isDrawerOpen} size={360} onClose={toggleDrawer} placement="right" className="p-4">
-        <div className="absolute right-3 top-3">
+      <Drawer open={isDrawerOpen} size={360} onClose={toggleDrawer} placement="left" className="p-4">
+        <div className="absolute right-2 top-2">
           <IconButton onClick={() => setIsDrawerOpen(false)} variant="text">
             <X />
           </IconButton>
         </div>
 
         <div className="flex flex-col items-center">
-          <div className="flex flex-col border-b pb-4">
-            <Typography variant="h3" color="blue-gray" textGradient>
-              Hello {user.firstName || "explorer"}!
-            </Typography>
-            {!isLoggedIn && <Typography color="blue-gray">Get started and login to your account</Typography>}
+          <div className="flex w-full items-center space-x-5 border-b pb-4">
+            <Link to="/">
+              <img src="/images/mtc-logo.svg" width={58} height={54} alt="Planet Earth" className="" />
+            </Link>
+            <div className="flex flex-col ">
+              <Typography variant="h3" color="blue-gray">
+                Hello {user.firstName || "explorer"}!
+              </Typography>
+              {!isLoggedIn && <Typography color="blue-gray">Get started and login to your account</Typography>}
+            </div>
           </div>
 
           <List className="mt-4 w-full">
@@ -77,30 +84,33 @@ export function Header() {
               </ListItem>
             </Link>
             {isLoggedIn && (
-              <Link to="/profile" onClick={toggleDrawer}>
-                <ListItem>
+              <>
+                <Link to="/profile" onClick={toggleDrawer}>
+                  <ListItem>
+                    <ListItemPrefix>
+                      <CircleUserRound />
+                    </ListItemPrefix>
+                    Profile
+                  </ListItem>
+                </Link>
+                <ListItem
+                  onClick={async () => {
+                    await makeLogout();
+                    resetUser();
+                    toast.success("Logout successful");
+                    toggleDrawer();
+                  }}
+                >
                   <ListItemPrefix>
-                    <CircleUserRound />
+                    <Power />
                   </ListItemPrefix>
-                  Profile
+                  Log Out
                 </ListItem>
-              </Link>
+              </>
             )}
           </List>
 
           {!isLoggedIn && <LoginForm toggleDrawer={toggleDrawer} />}
-          {isLoggedIn && (
-            <Button
-              onClick={async () => {
-                await makeLogout();
-                resetUser();
-                toast.success("Logout successful");
-                toggleDrawer();
-              }}
-            >
-              Logout
-            </Button>
-          )}
         </div>
       </Drawer>
     </>
