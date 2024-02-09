@@ -26,7 +26,7 @@ const formSchema = z
     passwordConfirm: z.string().min(1, { message: "Enter a confirm password." }),
     firstName: z.string().min(1, { message: "Enter a first name." }),
     lastName: z.string(),
-    dateOfBirth: z.string(),
+    dateOfBirth: z.date(),
     country: z.string(),
   })
   .superRefine(({ password, passwordConfirm }, ctx) => {
@@ -51,7 +51,7 @@ export function RegisterForm() {
       passwordConfirm: "",
       firstName: "",
       lastName: "",
-      dateOfBirth: "",
+      dateOfBirth: new Date(),
       country: "",
     },
   });
@@ -75,7 +75,10 @@ export function RegisterForm() {
     try {
       await registerMutation({
         variables: {
-          user: values,
+          user: {
+            ...values,
+            dateOfBirth: values.dateOfBirth.toDateString(),
+          },
         },
       });
     } catch (e) {
@@ -141,11 +144,17 @@ export function RegisterForm() {
           error={!!errors.firstName}
         />
 
-        <DatePicker name="dateOfBirth" label="Date of birth" disabled={{ after: new Date() }} />
+        <DatePicker
+          name="dateOfBirth"
+          label="Date of birth"
+          disabled={{ after: new Date() }}
+          error={!!errors.dateOfBirth}
+        />
 
         <Select
           size="lg"
           label="Select Country"
+          onChange={value => form.setValue("country", value || "")}
           selected={element =>
             element &&
             cloneElement(element, {
@@ -153,6 +162,7 @@ export function RegisterForm() {
               className: "flex items-center opacity-100 px-0 gap-2 pointer-events-none",
             })
           }
+          error={!!errors.country}
         >
           {countries.map(({ name, flags }: { name: string; flags: { svg: string } }) => (
             <Option key={name} value={name} className="flex items-center gap-2">

@@ -8,9 +8,10 @@ import { useFormContext } from "react-hook-form";
 type DatePickerProps = {
   name: string;
   label?: string;
+  error?: boolean;
 } & DayPickerProps;
 
-export const DatePicker: FC<DatePickerProps> = ({ name, label, ...props }) => {
+export const DatePicker: FC<DatePickerProps> = ({ name, label, error, ...props }) => {
   const [date, setDate] = useState<Date>();
 
   const { register, setValue } = useFormContext();
@@ -18,7 +19,7 @@ export const DatePicker: FC<DatePickerProps> = ({ name, label, ...props }) => {
   return (
     <Popover placement="bottom">
       <PopoverHandler>
-        <Input {...register(name)} label={label} value={date ? format(date, "dd MMM yyyy") : ""} />
+        <Input {...register(name)} label={label} value={date ? format(date, "dd MMM yyyy") : ""} error={error} />
       </PopoverHandler>
       <PopoverContent>
         <DayPicker
