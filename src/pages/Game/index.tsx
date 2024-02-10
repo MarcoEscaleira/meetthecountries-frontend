@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Typography } from "@material-tailwind/react";
 import { Tooltip } from "react-tooltip";
 import { MapChart } from "./MapChart.tsx";
 
@@ -7,8 +8,10 @@ export function Component() {
 
   return (
     <div className="flex h-full w-full flex-col items-center">
-      <h1 className="mb-6 mt-3 text-2xl font-semibold text-black sm:mb-8 sm:mt-4 sm:text-4xl">Let the game begin...</h1>
+      <Typography variant="h1" className="mt-10 md:mt-10 mb-6 text-3xl md:text-5xl">Map</Typography>
+      
       <MapChart setTooltipContent={setContent} />
+      
       <Tooltip id="country-tooltip">{content}</Tooltip>
     </div>
   );

@@ -31,8 +31,6 @@ const tryUserLogin = async (): Promise<string | undefined> => {
       const { id, email, firstName, lastName, dateOfBirth, country, role, createdAt, updatedAt } =
         result?.data.getCurrentlyLoggedInUser;
 
-      console.log("here 1");
-
       useUserStore.getState().setUser({
         userId: id,
         email,
@@ -52,7 +50,7 @@ const tryUserLogin = async (): Promise<string | undefined> => {
 };
 
 export async function sessionLoader({}: LoaderFunctionArgs) {
-  tryUserLogin();
+  await tryUserLogin();
   return null;
 }
 
@@ -63,7 +61,7 @@ export async function protectedRouteLoader({}: LoaderFunctionArgs) {
   return null;
 }
 
-export async function nonLoggedInRouteLoader({}: LoaderFunctionArgs) {
+export async function loggedOutRouteLoader({}: LoaderFunctionArgs) {
   if (await tryUserLogin()) {
     return redirect("/");
   }
