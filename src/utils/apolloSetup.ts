@@ -7,6 +7,9 @@ export const apolloClient = new ApolloClient({
     new HttpLink({
       uri: __API_SERVICE__,
       credentials: "include",
+      fetchOptions: {
+        timeout: 5000,
+      },
     }),
   ]),
   cache,
