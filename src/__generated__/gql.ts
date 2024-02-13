@@ -14,9 +14,10 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  */
 const documents = {
     "\n  query Query {\n    logoutUser\n  }\n": types.QueryDocument,
-    "\n  query GetMe {\n    getCurrentlyLoggedInUser {\n      id\n      email\n      firstName\n      lastName\n      dateOfBirth\n      country\n      role\n      createdAt\n      updatedAt\n    }\n  }\n": types.GetMeDocument,
     "\n  mutation LoginUser($input: LoginInput!) {\n    loginUser(input: $input) {\n      access_token\n    }\n  }\n": types.LoginUserDocument,
     "\n  mutation SignupUser($user: SignUpInput!) {\n    signupUser(user: $user) {\n      id\n    }\n  }\n": types.SignupUserDocument,
+    "\n  query CountryQuizzes($country: String!) {\n    quizList(country: $country) {\n      id\n      title\n      description\n      difficulty\n      timeLimit\n      image\n      tags\n      questions {\n        question\n        type\n        options {\n          correct\n          text\n        }\n      }\n      createdAt\n      updatedAt\n      creator {\n        lastName\n      }\n    }\n  }\n": types.CountryQuizzesDocument,
+    "\n  query GetMe {\n    getCurrentlyLoggedInUser {\n      id\n      email\n      firstName\n      lastName\n      dateOfBirth\n      country\n      role\n      createdAt\n      updatedAt\n    }\n  }\n": types.GetMeDocument,
 };
 
 /**
@@ -40,15 +41,19 @@ export function gql(source: "\n  query Query {\n    logoutUser\n  }\n"): (typeof
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "\n  query GetMe {\n    getCurrentlyLoggedInUser {\n      id\n      email\n      firstName\n      lastName\n      dateOfBirth\n      country\n      role\n      createdAt\n      updatedAt\n    }\n  }\n"): (typeof documents)["\n  query GetMe {\n    getCurrentlyLoggedInUser {\n      id\n      email\n      firstName\n      lastName\n      dateOfBirth\n      country\n      role\n      createdAt\n      updatedAt\n    }\n  }\n"];
-/**
- * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
 export function gql(source: "\n  mutation LoginUser($input: LoginInput!) {\n    loginUser(input: $input) {\n      access_token\n    }\n  }\n"): (typeof documents)["\n  mutation LoginUser($input: LoginInput!) {\n    loginUser(input: $input) {\n      access_token\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n  mutation SignupUser($user: SignUpInput!) {\n    signupUser(user: $user) {\n      id\n    }\n  }\n"): (typeof documents)["\n  mutation SignupUser($user: SignUpInput!) {\n    signupUser(user: $user) {\n      id\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  query CountryQuizzes($country: String!) {\n    quizList(country: $country) {\n      id\n      title\n      description\n      difficulty\n      timeLimit\n      image\n      tags\n      questions {\n        question\n        type\n        options {\n          correct\n          text\n        }\n      }\n      createdAt\n      updatedAt\n      creator {\n        lastName\n      }\n    }\n  }\n"): (typeof documents)["\n  query CountryQuizzes($country: String!) {\n    quizList(country: $country) {\n      id\n      title\n      description\n      difficulty\n      timeLimit\n      image\n      tags\n      questions {\n        question\n        type\n        options {\n          correct\n          text\n        }\n      }\n      createdAt\n      updatedAt\n      creator {\n        lastName\n      }\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  query GetMe {\n    getCurrentlyLoggedInUser {\n      id\n      email\n      firstName\n      lastName\n      dateOfBirth\n      country\n      role\n      createdAt\n      updatedAt\n    }\n  }\n"): (typeof documents)["\n  query GetMe {\n    getCurrentlyLoggedInUser {\n      id\n      email\n      firstName\n      lastName\n      dateOfBirth\n      country\n      role\n      createdAt\n      updatedAt\n    }\n  }\n"];
 
 export function gql(source: string) {
   return (documents as any)[source] ?? {};
