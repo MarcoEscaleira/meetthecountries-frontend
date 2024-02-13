@@ -10,8 +10,9 @@ interface Position {
 }
 
 export const MapChart: FC<{
+  setSelectedCountry: Dispatch<SetStateAction<string>>;
   setTooltipContent: Dispatch<SetStateAction<string>>;
-}> = ({ setTooltipContent }) => {
+}> = ({ setSelectedCountry, setTooltipContent }) => {
   const [position, setPosition] = useState<Position>({ coordinates: [5, 46], zoom: 1 });
 
   function handleZoomIn() {
@@ -39,6 +40,7 @@ export const MapChart: FC<{
           style={{
             width: "100%",
             height: "auto",
+            maxHeight: "600px",
           }}
         >
           {/* @ts-expect-error: due to a temporary update on the @types/react */}
@@ -55,8 +57,11 @@ export const MapChart: FC<{
                         key={geo.rsmKey}
                         geography={geo}
                         data-tooltip-id="country-tooltip"
+                        onClick={() => {
+                          setSelectedCountry(geo.properties.name);
+                        }}
                         onMouseEnter={() => {
-                          setTooltipContent(`${geo.properties.name}`);
+                          setTooltipContent(geo.properties.name);
                         }}
                         onMouseLeave={() => {
                           setTooltipContent("");
@@ -65,6 +70,7 @@ export const MapChart: FC<{
                           default: {
                             fill: "#D6D6DA",
                             outline: "none",
+                            cursor: "pointer",
                           },
                           hover: {
                             fill: "#004f79",
@@ -76,9 +82,18 @@ export const MapChart: FC<{
                           },
                         }}
                       />
-                      <Marker key={`name-${geo.rsmKey}`} coordinates={provinceCenter}>
+                      <Marker
+                        key={`name-${geo.rsmKey}`}
+                        coordinates={provinceCenter}
+                        onMouseEnter={() => {
+                          setTooltipContent(geo.properties.name);
+                        }}
+                        onClick={() => {
+                          setSelectedCountry(geo.properties.name);
+                        }}
+                      >
                         {/* @ts-expect-error: text not found in svg */}
-                        <text textAnchor="middle" fill="black" strokeWidth={0} fontSize="8px">
+                        <text textAnchor="middle" fill="black" strokeWidth={0} fontSize="8px" cursor="pointer">
                           {geo.properties.name}
                         </text>
                       </Marker>
@@ -90,12 +105,12 @@ export const MapChart: FC<{
           </ZoomableGroup>
         </ComposableMap>
       </div>
-      <div className="mt-3 flex w-full items-center justify-center gap-3">
-        <Typography>Controls</Typography>
-        <Button onClick={handleZoomIn} size="sm">
-          <Plus />
+      <div className="absolute left-4 top-0 mt-3 flex items-center gap-3">
+        <Typography>Zoom</Typography>
+        <Button onClick={handleZoomIn} size="sm" className="p-2">
+          <Plus className="w-6" />
         </Button>
-        <Button onClick={handleZoomOut} size="sm">
+        <Button onClick={handleZoomOut} size="sm" className="p-2">
           <Minus />
         </Button>
       </div>
