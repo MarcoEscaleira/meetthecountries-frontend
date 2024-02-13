@@ -9,9 +9,10 @@ type DatePickerProps = {
   name: string;
   label?: string;
   error?: boolean;
+  disabledInput?: boolean;
 } & DayPickerProps;
 
-export const DatePicker: FC<DatePickerProps> = ({ name, label, error, ...props }) => {
+export const DatePicker: FC<DatePickerProps> = ({ name, label, error, disabledInput, ...props }) => {
   const [date, setDate] = useState<Date>();
 
   const { register, setValue } = useFormContext();
@@ -19,7 +20,13 @@ export const DatePicker: FC<DatePickerProps> = ({ name, label, error, ...props }
   return (
     <Popover placement="bottom">
       <PopoverHandler>
-        <Input {...register(name)} label={label} value={date ? format(date, "dd MMM yyyy") : ""} error={error} />
+        <Input
+          {...register(name)}
+          label={label}
+          value={date ? format(date, "dd MMM yyyy") : ""}
+          error={error}
+          disabled={disabledInput}
+        />
       </PopoverHandler>
       <PopoverContent>
         <DayPicker

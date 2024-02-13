@@ -141,7 +141,7 @@ export function RegisterForm() {
           size="lg"
           label="Last name"
           placeholder=""
-          error={!!errors.firstName}
+          error={!!errors.lastName}
         />
 
         <DatePicker
@@ -178,13 +178,7 @@ export function RegisterForm() {
           </Typography>
         )}
 
-        <Button
-          type="submit"
-          fullWidth
-          placeholder="Create account"
-          disabled={isLoadingRegister}
-          loading={isLoadingRegister}
-        >
+        <Button type="submit" fullWidth disabled={isLoadingRegister} loading={isLoadingRegister}>
           Create
         </Button>
       </form>
