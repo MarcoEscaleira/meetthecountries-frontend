@@ -32,9 +32,19 @@ export function Header() {
           <Link to="/">
             <img src="/images/mtc-logo.svg" width={58} height={54} alt="Planet Earth" className="" />
           </Link>
-          <IconButton onClick={toggleDrawer}>
-            {isDrawerOpen ? <X className="stroke-2" /> : <Menu className="stroke-2" />}
-          </IconButton>
+          <div className="flex h-full items-center gap-3">
+            {isLoggedIn && (
+              <div className="flex items-center gap-2">
+                <Typography className="flex font-medium">
+                  <Typography as="span">Hello,</Typography>&nbsp;{user.firstName}
+                </Typography>
+                <CircleUserRound className="h-8 w-8" />
+              </div>
+            )}
+            <IconButton onClick={toggleDrawer}>
+              {isDrawerOpen ? <X className="stroke-2" /> : <Menu className="stroke-2" />}
+            </IconButton>
+          </div>
         </div>
       </header>
 
