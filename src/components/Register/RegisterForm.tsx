@@ -164,7 +164,7 @@ export function RegisterForm() {
           }
           error={!!errors.country}
         >
-          {countries.map(({ name, flags }: { name: string; flags: { svg: string } }) => (
+          {countries.map(({ name, flags }) => (
             <Option key={name} value={name} className="flex items-center gap-2">
               <img src={flags.svg} alt={name} className="h-5 w-5 rounded-full object-cover" />
               {name}
