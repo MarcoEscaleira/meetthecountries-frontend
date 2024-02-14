@@ -6,10 +6,9 @@ interface CountryInfoModalProps {
 }
 
 export const CountryInfoModal = ({
-  countryDetails: { name, flags, capital, area, postalCode, population, countryCallingCode },
+  countryDetails: { name, flags, capital, area, postalCode, population, languages, currencies, countryCallingCode },
 }: CountryInfoModalProps) => {
   const [isOpen, setIsOpen] = useState(false);
-
   const toggleDialog = () => setIsOpen(!isOpen);
 
   return (
@@ -23,11 +22,28 @@ export const CountryInfoModal = ({
           {name}
         </DialogHeader>
         <DialogBody>
-          <Typography>Post code: {postalCode?.format}</Typography>
           <Typography>Capital: {capital}</Typography>
           <Typography>Area: {area}</Typography>
           <Typography>Population: {population}</Typography>
+          <Typography>
+            Languages:&nbsp;
+            {languages.map((language, index) => (
+              <span key={language} className="mr-1">
+                {language}
+                {index === languages.length - 1 ? "" : ", "},
+              </span>
+            ))}
+          </Typography>
+          <Typography>
+            Currencies:&nbsp;
+            {currencies.map(({ name, symbol }) => (
+              <span key={name} className="mr-1">
+                {name} ({symbol})
+              </span>
+            ))}
+          </Typography>
           <Typography>Country calling code: {countryCallingCode}</Typography>
+          <Typography>Post code: {postalCode?.format}</Typography>
         </DialogBody>
         <DialogFooter>
           <Button variant="gradient" color="gray" onClick={toggleDialog}>

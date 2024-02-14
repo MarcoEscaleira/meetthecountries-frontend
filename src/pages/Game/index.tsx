@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { useLazyQuery } from "@apollo/client";
 import { Typography } from "@material-tailwind/react";
+import { useSearchParams } from "react-router-dom";
 import { Tooltip } from "react-tooltip";
 import { useCountries } from "use-react-countries";
 import { gql } from "@generated/gql.ts";
@@ -35,15 +36,16 @@ const GET_COUNTRY_QUIZZES = gql(/* GraphQL */ `
 `);
 
 export function Component() {
+  const [searchParams] = useSearchParams();
   const [fetchCountryDetails, { data, loading: isLoadingCountryQuizList }] = useLazyQuery(GET_COUNTRY_QUIZZES);
   const [selectedTooltipContent, setSelectedTooltipContent] = useState("");
-  const [selectedCountry, setSelectedCountry] = useState("");
 
+  const selectedCountry = searchParams.get("country") || "";
   useEffect(() => {
     if (selectedCountry) {
       fetchCountryDetails({ variables: { country: selectedCountry } });
     }
-  }, [selectedCountry]);
+  }, [searchParams]);
 
   const { countries } = useCountries();
   const countryDetails = useCallback(
@@ -58,7 +60,7 @@ export function Component() {
       </Typography>
 
       <Tooltip id="country-tooltip">{selectedTooltipContent}</Tooltip>
-      <MapChart setSelectedCountry={setSelectedCountry} setTooltipContent={setSelectedTooltipContent} />
+      <MapChart setTooltipContent={setSelectedTooltipContent} />
 
       <CountryQuizList
         countryDetails={countryDetails()}

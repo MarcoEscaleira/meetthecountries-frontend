@@ -2,6 +2,7 @@ import { Dispatch, FC, Fragment, SetStateAction, useState } from "react";
 import { Button, Typography } from "@material-tailwind/react";
 import { geoCentroid } from "d3-geo";
 import { Minus, Plus } from "lucide-react";
+import { useSearchParams } from "react-router-dom";
 import { ZoomableGroup, ComposableMap, Geographies, Geography, Marker } from "react-simple-maps";
 
 interface Position {
@@ -10,9 +11,9 @@ interface Position {
 }
 
 export const MapChart: FC<{
-  setSelectedCountry: Dispatch<SetStateAction<string>>;
   setTooltipContent: Dispatch<SetStateAction<string>>;
-}> = ({ setSelectedCountry, setTooltipContent }) => {
+}> = ({ setTooltipContent }) => {
+  const [, setSearchParams] = useSearchParams();
   const [position, setPosition] = useState<Position>({ coordinates: [5, 46], zoom: 1 });
 
   function handleZoomIn() {
@@ -58,7 +59,13 @@ export const MapChart: FC<{
                         geography={geo}
                         data-tooltip-id="country-tooltip"
                         onClick={() => {
-                          setSelectedCountry(geo.properties.name);
+                          // setSearchParams(params => {
+                          //   params.set("country", geo.properties.name);
+                          //   return params;
+                          // });
+                          setSearchParams({
+                            country: geo.properties.name,
+                          });
                         }}
                         onMouseEnter={() => {
                           setTooltipContent(geo.properties.name);
@@ -89,7 +96,9 @@ export const MapChart: FC<{
                           setTooltipContent(geo.properties.name);
                         }}
                         onClick={() => {
-                          setSelectedCountry(geo.properties.name);
+                          setSearchParams({
+                            country: geo.properties.name,
+                          });
                         }}
                       >
                         {/* @ts-expect-error: text not found in svg */}
