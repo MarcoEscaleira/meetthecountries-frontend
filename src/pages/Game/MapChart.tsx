@@ -13,7 +13,7 @@ interface Position {
 export const MapChart: FC<{
   setTooltipContent: Dispatch<SetStateAction<string>>;
 }> = ({ setTooltipContent }) => {
-  const [, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [position, setPosition] = useState<Position>({ coordinates: [5, 46], zoom: 1 });
 
   function handleZoomIn() {
@@ -51,6 +51,7 @@ export const MapChart: FC<{
               {({ geographies }) =>
                 geographies.map(geo => {
                   const provinceCenter = geoCentroid(geo);
+                  const isCountrySelected = searchParams.get("country") === geo.properties.name;
 
                   return (
                     <Fragment key={geo.rsmKey}>
@@ -59,10 +60,6 @@ export const MapChart: FC<{
                         geography={geo}
                         data-tooltip-id="country-tooltip"
                         onClick={() => {
-                          // setSearchParams(params => {
-                          //   params.set("country", geo.properties.name);
-                          //   return params;
-                          // });
                           setSearchParams({
                             country: geo.properties.name,
                           });
@@ -73,21 +70,7 @@ export const MapChart: FC<{
                         onMouseLeave={() => {
                           setTooltipContent("");
                         }}
-                        style={{
-                          default: {
-                            fill: "#D6D6DA",
-                            outline: "none",
-                            cursor: "pointer",
-                          },
-                          hover: {
-                            fill: "#004f79",
-                            outline: "none",
-                          },
-                          pressed: {
-                            fill: "#00a6ff",
-                            outline: "none",
-                          },
-                        }}
+                        className={`${isCountrySelected ? "fill-blue-400" : "fill-blue-gray-200"} hover:fill-blue-300 cursor-pointer outline-none`}
                       />
                       <Marker
                         key={`name-${geo.rsmKey}`}

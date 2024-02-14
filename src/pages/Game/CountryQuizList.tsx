@@ -1,16 +1,19 @@
 import { Button, Card, CardBody, CardFooter, CardHeader, Typography, Spinner } from "@material-tailwind/react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { CountryQuizzesQuery } from "@generated/graphql.ts";
 import { CountryInfoModal } from "@pages/Game/CountryInfoModal.tsx";
+import { useCountryDetails } from "@utils/hooks/useCountryDetails.ts";
 
 interface CountryQuizListProps {
-  countryDetails?: Country;
   quizList: CountryQuizzesQuery["quizList"];
   isLoadingCountryQuizList: boolean;
 }
 
-export const CountryQuizList = ({ countryDetails, quizList, isLoadingCountryQuizList }: CountryQuizListProps) => {
+export const CountryQuizList = ({ quizList, isLoadingCountryQuizList }: CountryQuizListProps) => {
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+
+  const countryDetails = useCountryDetails(searchParams.get("country") || "");
 
   if (!countryDetails) {
     return (
@@ -21,7 +24,7 @@ export const CountryQuizList = ({ countryDetails, quizList, isLoadingCountryQuiz
   }
 
   const headerContent = (
-    <div className="w-full mb-4 mt-6 flex justify-center items-center gap-8 border-b-2 px-2 pb-4 md:mt-8 md:px-0">
+    <div className="mb-4 mt-6 flex w-full items-center justify-center gap-8 border-b-2 px-2 pb-4 md:mt-8 md:px-0">
       <Typography variant="h2" className="flex items-center gap-2 text-2xl">
         <img src={countryDetails.flags.svg} alt={countryDetails.name} className="h-5 w-5 rounded-full object-cover" />
 
@@ -73,8 +76,8 @@ export const CountryQuizList = ({ countryDetails, quizList, isLoadingCountryQuiz
             <Typography color="gray">{description}</Typography>
           </CardBody>
           <CardFooter className="">
-            <Button size="md" fullWidth={true} onClick={() => navigate(`/game/quiz/${id}`)}>
-              Start
+            <Button size="md" color='blue' fullWidth={true} onClick={() => navigate(`/game/quiz/${id}`)}>
+              Go to quiz
             </Button>
           </CardFooter>
         </Card>
