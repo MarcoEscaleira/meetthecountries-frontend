@@ -1,5 +1,5 @@
 import { Dispatch, FC, Fragment, SetStateAction, useState } from "react";
-import { Button, Typography } from "@material-tailwind/react";
+import { Button } from "@material-tailwind/react";
 import { geoCentroid } from "d3-geo";
 import { Minus, Plus } from "lucide-react";
 import { useSearchParams } from "react-router-dom";
@@ -114,13 +114,12 @@ export const MapChart: FC<{
           </ZoomableGroup>
         </ComposableMap>
       </div>
-      <div className="absolute left-4 top-0 mt-3 flex items-center gap-3">
-        <Typography>Zoom</Typography>
+      <div className="absolute right-2 top-0 mt-3 flex items-center gap-2 md:right-4 md:gap-3">
         <Button onClick={handleZoomIn} size="sm" className="p-2">
-          <Plus className="w-6" />
+          <Plus className="h-4 w-4 md:h-6 md:w-6" />
         </Button>
         <Button onClick={handleZoomOut} size="sm" className="p-2">
-          <Minus />
+          <Minus className="h-4 w-4 md:h-6 md:w-6" />
         </Button>
       </div>
     </div>

@@ -18,7 +18,7 @@ export function Component() {
         style={{ width: "100%", height: "100%", position: "relative" }}
         mapStyle="mapbox://styles/marcoescaleiradmu/clp7mzxrf01q701qycptw1thq"
       >
-        <section className="absolute left-1/2 top-1/2 flex w-80 -translate-x-1/2 -translate-y-1/2 transform flex-col items-center justify-center rounded-2xl bg-gray-100 bg-opacity-80 p-3 sm:w-auto sm:p-8">
+        <section className="absolute left-1/2 top-1/2 flex w-80 -translate-x-1/2 -translate-y-1/2 transform flex-col items-center justify-center rounded-2xl bg-gray-100 bg-opacity-90 p-3 sm:w-auto sm:p-8">
           <img
             src="/images/planet-earth.svg"
             width={180}
@@ -29,7 +29,7 @@ export function Component() {
           <Typography variant="h3" className="mb-4 font-semibold">
             Meet the Countries
           </Typography>
-          <Typography className="mb-6 text-center text-base font-light text-black sm:mb-8 sm:w-2/3 sm:text-lg">
+          <Typography className="mb-6 text-center text-base font-light text-black sm:mb-8 sm:text-lg">
             Do you dare to come with us on this journey to meet countries never explored?
           </Typography>
           <div className="flex items-center justify-center">

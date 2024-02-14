@@ -1,5 +1,4 @@
-import { Button, Card, CardBody, CardFooter, CardHeader, Typography } from "@material-tailwind/react";
-import { Loader2 } from "lucide-react";
+import { Button, Card, CardBody, CardFooter, CardHeader, Typography, Spinner } from "@material-tailwind/react";
 import { useNavigate } from "react-router-dom";
 import { CountryQuizzesQuery } from "@generated/graphql.ts";
 import { CountryInfoModal } from "@pages/Game/CountryInfoModal.tsx";
@@ -16,13 +15,13 @@ export const CountryQuizList = ({ countryDetails, quizList, isLoadingCountryQuiz
   if (!countryDetails) {
     return (
       <Typography variant="h3" className="mt-8 text-xl">
-        👆 Get started and select a country on the map above 👆
+        👆 Get started and select a country 👆
       </Typography>
     );
   }
 
   const headerContent = (
-    <div className="mb-4 mt-8 flex items-center gap-8 border-b-2 px-2 pb-4 md:px-0">
+    <div className="w-full mb-4 mt-6 flex justify-center items-center gap-8 border-b-2 px-2 pb-4 md:mt-8 md:px-0">
       <Typography variant="h2" className="flex items-center gap-2 text-2xl">
         <img src={countryDetails.flags.svg} alt={countryDetails.name} className="h-5 w-5 rounded-full object-cover" />
 
@@ -36,7 +35,7 @@ export const CountryQuizList = ({ countryDetails, quizList, isLoadingCountryQuiz
   if (isLoadingCountryQuizList) {
     return (
       <>
-        {headerContent} <Loader2 size={60} className="mt-10 animate-spin" />
+        {headerContent} <Spinner className="mt-10 h-14 w-14" />
       </>
     );
   }

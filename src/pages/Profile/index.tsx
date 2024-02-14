@@ -52,7 +52,7 @@ export function Component() {
   };
 
   return (
-    <div className="flex h-full w-full flex-col items-center p-6 pt-16 md:p-10 md:pt-20">
+    <div className="flex h-full w-full flex-col items-center pb-4 px-4 pt-20 md:px-12">
       <Typography variant="h1" className="mb-6">
         Profile
       </Typography>
