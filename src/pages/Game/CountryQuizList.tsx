@@ -1,5 +1,6 @@
 import { Button, Card, CardBody, CardFooter, CardHeader, Typography } from "@material-tailwind/react";
 import { Loader2 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { CountryQuizzesQuery } from "@generated/graphql.ts";
 import { CountryInfoModal } from "@pages/Game/CountryInfoModal.tsx";
 
@@ -10,6 +11,8 @@ interface CountryQuizListProps {
 }
 
 export const CountryQuizList = ({ countryDetails, quizList, isLoadingCountryQuizList }: CountryQuizListProps) => {
+  const navigate = useNavigate();
+
   if (!countryDetails) {
     return (
       <Typography variant="h3" className="mt-8 text-xl">
@@ -19,7 +22,7 @@ export const CountryQuizList = ({ countryDetails, quizList, isLoadingCountryQuiz
   }
 
   const headerContent = (
-    <div className="px-2 md:px-0 mb-4 mt-8 flex items-center gap-8 border-b-2 pb-4">
+    <div className="mb-4 mt-8 flex items-center gap-8 border-b-2 px-2 pb-4 md:px-0">
       <Typography variant="h2" className="flex items-center gap-2 text-2xl">
         <img src={countryDetails.flags.svg} alt={countryDetails.name} className="h-5 w-5 rounded-full object-cover" />
 
@@ -56,10 +59,10 @@ export const CountryQuizList = ({ countryDetails, quizList, isLoadingCountryQuiz
     <>
       {headerContent}
 
-      {quizList.map(({ title, image, description }) => (
+      {quizList.map(({ id, title, image, description }) => (
         <Card key={title} className="w-full max-w-[20rem] shadow-lg">
-          <CardHeader floated={false} color="blue-gray" className='flex justify-center items-center pt-3'>
-            <img src={image} alt="the background for the quiz" className='h-40' />
+          <CardHeader floated={false} color="blue-gray" className="flex items-center justify-center pt-3">
+            <img src={image} alt="the background for the quiz" className="h-40" />
             <div className="to-bg-black-10 absolute inset-0 h-full w-full bg-gradient-to-tr from-transparent via-transparent to-black/60 " />
           </CardHeader>
           <CardBody>
@@ -68,12 +71,10 @@ export const CountryQuizList = ({ countryDetails, quizList, isLoadingCountryQuiz
                 {title}
               </Typography>
             </div>
-            <Typography color="gray">
-              {description}
-            </Typography>
+            <Typography color="gray">{description}</Typography>
           </CardBody>
           <CardFooter className="">
-            <Button size="md" fullWidth={true}>
+            <Button size="md" fullWidth={true} onClick={() => navigate(`/game/quiz/${id}`)}>
               Start
             </Button>
           </CardFooter>
