@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useLazyQuery } from "@apollo/client";
 import { useSearchParams } from "react-router-dom";
-import { Tooltip } from "react-tooltip";
 import { gql } from "@generated/gql.ts";
 import { CountryQuizList } from "./CountryQuizList.tsx";
 import { MapChart } from "./MapChart.tsx";
@@ -30,7 +29,6 @@ const GET_COUNTRY_QUIZZES = gql(/* GraphQL */ `
 export function Component() {
   const [searchParams] = useSearchParams();
   const [fetchCountryDetails, { data, loading: isLoadingCountryQuizList }] = useLazyQuery(GET_COUNTRY_QUIZZES);
-  const [selectedTooltipContent, setSelectedTooltipContent] = useState("");
 
   const selectedCountry = searchParams.get("country") || "";
   useEffect(() => {
@@ -40,14 +38,10 @@ export function Component() {
   }, [searchParams]);
 
   return (
-    <div className="flex w-full flex-col items-center px-4 pb-4 pt-20 md:pt-24 md:px-12">
-      <Tooltip id="country-tooltip">{selectedTooltipContent}</Tooltip>
-      <MapChart setTooltipContent={setSelectedTooltipContent} />
+    <div className="flex w-full flex-col items-center px-4 pb-4 pt-20 md:px-12 md:pt-24">
+      <MapChart />
 
-      <CountryQuizList
-        quizList={data?.quizList || []}
-        isLoadingCountryQuizList={isLoadingCountryQuizList}
-      />
+      <CountryQuizList quizList={data?.quizList || []} isLoadingCountryQuizList={isLoadingCountryQuizList} />
     </div>
   );
 }

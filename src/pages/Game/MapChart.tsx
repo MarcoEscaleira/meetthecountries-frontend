@@ -1,5 +1,5 @@
-import { Dispatch, FC, Fragment, SetStateAction, useState } from "react";
-import { Button } from "@material-tailwind/react";
+import { FC, Fragment, useState } from "react";
+import { Button, Tooltip } from "@material-tailwind/react";
 import { geoCentroid } from "d3-geo";
 import { Minus, Plus } from "lucide-react";
 import { useSearchParams } from "react-router-dom";
@@ -10,9 +10,7 @@ interface Position {
   zoom: number;
 }
 
-export const MapChart: FC<{
-  setTooltipContent: Dispatch<SetStateAction<string>>;
-}> = ({ setTooltipContent }) => {
+export const MapChart: FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [position, setPosition] = useState<Position>({ coordinates: [5, 46], zoom: 1 });
 
@@ -55,29 +53,22 @@ export const MapChart: FC<{
 
                   return (
                     <Fragment key={geo.rsmKey}>
-                      <Geography
-                        key={geo.rsmKey}
-                        geography={geo}
-                        data-tooltip-id="country-tooltip"
-                        onClick={() => {
-                          setSearchParams({
-                            country: geo.properties.name,
-                          });
-                        }}
-                        onMouseEnter={() => {
-                          setTooltipContent(geo.properties.name);
-                        }}
-                        onMouseLeave={() => {
-                          setTooltipContent("");
-                        }}
-                        className={`${isCountrySelected ? "fill-blue-400" : "fill-blue-gray-200"} hover:fill-blue-300 cursor-pointer outline-none`}
-                      />
+                      <Tooltip content={geo.properties.name}>
+                        <Geography
+                          key={geo.rsmKey}
+                          geography={geo}
+                          data-tooltip-id="country-tooltip"
+                          onClick={() => {
+                            setSearchParams({
+                              country: geo.properties.name,
+                            });
+                          }}
+                          className={`${isCountrySelected ? "fill-blue-400" : "fill-blue-gray-200"} cursor-pointer outline-none hover:fill-blue-300`}
+                        />
+                      </Tooltip>
                       <Marker
                         key={`name-${geo.rsmKey}`}
                         coordinates={provinceCenter}
-                        onMouseEnter={() => {
-                          setTooltipContent(geo.properties.name);
-                        }}
                         onClick={() => {
                           setSearchParams({
                             country: geo.properties.name,
