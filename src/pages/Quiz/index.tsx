@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useQuery } from "@apollo/client";
 import {
   Accordion,
@@ -15,7 +16,6 @@ import { TimeLimitChip } from "@components/TimeLimitChip/TimeLimitChip.tsx";
 import { gql } from "@generated/gql.ts";
 import { QuizData } from "@generated/graphql.ts";
 import { useCountryDetails } from "@utils/hooks/useCountryDetails.ts";
-import { useState } from "react";
 
 const GET_QUIZ = gql(/* GraphQL */ `
   query QuizById($quizId: String!) {

@@ -1,10 +1,10 @@
 import { Button, Card, CardBody, CardFooter, CardHeader, Spinner, Typography } from "@material-tailwind/react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { DifficultyChip } from "@components/DifficultyChip/DifficultyChip.tsx";
+import { TimeLimitChip } from "@components/TimeLimitChip/TimeLimitChip.tsx";
 import { CountryQuizzesQuery } from "@generated/graphql.ts";
 import { CountryInfoModal } from "@pages/Game/CountryInfoModal.tsx";
 import { useCountryDetails } from "@utils/hooks/useCountryDetails.ts";
-import { TimeLimitChip } from "@components/TimeLimitChip/TimeLimitChip.tsx";
-import { DifficultyChip } from "@components/DifficultyChip/DifficultyChip.tsx";
 
 interface CountryQuizListProps {
   quizList: CountryQuizzesQuery["quizList"];

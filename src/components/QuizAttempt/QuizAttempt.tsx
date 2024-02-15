@@ -17,6 +17,7 @@ export function QuizAttempt({ quiz, handleQuizStart, handleQuizEnd }: QuizAttemp
   useEffect(() => {
     // TODO: randomize questions array
     setQuestions(quiz.questions);
+    setQuestionIndex(0);
   }, [hasAttemptStarted]);
 
   const question = questions[questionIndex];
