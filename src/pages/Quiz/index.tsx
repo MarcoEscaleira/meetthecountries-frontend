@@ -1,10 +1,21 @@
 import { useQuery } from "@apollo/client";
-import { Breadcrumbs, Chip, Spinner, Typography } from "@material-tailwind/react";
-import { colors } from "@material-tailwind/react/types/generic";
+import {
+  Accordion,
+  AccordionBody,
+  AccordionHeader,
+  Breadcrumbs,
+  Chip,
+  Spinner,
+  Typography,
+} from "@material-tailwind/react";
 import { Link, useParams } from "react-router-dom";
+import { DifficultyChip } from "@components/DifficultyChip/DifficultyChip.tsx";
+import { QuizAttempt } from "@components/QuizAttempt/QuizAttempt.tsx";
+import { TimeLimitChip } from "@components/TimeLimitChip/TimeLimitChip.tsx";
 import { gql } from "@generated/gql.ts";
-import { Difficulty } from "@generated/graphql.ts";
+import { QuizData } from "@generated/graphql.ts";
 import { useCountryDetails } from "@utils/hooks/useCountryDetails.ts";
+import { useState } from "react";
 
 const GET_QUIZ = gql(/* GraphQL */ `
   query QuizById($quizId: String!) {
@@ -37,19 +48,11 @@ const GET_QUIZ = gql(/* GraphQL */ `
   }
 `);
 
-const DifficultyChip = ({ difficulty }: { difficulty: Difficulty }) => {
-  const color = {
-    [Difficulty.Easy]: "green",
-    [Difficulty.Medium]: "yellow",
-    [Difficulty.Hard]: "red",
-    [Difficulty.Unknown]: "gray",
-  }[difficulty];
-
-  return <Chip color={color as colors} value={difficulty} />;
-};
-
 export function Component() {
   const { quizId } = useParams();
+  const [openedAccordion, setOpenedAccordion] = useState(1);
+
+  const handleOpenedAccordion = (value: number) => setOpenedAccordion(openedAccordion === value ? 0 : value);
 
   const { data, loading } = useQuery(GET_QUIZ, { variables: { quizId: quizId || "" } });
   const quiz = data?.quizList[0];
@@ -72,26 +75,42 @@ export function Component() {
         <Link to="">Quiz</Link>
       </Breadcrumbs>
 
-      <Typography variant="h1" className="mb-3 text-xl font-medium md:text-2xl">
-        {quiz?.title}
-      </Typography>
-      <Typography className="font-normal">{quiz?.description}</Typography>
+      <Accordion open={openedAccordion === 1}>
+        <AccordionHeader onClick={() => handleOpenedAccordion(1)}>Quiz information</AccordionHeader>
+        <AccordionBody>
+          <Typography variant="h1" className="mb-3 text-xl font-medium md:text-2xl">
+            {quiz?.title}
+          </Typography>
+          <Typography className="font-normal">{quiz?.description}</Typography>
 
-      <Typography className="mt-8 flex items-center gap-2 text-xl">
-        <img src={countryDetails?.flags.svg} alt={countryDetails?.name} className="h-5 w-5 rounded-full object-cover" />
-        {countryDetails?.name}
-      </Typography>
+          <Typography className="mt-8 flex items-center gap-2 text-xl">
+            <img
+              src={countryDetails?.flags.svg}
+              alt={countryDetails?.name}
+              className="h-5 w-5 rounded-full object-cover"
+            />
+            {countryDetails?.name}
+          </Typography>
 
-      <div className="mt-6 flex gap-3">
-        <DifficultyChip difficulty={quiz?.difficulty || Difficulty.Unknown} />
-        <Chip value={quiz?.timeLimit ? `${quiz?.timeLimit} minutes` : "Unlimited time"} color="blue-gray" />
-      </div>
+          <div className="mt-6 flex gap-3">
+            <DifficultyChip difficulty={quiz?.difficulty} />
+            <TimeLimitChip timeLimit={quiz?.timeLimit || 0} />
+          </div>
 
-      {(quiz?.tags?.length || 0) > 0 && (
-        <div className="mt-4 flex gap-3">
-          {quiz?.tags?.map(tag => <Chip key={tag} value={`#${tag}`} color="gray" />)}
-        </div>
-      )}
+          {(quiz?.tags?.length || 0) > 0 && (
+            <div className="mt-4 flex gap-3">
+              {quiz?.tags?.map(tag => <Chip key={tag} value={`#${tag}`} color="gray" />)}
+            </div>
+          )}
+        </AccordionBody>
+      </Accordion>
+
+      {/* TODO: later fix this to use correct type coming from the query */}
+      <QuizAttempt
+        quiz={quiz as QuizData}
+        handleQuizStart={() => handleOpenedAccordion(0)}
+        handleQuizEnd={() => handleOpenedAccordion(1)}
+      />
     </div>
   );
 }

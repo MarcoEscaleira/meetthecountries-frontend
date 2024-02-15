@@ -30,7 +30,7 @@ export const MapChart: FC = () => {
 
   return (
     <div className="relative w-full">
-      <div className="border-b-2 border-t-2">
+      <div className="border-2">
         <ComposableMap
           projectionConfig={{
             scale: 2000,

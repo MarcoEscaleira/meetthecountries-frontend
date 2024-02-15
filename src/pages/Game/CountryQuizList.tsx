@@ -1,8 +1,10 @@
-import { Button, Card, CardBody, CardFooter, CardHeader, Typography, Spinner } from "@material-tailwind/react";
+import { Button, Card, CardBody, CardFooter, CardHeader, Spinner, Typography } from "@material-tailwind/react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { CountryQuizzesQuery } from "@generated/graphql.ts";
 import { CountryInfoModal } from "@pages/Game/CountryInfoModal.tsx";
 import { useCountryDetails } from "@utils/hooks/useCountryDetails.ts";
+import { TimeLimitChip } from "@components/TimeLimitChip/TimeLimitChip.tsx";
+import { DifficultyChip } from "@components/DifficultyChip/DifficultyChip.tsx";
 
 interface CountryQuizListProps {
   quizList: CountryQuizzesQuery["quizList"];
@@ -61,7 +63,7 @@ export const CountryQuizList = ({ quizList, isLoadingCountryQuizList }: CountryQ
     <>
       {headerContent}
 
-      {quizList.map(({ id, title, image, description }) => (
+      {quizList.map(({ id, title, image, description, timeLimit, difficulty }) => (
         <Card key={title} className="w-full max-w-[20rem] shadow-lg">
           <CardHeader floated={false} color="blue-gray" className="flex items-center justify-center pt-3">
             <img src={image} alt="the background for the quiz" className="h-40" />
@@ -74,9 +76,13 @@ export const CountryQuizList = ({ quizList, isLoadingCountryQuizList }: CountryQ
               </Typography>
             </div>
             <Typography color="gray">{description}</Typography>
+            <div className="flex gap-3">
+              <DifficultyChip difficulty={difficulty} />
+              <TimeLimitChip timeLimit={timeLimit || 0} />
+            </div>
           </CardBody>
           <CardFooter className="">
-            <Button size="md" color='blue' fullWidth={true} onClick={() => navigate(`/game/quiz/${id}`)}>
+            <Button size="md" color="blue" fullWidth={true} onClick={() => navigate(`/game/quiz/${id}`)}>
               Go to quiz
             </Button>
           </CardFooter>
