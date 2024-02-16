@@ -76,7 +76,7 @@ export const CountryQuizList = ({ quizList, isLoadingCountryQuizList }: CountryQ
               </Typography>
             </div>
             <Typography color="gray">{description}</Typography>
-            <div className="flex gap-3">
+            <div className="flex gap-3 mt-4">
               <DifficultyChip difficulty={difficulty} />
               <TimeLimitChip timeLimit={timeLimit || 0} />
             </div>
