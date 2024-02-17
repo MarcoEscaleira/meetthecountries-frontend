@@ -68,6 +68,7 @@ export function QuizAttempt({ quiz, handleQuizStart, handleQuizEnd }: QuizAttemp
           variant="gradient"
           className="mt-10"
           color="green"
+          fullWidth
           onClick={() => {
             toggleStartQuizDialog();
           }}

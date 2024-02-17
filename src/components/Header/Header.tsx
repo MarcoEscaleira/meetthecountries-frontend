@@ -4,9 +4,11 @@ import { Drawer, IconButton, List, ListItem, ListItemPrefix, Typography } from "
 import { Menu, Home, Play, FileQuestion, X, CircleUserRound, Power } from "lucide-react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import useBreakpoint from "use-breakpoint";
 import { LoginForm } from "@components/Login/LoginForm.tsx";
 import { gql } from "@generated/index.ts";
 import { useUserStore } from "@state/userStore.ts";
+import { BREAKPOINTS } from "@utils/constants.ts";
 
 const LOGOUT_USER = gql(/* GraphQL */ `
   query Query {
@@ -17,6 +19,7 @@ const LOGOUT_USER = gql(/* GraphQL */ `
 export function Header() {
   // const { notifications, clear, markAllAsRead, markAsRead, add, update, remove, find, sort, unreadCount } =
   //   useNotificationCenter();
+  const { breakpoint } = useBreakpoint(BREAKPOINTS);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const { user, resetUser } = useUserStore();
   const isLoggedIn = !!user.userId;
@@ -48,7 +51,13 @@ export function Header() {
         </div>
       </header>
 
-      <Drawer open={isDrawerOpen} size={360} onClose={toggleDrawer} placement="left" className="p-4">
+      <Drawer
+        open={isDrawerOpen}
+        size={360}
+        onClose={toggleDrawer}
+        placement={breakpoint === "mobile" ? "left" : "right"}
+        className="p-4"
+      >
         <div className="absolute right-2 top-2">
           <IconButton onClick={() => setIsDrawerOpen(false)} variant="text">
             <X />
