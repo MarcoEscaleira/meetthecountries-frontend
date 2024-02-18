@@ -1,13 +1,13 @@
 import { cloneElement, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Input, Select, Typography, Option, Button, Chip } from "@material-tailwind/react";
+import { Input, Select, Typography, Option, Button } from "@material-tailwind/react";
 import { format } from "date-fns";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { useCountries } from "use-react-countries";
 import { z } from "zod";
 import { DatePicker } from "@components/DatePicker/DatePicker";
-import { Roles } from "@generated/graphql";
+import { UserRoleChip } from "@components/UserRoleChip/UserRoleChip.tsx";
 import { useUserStore } from "@state/userStore.ts";
 import { DATE_TIME, DATE_TIME_READ } from "@utils/constants.ts";
 
@@ -124,7 +124,7 @@ export function Component() {
           Edit profile
         </Button>
       )}
-      {role === Roles.Admin ? <Chip color="purple" value="Administrator" /> : <Chip color="blue" value="User" />}
+      <UserRoleChip role={role} />
       <Typography className="pt-6 text-center" variant="small">
         Your account has been created on&nbsp;
         <time dateTime={format(createdAt, DATE_TIME)}>{format(createdAt, DATE_TIME_READ)}</time>
