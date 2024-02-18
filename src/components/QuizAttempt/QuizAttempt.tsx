@@ -3,6 +3,8 @@ import { Button, Dialog, DialogBody, DialogFooter, DialogHeader, Typography } fr
 import { Timer } from "lucide-react";
 import { useTimer } from "react-timer-hook";
 import { QuestionData, QuizData } from "@generated/graphql.ts";
+import { useUserStore } from "@state/userStore.ts";
+import { toast } from "react-toastify";
 
 interface QuizAttemptProps {
   quiz: QuizData;
@@ -11,6 +13,8 @@ interface QuizAttemptProps {
 }
 
 export function QuizAttempt({ quiz, handleQuizStart, handleQuizEnd }: QuizAttemptProps) {
+  const { user } = useUserStore();
+  const isLoggedIn = !!user.userId;
   const [isStartQuizDialogOpen, setIsStartQuizDialogOpen] = useState(false);
   const [hasAttemptStarted, setHasAttemptStarted] = useState(false);
   const [questionIndex, setQuestionIndex] = useState(0);
@@ -42,6 +46,12 @@ export function QuizAttempt({ quiz, handleQuizStart, handleQuizEnd }: QuizAttemp
   const toggleStartQuizDialog = () => setIsStartQuizDialogOpen(!isStartQuizDialogOpen);
 
   const handleStartQuiz = () => {
+    if (!isLoggedIn) {
+      toast.warn("Please login before starting a quiz attempt.");
+      toggleStartQuizDialog();
+      return;
+    }
+
     handleQuizStart();
     toggleStartQuizDialog();
     setHasAttemptStarted(true);
