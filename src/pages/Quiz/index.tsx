@@ -67,7 +67,7 @@ export function Component() {
     );
 
   return (
-    <div className="flex h-full w-full flex-col items-center px-4 pb-4 pt-20 md:px-12 md:pt-24">
+    <div className="flex h-full w-full flex-col items-center px-4 pb-4 pt-16 md:px-12 md:pt-24">
       <Breadcrumbs className="mb-8 flex items-center">
         <Link to={`/game?country=${quiz?.country}`} className="opacity-60">
           Game

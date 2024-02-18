@@ -30,10 +30,10 @@ export function Header() {
 
   return (
     <>
-      <header className="absolute left-0 top-0 z-10 w-full px-4 py-2 sm:px-6 sm:py-4">
+      <header className="absolute left-0 top-0 z-10 w-full px-2 py-2 sm:px-6 sm:py-4 md:px-4">
         <div className="flex items-center justify-between">
           <Link to="/">
-            <img src="/images/mtc-logo.svg" width={58} height={54} alt="Planet Earth" className="" />
+            <img src="/images/mtc-logo.svg" alt="Planet Earth" className="h-[44px] w-[48px] md:h-[54px] md:w-[58px]" />
           </Link>
           <div className="flex h-full items-center gap-3">
             {isLoggedIn && (
@@ -41,7 +41,7 @@ export function Header() {
                 <Typography className="flex font-medium">
                   <Typography as="span">Hello,</Typography>&nbsp;{user.firstName}
                 </Typography>
-                <CircleUserRound className="h-8 w-8" />
+                <CircleUserRound className="h-7 w-7 md:h-8 md:w-8" />
               </div>
             )}
             <IconButton onClick={toggleDrawer}>

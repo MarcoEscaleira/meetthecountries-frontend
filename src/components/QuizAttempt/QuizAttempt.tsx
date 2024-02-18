@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { Button, Dialog, DialogBody, DialogFooter, DialogHeader, Typography } from "@material-tailwind/react";
 import { Timer } from "lucide-react";
 import { useTimer } from "react-timer-hook";
+import { toast } from "react-toastify";
 import { QuestionData, QuizData } from "@generated/graphql.ts";
 import { useUserStore } from "@state/userStore.ts";
-import { toast } from "react-toastify";
 
 interface QuizAttemptProps {
   quiz: QuizData;

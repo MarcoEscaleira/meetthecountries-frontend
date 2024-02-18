@@ -9,6 +9,7 @@ import { z } from "zod";
 import { DatePicker } from "@components/DatePicker/DatePicker";
 import { Roles } from "@generated/graphql";
 import { useUserStore } from "@state/userStore.ts";
+import { DATE_TIME, DATE_TIME_READ } from "@utils/constants.ts";
 
 const formSchema = z.object({
   firstName: z.string().min(1, { message: "Enter a first name." }),
@@ -52,7 +53,7 @@ export function Component() {
   };
 
   return (
-    <div className="flex h-full w-full flex-col items-center pb-4 px-4 pt-20 md:px-12">
+    <div className="flex h-full w-full flex-col items-center px-4 pb-4 pt-20 md:px-12">
       <Typography variant="h1" className="mb-6">
         Profile
       </Typography>
@@ -119,14 +120,16 @@ export function Component() {
         </form>
       </FormProvider>
       {!isEditing && (
-        <Button type="button" fullWidth variant="outlined" onClick={() => setIsEditing(true)} className="w-80 mb-4">
+        <Button type="button" fullWidth variant="outlined" onClick={() => setIsEditing(true)} className="mb-4 w-80">
           Edit profile
         </Button>
       )}
       {role === Roles.Admin ? <Chip color="purple" value="Administrator" /> : <Chip color="blue" value="User" />}
       <Typography className="pt-6 text-center" variant="small">
-        Your account has been created on {format(createdAt, "dd MMM yyyy hh:mm")} and last updated at{" "}
-        {format(updatedAt, "dd MMM yyyy hh:mm")}
+        Your account has been created on&nbsp;
+        <time dateTime={format(createdAt, DATE_TIME)}>{format(createdAt, DATE_TIME_READ)}</time>
+        &nbsp;and last updated at&nbsp;
+        <time dateTime={format(updatedAt, DATE_TIME)}>{format(updatedAt, DATE_TIME_READ)}</time>
       </Typography>
     </div>
   );
