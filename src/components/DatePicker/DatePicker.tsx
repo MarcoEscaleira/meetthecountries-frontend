@@ -13,9 +13,8 @@ type DatePickerProps = {
 } & DayPickerProps;
 
 export const DatePicker: FC<DatePickerProps> = ({ name, label, error, disabledInput, ...props }) => {
-  const [date, setDate] = useState<Date>();
-
-  const { register, setValue } = useFormContext();
+  const { register, setValue, getValues } = useFormContext();
+  const [date, setDate] = useState<Date>(getValues(name));
 
   return (
     <Popover placement="bottom">
@@ -34,6 +33,7 @@ export const DatePicker: FC<DatePickerProps> = ({ name, label, error, disabledIn
           selected={date}
           // @ts-expect-error: due to the props spread below
           onSelect={newDate => {
+            // @ts-expect-error: due to the default props
             setDate(newDate);
             setValue(name, newDate);
           }}
