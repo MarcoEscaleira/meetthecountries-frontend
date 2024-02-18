@@ -2,8 +2,9 @@ import { Button, Card, CardBody, CardFooter, CardHeader, Spinner, Typography } f
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { DifficultyChip } from "@components/DifficultyChip/DifficultyChip.tsx";
 import { TimeLimitChip } from "@components/TimeLimitChip/TimeLimitChip.tsx";
-import { CountryQuizzesQuery } from "@generated/graphql.ts";
+import { CountryQuizzesQuery, Roles } from "@generated/graphql.ts";
 import { CountryInfoModal } from "@pages/Game/CountryInfoModal.tsx";
+import { useUserStore } from "@state/userStore.ts";
 import { useCountryDetails } from "@utils/hooks/useCountryDetails.ts";
 
 interface CountryQuizListProps {
@@ -12,6 +13,9 @@ interface CountryQuizListProps {
 }
 
 export const CountryQuizList = ({ quizList, isLoadingCountryQuizList }: CountryQuizListProps) => {
+  const {
+    user: { role },
+  } = useUserStore();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
@@ -76,18 +80,22 @@ export const CountryQuizList = ({ quizList, isLoadingCountryQuizList }: CountryQ
               </Typography>
             </div>
             <Typography color="gray">{description}</Typography>
-            <div className="flex gap-3 mt-4">
+            <div className="mt-4 flex gap-3">
               <DifficultyChip difficulty={difficulty} />
               <TimeLimitChip timeLimit={timeLimit || 0} />
             </div>
           </CardBody>
-          <CardFooter className="">
+          <CardFooter className="px-6 pb-4 pt-2">
             <Button size="md" color="blue" fullWidth={true} onClick={() => navigate(`/game/quiz/${id}`)}>
               Go to quiz
             </Button>
           </CardFooter>
         </Card>
       ))}
+
+      <Button variant="outlined" size="md" onClick={() => {}} className="my-10">
+        {role === Roles.Admin ? "Create a new quiz" : "Submit a quiz"}
+      </Button>
     </>
   );
 };

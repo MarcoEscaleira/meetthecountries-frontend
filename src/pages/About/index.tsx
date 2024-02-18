@@ -14,7 +14,9 @@ export function Component() {
       </Typography>
 
       <Accordion open={open === 1}>
-        <AccordionHeader onClick={() => handleOpen(1)}>Personal motivations</AccordionHeader>
+        <AccordionHeader onClick={() => handleOpen(1)} className="outline-none">
+          Personal motivations
+        </AccordionHeader>
         <AccordionBody>
           <Typography>
             My interest in moving around the world has motivated me to work on this project. The current global map
@@ -28,7 +30,9 @@ export function Component() {
         </AccordionBody>
       </Accordion>
       <Accordion open={open === 2}>
-        <AccordionHeader onClick={() => handleOpen(2)}>The idea behind MTC?</AccordionHeader>
+        <AccordionHeader onClick={() => handleOpen(2)} className="outline-none">
+          The idea behind MTC?
+        </AccordionHeader>
         <AccordionBody>
           <Typography>
             MTC provides users to meet new countries by engaging in intriguing and informational quizzes that allow to

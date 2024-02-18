@@ -5,6 +5,7 @@ import {
   AccordionBody,
   AccordionHeader,
   Breadcrumbs,
+  Button,
   Chip,
   Spinner,
   Typography,
@@ -14,7 +15,8 @@ import { DifficultyChip } from "@components/DifficultyChip/DifficultyChip.tsx";
 import { QuizAttempt } from "@components/QuizAttempt/QuizAttempt.tsx";
 import { TimeLimitChip } from "@components/TimeLimitChip/TimeLimitChip.tsx";
 import { gql } from "@generated/gql.ts";
-import { QuizData } from "@generated/graphql.ts";
+import { QuizData, Roles } from "@generated/graphql.ts";
+import { useUserStore } from "@state/userStore.ts";
 import { useCountryDetails } from "@utils/hooks/useCountryDetails.ts";
 
 const GET_QUIZ = gql(/* GraphQL */ `
@@ -49,6 +51,9 @@ const GET_QUIZ = gql(/* GraphQL */ `
 `);
 
 export function Component() {
+  const {
+    user: { role },
+  } = useUserStore();
   const { quizId } = useParams();
   const [openedAccordion, setOpenedAccordion] = useState(1);
 
@@ -76,7 +81,22 @@ export function Component() {
       </Breadcrumbs>
 
       <Accordion open={openedAccordion === 1}>
-        <AccordionHeader onClick={() => handleOpenedAccordion(1)}>Quiz information</AccordionHeader>
+        <AccordionHeader className="py-3 outline-none" onClick={() => handleOpenedAccordion(1)}>
+          <div className="flex w-full items-center justify-between">
+            <Typography className="font-medium">Quiz information</Typography>
+            {role === Roles.Admin && (
+              <Button
+                variant="outlined"
+                size='sm'
+                onClick={event => {
+                  event.stopPropagation();
+                }}
+              >
+                Edit quiz
+              </Button>
+            )}
+          </div>
+        </AccordionHeader>
         <AccordionBody>
           <Typography variant="h1" className="mb-3 text-xl font-medium md:text-2xl">
             {quiz?.title}

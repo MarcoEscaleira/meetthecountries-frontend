@@ -24,6 +24,10 @@ export const router = createBrowserRouter([
         lazy: () => import("./Quiz"),
       },
       {
+        path: "/game/quiz/:quizId/attempt/:attemptId",
+        lazy: () => import("./QuizResult"),
+      },
+      {
         path: "/register",
         loader: loggedOutRouteLoader,
         lazy: () => import("./Register"),
