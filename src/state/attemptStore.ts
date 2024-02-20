@@ -33,17 +33,40 @@ export const useAttemptStore = create<AttemptState>()(
           toggleStartQuizDialog();
           handleQuizAccordion(0);
 
+          // TODO: sort questions and options on attempt start
           return {
             isAttemptRunning: true,
-            questions: questions.sort(() => Math.random() - 0.5),
+            questions: questions,
             currentQuestion: 0,
             startTime,
           };
         }),
-      setQuestionResponse: option =>
-        set(() => {
-          console.log("update question response", option);
-          return {};
+      setQuestionResponse: chosenOption =>
+        set(({ questions, currentQuestion }) => {
+          const mappedQuestions = questions.map((question, index) => {
+            if (index === currentQuestion) {
+              // Update the option chosen
+              return {
+                ...question,
+                options: question.options.map(option => {
+                  if (option.text === chosenOption) {
+                    return {
+                      ...option,
+                      chosen: true,
+                    };
+                  }
+                  return option;
+                }),
+              };
+            }
+
+            return question;
+          });
+
+          return {
+            questions: mappedQuestions,
+            currentQuestion: currentQuestion + 1,
+          };
         }),
       resetAttempt: () =>
         set(() => ({
