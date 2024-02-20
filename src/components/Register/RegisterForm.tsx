@@ -77,7 +77,7 @@ export function RegisterForm() {
         variables: {
           user: {
             ...values,
-            dateOfBirth: values.dateOfBirth.toDateString(),
+            dateOfBirth: values.dateOfBirth.toISOString(),
           },
         },
       });

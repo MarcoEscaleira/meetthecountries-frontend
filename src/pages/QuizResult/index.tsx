@@ -54,6 +54,9 @@ export function Component() {
       <Typography>{attempt?.score}</Typography>
       <Typography>{attempt?.startTime}</Typography>
       <Typography>{attempt?.endTime}</Typography>
+      <Typography>
+        Made by: {attempt?.user?.firstName} {attempt?.user?.lastName}
+      </Typography>
     </div>
   );
 }

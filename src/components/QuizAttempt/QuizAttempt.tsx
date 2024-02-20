@@ -1,24 +1,29 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Button, Dialog, DialogBody, DialogFooter, DialogHeader, Typography } from "@material-tailwind/react";
 import { Timer } from "lucide-react";
 import { useTimer } from "react-timer-hook";
 import { toast } from "react-toastify";
-import { QuestionData, QuizData } from "@generated/graphql.ts";
+import { QuizByIdQuery } from "@generated/graphql.ts";
+import { useAttemptStore } from "@state/attemptStore.ts";
 import { useUserStore } from "@state/userStore.ts";
+import { COLOURS } from "@utils/constants.ts";
 
 interface QuizAttemptProps {
-  quiz: QuizData;
-  handleQuizStart: () => void;
-  handleQuizEnd: () => void;
+  quiz: QuizByIdQuery["quizList"][0];
 }
 
-export function QuizAttempt({ quiz, handleQuizStart, handleQuizEnd }: QuizAttemptProps) {
-  const { user } = useUserStore();
-  const isLoggedIn = !!user.userId;
-  const [isStartQuizDialogOpen, setIsStartQuizDialogOpen] = useState(false);
-  const [hasAttemptStarted, setHasAttemptStarted] = useState(false);
-  const [questionIndex, setQuestionIndex] = useState(0);
-  const [questions, setQuestions] = useState<Array<QuestionData>>([]);
+export function QuizAttempt({ quiz }: QuizAttemptProps) {
+  const { isLoggedIn } = useUserStore();
+  const {
+    isAttemptRunning,
+    questions,
+    currentQuestion,
+    isStartQuizDialogOpen,
+    toggleStartQuizDialog,
+    startAttempt,
+    resetAttempt,
+    setQuestionResponse,
+  } = useAttemptStore();
 
   const quizTimeLimit = quiz.timeLimit || 0;
   const expiryTimestamp = new Date();
@@ -29,21 +34,17 @@ export function QuizAttempt({ quiz, handleQuizStart, handleQuizEnd }: QuizAttemp
   });
 
   useEffect(() => {
-    setQuestions(quiz.questions.sort(() => Math.random() - 0.5));
-    setQuestionIndex(0);
     if (quizTimeLimit > 0) {
       restart(expiryTimestamp);
     }
 
-    if (!hasAttemptStarted) {
+    if (!isAttemptRunning) {
       pause();
     }
-  }, [hasAttemptStarted]);
+  }, [isAttemptRunning]);
 
-  const question = questions[questionIndex];
-  const isLastQuestion = questionIndex === questions.length - 1;
-
-  const toggleStartQuizDialog = () => setIsStartQuizDialogOpen(!isStartQuizDialogOpen);
+  const question = questions[currentQuestion];
+  const isLastQuestion = currentQuestion === questions.length - 1;
 
   const handleStartQuiz = () => {
     if (!isLoggedIn) {
@@ -52,26 +53,22 @@ export function QuizAttempt({ quiz, handleQuizStart, handleQuizEnd }: QuizAttemp
       return;
     }
 
-    handleQuizStart();
-    toggleStartQuizDialog();
-    setHasAttemptStarted(true);
-    if (quizTimeLimit > 0) {
-      start();
-    }
+    startAttempt(quiz.questions, new Date().toISOString());
+
+    // If the quiz has a time limit, then start the timer hook
+    if (quizTimeLimit > 0) start();
   };
 
-  const handleOptionSelection = (correct: boolean) => {
-    if (correct) {
-      setQuestionIndex(questionIndex + 1);
-    }
+  const handleOptionSelection = (optionName: string) => {
+    setQuestionResponse(optionName);
 
     if (isLastQuestion) {
-      handleQuizEnd();
-      setHasAttemptStarted(false);
+      // TODO: handle attempt submission
+      resetAttempt();
     }
   };
 
-  if (!hasAttemptStarted) {
+  if (!isAttemptRunning) {
     return (
       <>
         <Button
@@ -111,32 +108,47 @@ export function QuizAttempt({ quiz, handleQuizStart, handleQuizEnd }: QuizAttemp
 
   return (
     <div className="container mt-6 flex flex-col items-center">
-      <div className="mb-6 flex gap-4">
+      <div className="mb-6 flex w-full items-center justify-between pr-3">
         <Typography className="">
-          {questionIndex + 1} out of {questions.length} question{questions.length > 1 ? "s" : ""}
+          {currentQuestion + 1} out of {questions.length} question{questions.length > 1 ? "s" : ""}
         </Typography>
+
         <Typography className="flex gap-1 text-xl font-light">
           <Timer />
           {minutes}:{seconds}
         </Typography>
+
+        <Button
+          variant="outlined"
+          color="red"
+          size="sm"
+          onClick={() => {
+            resetAttempt();
+          }}
+        >
+          Cancel attempt
+        </Button>
       </div>
 
       <Typography className="text-xl font-bold">{question.question}</Typography>
 
       <div className="mt-10 flex flex-wrap gap-4">
-        {question.options.map(({ text, correct }) => (
-          <Button
-            key={text}
-            fullWidth
-            variant="outlined"
-            className="hover:bg-blue-gray-200"
-            onClick={() => {
-              handleOptionSelection(correct);
-            }}
-          >
-            {text}
-          </Button>
-        ))}
+        {question.type === 0 &&
+          question.options.map(({ text }, index) => (
+            <Button
+              key={text}
+              fullWidth
+              variant="outlined"
+              color={COLOURS[index]}
+              onClick={() => {
+                handleOptionSelection(text);
+              }}
+            >
+              {text}
+            </Button>
+          ))}
+
+        {question.type === 1 && <Typography>Multi choice not yet supported</Typography>}
       </div>
     </div>
   );

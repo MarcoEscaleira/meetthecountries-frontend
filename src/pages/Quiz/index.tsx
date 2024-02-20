@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useQuery } from "@apollo/client";
 import {
   Accordion,
@@ -15,7 +14,8 @@ import { DifficultyChip } from "@components/DifficultyChip/DifficultyChip.tsx";
 import { QuizAttempt } from "@components/QuizAttempt/QuizAttempt.tsx";
 import { TimeLimitChip } from "@components/TimeLimitChip/TimeLimitChip.tsx";
 import { gql } from "@generated/gql.ts";
-import { QuizData, Roles } from "@generated/graphql.ts";
+import { Roles } from "@generated/graphql.ts";
+import { useAttemptStore } from "@state/attemptStore.ts";
 import { useUserStore } from "@state/userStore.ts";
 import { useCountryDetails } from "@utils/hooks/useCountryDetails.ts";
 
@@ -35,6 +35,7 @@ const GET_QUIZ = gql(/* GraphQL */ `
         options {
           correct
           text
+          chosen
         }
       }
       country
@@ -55,16 +56,14 @@ export function Component() {
     user: { role },
   } = useUserStore();
   const { quizId } = useParams();
-  const [openedAccordion, setOpenedAccordion] = useState(1);
+  const { quizAccordion, handleQuizAccordion } = useAttemptStore();
 
-  const handleOpenedAccordion = (value: number) => setOpenedAccordion(openedAccordion === value ? 0 : value);
-
-  const { data, loading } = useQuery(GET_QUIZ, { variables: { quizId: quizId || "" } });
+  const { data, loading, error } = useQuery(GET_QUIZ, { variables: { quizId: quizId || "" } });
   const quiz = data?.quizList[0];
 
   const countryDetails = useCountryDetails(quiz?.country || "");
 
-  if (loading)
+  if (loading || error)
     return (
       <div className="flex h-full w-full items-center justify-center">
         <Spinner className="h-16 w-16" />
@@ -80,14 +79,14 @@ export function Component() {
         <Link to="">Quiz</Link>
       </Breadcrumbs>
 
-      <Accordion open={openedAccordion === 1}>
-        <AccordionHeader className="py-3 outline-none" onClick={() => handleOpenedAccordion(1)}>
+      <Accordion open={quizAccordion === 1}>
+        <AccordionHeader className="py-3 outline-none" onClick={() => handleQuizAccordion(1)}>
           <div className="flex w-full items-center justify-between">
             <Typography className="font-medium">Quiz information</Typography>
             {role === Roles.Admin && (
               <Button
                 variant="outlined"
-                size='sm'
+                size="sm"
                 onClick={event => {
                   event.stopPropagation();
                 }}
@@ -125,12 +124,7 @@ export function Component() {
         </AccordionBody>
       </Accordion>
 
-      {/* TODO: later fix this to use correct type coming from the query */}
-      <QuizAttempt
-        quiz={quiz as QuizData}
-        handleQuizStart={() => handleOpenedAccordion(0)}
-        handleQuizEnd={() => handleOpenedAccordion(1)}
-      />
+      <QuizAttempt quiz={quiz!} />
     </div>
   );
 }

@@ -38,7 +38,7 @@ export function Component() {
 
   const { countries } = useCountries();
   const orderedCountries = useCallback(() => {
-    return countries.sort((a, b) => a.name < b.name ? -1 : 1);
+    return countries.sort((a, b) => (a.name < b.name ? -1 : 1));
   }, [countries]);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -60,7 +60,7 @@ export function Component() {
     event?.preventDefault();
     try {
       await updateUser({
-        variables: { userId, user: { ...values, dateOfBirth: values.dateOfBirth.toDateString() } },
+        variables: { userId, user: { ...values, dateOfBirth: values.dateOfBirth.toISOString() } },
       });
       toast.success("Profile updated successfully");
       setIsEditing(false);

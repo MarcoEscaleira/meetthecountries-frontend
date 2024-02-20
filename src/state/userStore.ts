@@ -16,6 +16,7 @@ export interface User {
 
 interface UserState {
   user: User;
+  isLoggedIn: boolean;
   setUser: (user: User) => void;
   resetUser: () => void;
 }
@@ -36,8 +37,9 @@ export const useUserStore = create<UserState>()(
   devtools(
     set => ({
       user: defaultUser,
-      setUser: newUser => set(() => ({ user: newUser })),
-      resetUser: () => set(() => ({ user: defaultUser })),
+      isLoggedIn: false,
+      setUser: newUser => set(() => ({ user: newUser, isLoggedIn: true })),
+      resetUser: () => set(() => ({ user: defaultUser, isLoggedIn: false })),
     }),
     {
       name: "user-storage",

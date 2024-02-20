@@ -21,8 +21,7 @@ export function Header() {
   //   useNotificationCenter();
   const { breakpoint } = useBreakpoint(BREAKPOINTS);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const { user, resetUser } = useUserStore();
-  const isLoggedIn = !!user.userId;
+  const { user, isLoggedIn, resetUser } = useUserStore();
 
   const [makeLogout] = useLazyQuery(LOGOUT_USER);
 
