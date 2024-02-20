@@ -1,8 +1,9 @@
 import { useEffect } from "react";
-import { Button, Dialog, DialogBody, DialogFooter, DialogHeader, Typography } from "@material-tailwind/react";
+import { Button, Typography } from "@material-tailwind/react";
 import { Timer } from "lucide-react";
 import { useTimer } from "react-timer-hook";
 import { toast } from "react-toastify";
+import { QuizAttemptDialog } from "@components/QuizAttemptDialog/QuizAttemptDialog.tsx";
 import { QuizByIdQuery } from "@generated/graphql.ts";
 import { useAttemptStore } from "@state/attemptStore.ts";
 import { useUserStore } from "@state/userStore.ts";
@@ -18,7 +19,6 @@ export function QuizAttempt({ quiz }: QuizAttemptProps) {
     isAttemptRunning,
     questions,
     currentQuestion,
-    isStartQuizDialogOpen,
     toggleStartQuizDialog,
     startAttempt,
     resetAttempt,
@@ -83,25 +83,7 @@ export function QuizAttempt({ quiz }: QuizAttemptProps) {
           Start quiz
         </Button>
 
-        <Dialog open={isStartQuizDialogOpen} handler={toggleStartQuizDialog}>
-          <DialogHeader>
-            <Typography>Are you ready?</Typography>
-          </DialogHeader>
-          <DialogBody>
-            <Typography variant="small">
-              Remember, your attempt will be recorded even if you don&apos;t complete all questions.
-            </Typography>
-            <Typography variant="small">Timer will start as soon as you start the quiz</Typography>
-          </DialogBody>
-          <DialogFooter className="gap-3">
-            <Button variant="gradient" color="gray" onClick={toggleStartQuizDialog}>
-              Not yet
-            </Button>
-            <Button variant="gradient" color="green" onClick={handleStartQuiz}>
-              Let&apos;s go
-            </Button>
-          </DialogFooter>
-        </Dialog>
+        <QuizAttemptDialog handleStartQuiz={handleStartQuiz} />
       </>
     );
   }
