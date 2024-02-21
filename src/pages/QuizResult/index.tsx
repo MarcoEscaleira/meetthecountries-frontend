@@ -1,29 +1,7 @@
 import { useQuery } from "@apollo/client";
 import { Breadcrumbs, Spinner, Typography } from "@material-tailwind/react";
 import { Link, useParams } from "react-router-dom";
-import { gql } from "@generated/gql.ts";
-
-const GET_ATTEMPT_RESULT = gql(/* GraphQL */ `
-  query AttemptResult($attemptId: String!) {
-    attempts(attemptId: $attemptId) {
-      id
-      score
-      startTime
-      endTime
-      questions {
-        question
-      }
-      user {
-        firstName
-        lastName
-      }
-      quiz {
-        title
-        country
-      }
-    }
-  }
-`);
+import { GET_ATTEMPT_RESULT } from "@utils/queries/AttemptResult.ts";
 
 export function Component() {
   const { quizId, attemptId } = useParams();
@@ -51,7 +29,7 @@ export function Component() {
 
       <Typography>Attempt - {attempt?.id}</Typography>
 
-      <Typography>{attempt?.score}</Typography>
+      <Typography>{attempt?.correctOptions}</Typography>
       <Typography>{attempt?.startTime}</Typography>
       <Typography>{attempt?.endTime}</Typography>
       <Typography>

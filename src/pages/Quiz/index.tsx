@@ -13,43 +13,11 @@ import { Link, useParams } from "react-router-dom";
 import { DifficultyChip } from "@components/DifficultyChip/DifficultyChip.tsx";
 import { QuizAttempt } from "@components/QuizAttempt/QuizAttempt.tsx";
 import { TimeLimitChip } from "@components/TimeLimitChip/TimeLimitChip.tsx";
-import { gql } from "@generated/gql.ts";
 import { Roles } from "@generated/graphql.ts";
 import { useAttemptStore } from "@state/attemptStore.ts";
 import { useUserStore } from "@state/userStore.ts";
 import { useCountryDetails } from "@utils/hooks/useCountryDetails.ts";
-
-const GET_QUIZ = gql(/* GraphQL */ `
-  query QuizById($quizId: String!) {
-    quizList(quizId: $quizId) {
-      id
-      title
-      description
-      difficulty
-      timeLimit
-      image
-      tags
-      questions {
-        question
-        type
-        options {
-          correct
-          text
-          chosen
-        }
-      }
-      country
-      creator {
-        lastName
-      }
-      lastEditor {
-        lastName
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`);
+import { GET_QUIZ_BY_ID } from "@utils/queries/QuizById.ts";
 
 export function Component() {
   const {
@@ -58,7 +26,7 @@ export function Component() {
   const { quizId } = useParams();
   const { quizAccordion, handleQuizAccordion } = useAttemptStore();
 
-  const { data, loading, error } = useQuery(GET_QUIZ, { variables: { quizId: quizId || "" } });
+  const { data, loading, error } = useQuery(GET_QUIZ_BY_ID, { variables: { quizId: quizId || "" } });
   const quiz = data?.quizList[0];
 
   const countryDetails = useCountryDetails(quiz?.country || "");

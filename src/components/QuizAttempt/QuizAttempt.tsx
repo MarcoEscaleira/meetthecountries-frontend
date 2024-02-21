@@ -1,19 +1,21 @@
 import { useEffect } from "react";
 import { Button, Typography } from "@material-tailwind/react";
-import { Timer } from "lucide-react";
+import { X, Timer } from "lucide-react";
 import { useTimer } from "react-timer-hook";
 import { toast } from "react-toastify";
+import useBreakpoint from "use-breakpoint";
 import { QuizAttemptDialog } from "@components/QuizAttemptDialog/QuizAttemptDialog.tsx";
 import { QuizByIdQuery } from "@generated/graphql.ts";
 import { useAttemptStore } from "@state/attemptStore.ts";
 import { useUserStore } from "@state/userStore.ts";
-import { COLOURS } from "@utils/constants.ts";
+import { BREAKPOINTS, COLOURS } from "@utils/constants.ts";
 
 interface QuizAttemptProps {
   quiz: QuizByIdQuery["quizList"][0];
 }
 
 export function QuizAttempt({ quiz }: QuizAttemptProps) {
+  const { breakpoint } = useBreakpoint(BREAKPOINTS);
   const { isLoggedIn } = useUserStore();
   const {
     isAttemptRunning,
@@ -21,6 +23,7 @@ export function QuizAttempt({ quiz }: QuizAttemptProps) {
     currentQuestion,
     toggleStartQuizDialog,
     startAttempt,
+    submitAttempt,
     resetAttempt,
     setQuestionResponse,
   } = useAttemptStore();
@@ -63,8 +66,7 @@ export function QuizAttempt({ quiz }: QuizAttemptProps) {
     setQuestionResponse(optionName);
 
     if (isLastQuestion) {
-      // TODO: handle attempt submission
-      resetAttempt();
+      submitAttempt(quiz.id);
     }
   };
 
@@ -90,7 +92,7 @@ export function QuizAttempt({ quiz }: QuizAttemptProps) {
 
   return (
     <div className="container mt-6 flex flex-col items-center">
-      <div className="mb-6 flex w-full items-center justify-between pr-3">
+      <div className="mb-6 flex w-full items-center justify-between md:pr-3">
         <Typography className="">
           {currentQuestion + 1} out of {questions.length} question{questions.length > 1 ? "s" : ""}
         </Typography>
@@ -108,7 +110,7 @@ export function QuizAttempt({ quiz }: QuizAttemptProps) {
             resetAttempt();
           }}
         >
-          Cancel attempt
+          {breakpoint === "mobile" ? <X className="size-6" /> : "Cancel attempt"}
         </Button>
       </div>
 
