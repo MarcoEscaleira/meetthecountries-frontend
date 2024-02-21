@@ -37,10 +37,10 @@ export const useAttemptStore = create<AttemptState>()(
           toggleStartQuizDialog();
           handleQuizAccordion(0);
 
-          // TODO: sort questions and options on attempt start
+          const tempQuestions = [...questions];
           return {
             isAttemptRunning: true,
-            questions: questions,
+            questions: tempQuestions.sort(() => Math.random() - 0.5),
             currentQuestion: 0,
             startTime,
           };
@@ -59,6 +59,7 @@ export const useAttemptStore = create<AttemptState>()(
         if (data?.addAttempt?.id) {
           await router.navigate(`/game/quiz/${quizId}/attempt/${data.addAttempt.id}`);
           toast.success("Your quiz attempt has been submitted successfully.");
+
           getState().resetAttempt();
         } else {
           toast.error("Failed to submit the quiz attempt. Please try again.");
