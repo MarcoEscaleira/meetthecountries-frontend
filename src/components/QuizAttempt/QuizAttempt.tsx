@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Button, Typography } from "@material-tailwind/react";
 import { X, Timer } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { useTimer } from "react-timer-hook";
 import { toast } from "react-toastify";
 import useBreakpoint from "use-breakpoint";
@@ -15,6 +16,7 @@ interface QuizAttemptProps {
 }
 
 export function QuizAttempt({ quiz }: QuizAttemptProps) {
+  const navigate = useNavigate();
   const { breakpoint } = useBreakpoint(BREAKPOINTS);
   const { isLoggedIn } = useUserStore();
   const {
@@ -66,7 +68,7 @@ export function QuizAttempt({ quiz }: QuizAttemptProps) {
     setQuestionResponse(optionName);
 
     if (isLastQuestion) {
-      submitAttempt(quiz.id);
+      submitAttempt(quiz.id, navigate);
     }
   };
 

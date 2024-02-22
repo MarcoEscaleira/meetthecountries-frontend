@@ -1,9 +1,9 @@
+import { NavigateFunction } from "react-router-dom";
 import { toast } from "react-toastify";
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import type {} from "@redux-devtools/extension";
 import { QuizByIdQuery } from "@generated/graphql.ts";
-import { router } from "@pages/router.tsx";
 import { useUserStore } from "@state/userStore.ts";
 import { apolloClient } from "@utils/apolloSetup.ts";
 import { SUBMIT_ATTEMPT } from "@utils/queries/SubmitAttempt.ts";
@@ -16,7 +16,7 @@ interface AttemptState {
   currentQuestion: number;
   startTime: string;
   startAttempt: (questions: Questions, startTime: string) => void;
-  submitAttempt: (quizId: string) => void;
+  submitAttempt: (quizId: string, navigate: NavigateFunction) => void;
   setQuestionResponse: (option: string) => void;
   resetAttempt: () => void;
   isStartQuizDialogOpen: boolean;
@@ -45,7 +45,7 @@ export const useAttemptStore = create<AttemptState>()(
             startTime,
           };
         }),
-      submitAttempt: async (quizId: string) => {
+      submitAttempt: async (quizId, navigate) => {
         const { questions, startTime } = getState();
         const endTime = new Date().toISOString();
 
@@ -57,7 +57,7 @@ export const useAttemptStore = create<AttemptState>()(
         });
 
         if (data?.addAttempt?.id) {
-          await router.navigate(`/game/quiz/${quizId}/attempt/${data.addAttempt.id}`);
+          navigate(`/game/quiz/${quizId}/attempt/${data.addAttempt.id}`);
           toast.success("Your quiz attempt has been submitted successfully.");
 
           getState().resetAttempt();
