@@ -1,10 +1,10 @@
-import { useLazyQuery, useQuery } from "@apollo/client";
+import { useEffect } from "react";
+import { useLazyQuery } from "@apollo/client";
 import { Typography } from "@material-tailwind/react";
-import { GET_QUIZ_ATTEMPTS } from "@utils/queries/QuizAttempts.ts";
-import { useUserStore } from "@state/userStore.ts";
-import React, { useEffect } from "react";
-import { Loader2 } from "lucide-react";
 import { differenceInMinutes, differenceInSeconds } from "date-fns";
+import { Loader2 } from "lucide-react";
+import { useUserStore } from "@state/userStore.ts";
+import { GET_QUIZ_ATTEMPTS } from "@utils/queries/QuizAttempts.ts";
 
 interface QuizAttemptProps {
   quizId: string;
