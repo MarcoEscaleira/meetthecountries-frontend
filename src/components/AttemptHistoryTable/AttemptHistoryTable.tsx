@@ -1,7 +1,8 @@
 import { useEffect } from "react";
 import { useLazyQuery } from "@apollo/client";
-import { Button, Typography } from "@material-tailwind/react";
+import { Button, List, ListItem, Typography } from "@material-tailwind/react";
 import { ChevronRight, Loader2 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { ScoreChip } from "@components/ScoreChip/ScoreChip.tsx";
 import { useUserStore } from "@state/userStore.ts";
 import { GET_QUIZ_ATTEMPTS } from "@utils/queries/QuizAttempts.ts";
@@ -11,6 +12,7 @@ interface QuizAttemptProps {
 }
 
 export function AttemptHistoryTable({ quizId }: QuizAttemptProps) {
+  const navigate = useNavigate();
   const {
     user: { userId },
   } = useUserStore();
@@ -35,19 +37,23 @@ export function AttemptHistoryTable({ quizId }: QuizAttemptProps) {
       {loading ? (
         <Loader2 size={20} className="mt-4 animate-spin" />
       ) : (
-        <div className="mt-4 flex flex-col gap-2">
+        <List className="mt-4 flex flex-col p-0">
           {data?.attempts.map(({ id, percentage, minutes, seconds }, index) => {
             return (
-              <div key={id} className="flex items-center">
+              <ListItem
+                key={id}
+                className="flex items-center"
+                onClick={() => navigate(`/game/quiz/${quizId}/attempt/${id}`)}
+              >
                 <Typography className="mr-2 text-lg font-medium">{index + 1}.</Typography>
                 <ScoreChip percentage={percentage} /> <ChevronRight className="mx-2 size-6" />
                 <Typography className="">
                   {minutes}m : {seconds}s
                 </Typography>
-              </div>
+              </ListItem>
             );
           })}
-        </div>
+        </List>
       )}
     </div>
   );
