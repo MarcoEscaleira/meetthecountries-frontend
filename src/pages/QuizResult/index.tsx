@@ -5,11 +5,11 @@ import { format } from "date-fns";
 import { ChevronRight, Loader2 } from "lucide-react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { ScoreChip } from "@components/ScoreChip/ScoreChip.tsx";
+import { useUserStore } from "@state/userStore.ts";
 import { COLOURS } from "@utils/constants.ts";
 import { useCountryDetails } from "@utils/hooks/useCountryDetails.ts";
 import { GET_ATTEMPT_RESULT } from "@utils/queries/AttemptResult.ts";
 import { GET_QUIZ_ATTEMPTS } from "@utils/queries/QuizAttempts.ts";
-import { useUserStore } from "@state/userStore.ts";
 
 const handleOptionColor = (correct: boolean, chosen: boolean, index: number) => {
   if (chosen && !correct) return "red";
