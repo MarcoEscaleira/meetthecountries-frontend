@@ -93,7 +93,7 @@ export function Component() {
             )}
           </section>
           {!isAttemptRunning && (
-            <div className="hidden w-72 md:flex">
+            <div className="hidden w-80 md:flex">
               <AttemptHistoryTable quizId={quiz?.id || ""} />
             </div>
           )}

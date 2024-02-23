@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useLazyQuery } from "@apollo/client";
-import { Button, List, ListItem, Typography } from "@material-tailwind/react";
+import { List, ListItem, Typography } from "@material-tailwind/react";
 import { ChevronRight, Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { ScoreChip } from "@components/ScoreChip/ScoreChip.tsx";
@@ -26,14 +26,12 @@ export function AttemptHistoryTable({ quizId }: QuizAttemptProps) {
 
   return (
     <div className="flex w-full flex-col">
-      <section className="flex items-center justify-between">
+      <section className="flex items-center">
         <Typography variant="h2" className="text-xl font-medium">
           Attempt History
         </Typography>
-        <Button variant="outlined" color="deep-orange" size="sm">
-          View All
-        </Button>
       </section>
+      {!loading && data?.attempts.length === 0 && <Typography>No attempts made</Typography>}
       {loading ? (
         <Loader2 size={20} className="mt-4 animate-spin" />
       ) : (
