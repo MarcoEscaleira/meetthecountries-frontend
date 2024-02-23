@@ -5,6 +5,9 @@ export const GET_QUIZ_ATTEMPTS = gql(/* GraphQL */ `
     attempts(quizId: $quizId, userId: $userId) {
       id
       correctOptions
+      percentage
+      minutes
+      seconds
       startTime
       endTime
       quiz {

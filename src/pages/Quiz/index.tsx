@@ -21,11 +21,11 @@ import { useCountryDetails } from "@utils/hooks/useCountryDetails.ts";
 import { GET_QUIZ_BY_ID } from "@utils/queries/QuizById.ts";
 
 export function Component() {
+  const { quizId } = useParams();
   const {
     user: { role },
   } = useUserStore();
-  const { quizId } = useParams();
-  const { quizAccordion, handleQuizAccordion } = useAttemptStore();
+  const { isAttemptRunning, quizAccordion, handleQuizAccordion } = useAttemptStore();
 
   const { data, loading, error } = useQuery(GET_QUIZ_BY_ID, { variables: { quizId: quizId || "" } });
   const quiz = data?.quizList[0];
@@ -41,7 +41,7 @@ export function Component() {
 
   return (
     <div className="flex h-full w-full flex-col items-center px-4 pb-4 pt-16 md:px-12 md:pt-24">
-      <Breadcrumbs className="mb-8 flex items-center">
+      <Breadcrumbs className="mb-2 flex items-center md:mb-6">
         <Link to={`/game?country=${quiz?.country}`} className="opacity-60">
           Game
         </Link>
@@ -50,7 +50,7 @@ export function Component() {
 
       <Accordion open={quizAccordion === 1}>
         <AccordionHeader className="py-3 outline-none" onClick={() => handleQuizAccordion(1)}>
-          <div className="flex w-full items-center justify-between">
+          <div className="flex w-full items-center justify-between md:justify-start md:gap-3">
             <Typography className="font-medium">Quiz information</Typography>
             {role === Roles.Admin && (
               <Button
@@ -92,13 +92,21 @@ export function Component() {
               </div>
             )}
           </section>
-          <div className="w-72">
-            <AttemptHistoryTable quizId={quiz?.id || ""} />
-          </div>
+          {!isAttemptRunning && (
+            <div className="hidden w-72 md:flex">
+              <AttemptHistoryTable quizId={quiz?.id || ""} />
+            </div>
+          )}
         </AccordionBody>
       </Accordion>
 
       <QuizAttempt quiz={quiz!} />
+
+      {!isAttemptRunning && (
+        <div className="mt-6 block w-full md:hidden">
+          <AttemptHistoryTable quizId={quiz?.id || ""} />
+        </div>
+      )}
     </div>
   );
 }

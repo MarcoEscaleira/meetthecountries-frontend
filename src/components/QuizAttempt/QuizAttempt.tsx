@@ -77,7 +77,7 @@ export function QuizAttempt({ quiz }: QuizAttemptProps) {
       <>
         <Button
           variant="gradient"
-          className="mt-10"
+          className="mt-6"
           color="green"
           fullWidth
           onClick={() => {
