@@ -7,20 +7,19 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useCountries } from "use-react-countries";
 import { z } from "zod";
+import { DifficultyChip } from "@components/DifficultyChip/DifficultyChip.tsx";
 import { Difficulty, Roles } from "@generated/graphql.ts";
 import { useUserStore } from "@state/userStore.ts";
 import { CREATE_QUIZ } from "@utils/queries/CreateQuiz.ts";
-import { DifficultyChip } from "@components/DifficultyChip/DifficultyChip.tsx";
 
 const formSchema = z.object({
   title: z.string().min(5, { message: "Enter a title." }),
   description: z.string().min(50, { message: "Enter a description." }),
   country: z.string().min(1, { message: "Enter a country." }),
-  image: z.string().url({ message: "Enter a valid URL." }),
+  image: z.union([z.literal(""), z.string().trim().url()]),
   // questions: z.array()
-  difficulty: z.string(),
-  // difficulty: z.enum(Difficulty),
-  timeLimit: z.number(),
+  difficulty: z.nativeEnum(Difficulty),
+  timeLimit: z.number().nonnegative().optional(),
   // tags: z.array()
 });
 export function QuizForm() {
@@ -117,7 +116,7 @@ export function QuizForm() {
 
         <Input {...register("image")} size="lg" label="Image URL" placeholder="" error={!!errors.image} />
 
-        <div className="flex items-center gap-3">
+        <div className="flex flex-col items-center gap-6 md:flex-row md:gap-3">
           <Select
             size="lg"
             label="Difficulty"
@@ -139,7 +138,7 @@ export function QuizForm() {
           </Select>
 
           <Input
-            {...register("timeLimit")}
+            {...register("timeLimit", { valueAsNumber: true, validate: value => value! > 0 })}
             size="lg"
             label="Time limit (minutes, 0 means no limit)"
             error={!!errors.timeLimit}
