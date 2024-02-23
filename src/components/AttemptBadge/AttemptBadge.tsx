@@ -21,5 +21,7 @@ export function AttemptBadge({ quizId }: AttemptBadgeProps) {
 
   if (loading) return null;
 
+  if (data?.attempts.length === 0) return null;
+
   return <div className="rounded-full bg-green-500 p-1 px-3 text-sm">{data?.attempts.length} attempts</div>;
 }

@@ -2,10 +2,10 @@ import { Button, Card, CardBody, CardFooter, CardHeader, Spinner, Typography } f
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { AttemptBadge } from "@components/AttemptBadge/AttemptBadge.tsx";
 import { DifficultyChip } from "@components/DifficultyChip/DifficultyChip.tsx";
+import { CreateQuizDialog } from "@components/Quiz/CreateQuizDialog.tsx";
 import { TimeLimitChip } from "@components/TimeLimitChip/TimeLimitChip.tsx";
-import { CountryQuizzesQuery, Roles } from "@generated/graphql.ts";
+import { CountryQuizzesQuery } from "@generated/graphql.ts";
 import { CountryInfoModal } from "@pages/Game/CountryInfoModal.tsx";
-import { useUserStore } from "@state/userStore.ts";
 import { useCountryDetails } from "@utils/hooks/useCountryDetails.ts";
 
 interface CountryQuizListProps {
@@ -14,9 +14,6 @@ interface CountryQuizListProps {
 }
 
 export const CountryQuizList = ({ quizList, isLoadingCountryQuizList }: CountryQuizListProps) => {
-  const {
-    user: { role },
-  } = useUserStore();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
@@ -97,9 +94,7 @@ export const CountryQuizList = ({ quizList, isLoadingCountryQuizList }: CountryQ
         </Card>
       ))}
 
-      <Button variant="outlined" size="md" onClick={() => {}} className="my-10">
-        {role === Roles.Admin ? "Create a new quiz" : "Submit a quiz"}
-      </Button>
+      <CreateQuizDialog />
     </>
   );
 };

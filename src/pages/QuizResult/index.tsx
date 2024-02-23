@@ -5,6 +5,7 @@ import { format } from "date-fns";
 import { ChevronRight, Loader2 } from "lucide-react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { ScoreChip } from "@components/ScoreChip/ScoreChip.tsx";
+import { QuestionType } from "@generated/graphql.ts";
 import { useUserStore } from "@state/userStore.ts";
 import { COLOURS } from "@utils/constants.ts";
 import { useCountryDetails } from "@utils/hooks/useCountryDetails.ts";
@@ -109,7 +110,7 @@ export function Component() {
                 <Typography className="mb-2 text-lg font-medium md:text-xl">{question}</Typography>
 
                 <div className="mb-5 flex flex-wrap gap-3">
-                  {type === 0 &&
+                  {type === QuestionType.Single &&
                     options.map(({ text, correct, chosen }, index) => (
                       <Button
                         key={text}
@@ -132,7 +133,7 @@ export function Component() {
             How are other users doing?
           </Typography>
 
-          <div className="flex flex-col w-72">
+          <div className="flex w-72 flex-col">
             {loadingAllAttempts && <Loader2 size={20} className="mt-4 animate-spin" />}
 
             {quizAttempts?.attempts.length === 0 && !loadingAllAttempts && (

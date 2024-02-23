@@ -6,7 +6,7 @@ import { useTimer } from "react-timer-hook";
 import { toast } from "react-toastify";
 import useBreakpoint from "use-breakpoint";
 import { QuizAttemptDialog } from "@components/QuizAttemptDialog/QuizAttemptDialog.tsx";
-import { QuizByIdQuery } from "@generated/graphql.ts";
+import { QuestionType, QuizByIdQuery } from "@generated/graphql.ts";
 import { useAttemptStore } from "@state/attemptStore.ts";
 import { useUserStore } from "@state/userStore.ts";
 import { BREAKPOINTS, COLOURS } from "@utils/constants.ts";
@@ -110,6 +110,7 @@ export function QuizAttempt({ quiz }: QuizAttemptProps) {
           size="sm"
           onClick={() => {
             resetAttempt();
+            toast.success("Quiz attempt cancelled successfully!");
           }}
         >
           {breakpoint === "mobile" ? <X className="size-6" /> : "Cancel attempt"}
@@ -119,7 +120,7 @@ export function QuizAttempt({ quiz }: QuizAttemptProps) {
       <Typography className="text-xl font-bold">{question.question}</Typography>
 
       <div className="mt-10 flex flex-wrap gap-4">
-        {question.type === 0 &&
+        {question.type === QuestionType.Single &&
           question.options.map(({ text }, index) => (
             <Button
               key={text}
@@ -134,7 +135,7 @@ export function QuizAttempt({ quiz }: QuizAttemptProps) {
             </Button>
           ))}
 
-        {question.type === 1 && <Typography>Multi choice not yet supported</Typography>}
+        {question.type === QuestionType.Multi && <Typography>Multi choice not yet supported</Typography>}
       </div>
     </div>
   );

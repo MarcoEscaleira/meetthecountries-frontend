@@ -5,15 +5,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { Link, useRevalidator } from "react-router-dom";
 import { toast } from "react-toastify";
 import { z } from "zod";
-import { gql } from "@generated/index.ts";
-
-const LOGIN_USER = gql(/* GraphQL */ `
-  mutation LoginUser($input: LoginInput!) {
-    loginUser(input: $input) {
-      access_token
-    }
-  }
-`);
+import { LOGIN_USER } from "@utils/queries/LoginUser.ts";
 
 const formSchema = z.object({
   email: z.string().email(),

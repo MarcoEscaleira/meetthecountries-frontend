@@ -9,15 +9,7 @@ import { toast } from "react-toastify";
 import { useCountries } from "use-react-countries";
 import { z } from "zod";
 import { DatePicker } from "@components/DatePicker/DatePicker.tsx";
-import { gql } from "@generated/gql.ts";
-
-const REGISTER_USER = gql(/* GraphQL */ `
-  mutation SignupUser($user: SignUpInput!) {
-    signupUser(user: $user) {
-      id
-    }
-  }
-`);
+import { REGISTER_USER } from "@utils/queries/RegisterUser.ts";
 
 const formSchema = z
   .object({
@@ -92,6 +84,7 @@ export function RegisterForm() {
         <Input
           {...register("email")}
           name="email"
+          type="email"
           size="lg"
           label="Email address"
           placeholder="name@mail.com"
