@@ -12,6 +12,12 @@ export const GET_ATTEMPT_RESULT = gql(/* GraphQL */ `
       endTime
       questions {
         question
+        type
+        options {
+          text
+          correct
+          chosen
+        }
       }
       user {
         firstName
@@ -20,15 +26,6 @@ export const GET_ATTEMPT_RESULT = gql(/* GraphQL */ `
       quiz {
         title
         country
-        questions {
-          question
-          type
-          options {
-            text
-            correct
-            chosen
-          }
-        }
         creator {
           firstName
           lastName

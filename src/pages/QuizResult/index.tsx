@@ -4,8 +4,20 @@ import { format } from "date-fns";
 import { ChevronRight } from "lucide-react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { ScoreChip } from "@components/ScoreChip/ScoreChip.tsx";
+import { COLOURS } from "@utils/constants.ts";
 import { useCountryDetails } from "@utils/hooks/useCountryDetails.ts";
 import { GET_ATTEMPT_RESULT } from "@utils/queries/AttemptResult.ts";
+
+const handleOptionColor = (correct: boolean, chosen: boolean, index: number) => {
+  if (chosen && !correct) return "red";
+  if (correct) return "green";
+  return COLOURS[index];
+};
+
+const handleOptionVariant = (correct: boolean, chosen: boolean) => {
+  if (correct || chosen) return "filled";
+  return "outlined";
+};
 
 export function Component() {
   const navigate = useNavigate();
@@ -23,7 +35,7 @@ export function Component() {
       </div>
     );
 
-  const totalQuestions = attempt?.quiz.questions.length || 0;
+  const totalQuestions = attempt?.questions.length || 0;
 
   return (
     <div className="flex h-full w-full flex-col items-center px-4 pb-4 pt-16 md:px-12 md:pt-24">
@@ -69,6 +81,34 @@ export function Component() {
           Go back
         </Button>
       </div>
+      <section className="flex w-full flex-col gap-4">
+        <Typography variant="h2" className="mt-8 text-xl md:text-3xl">
+          Review your answers
+        </Typography>
+
+        <div className="flex flex-col">
+          {attempt?.questions?.map(({ question, options, type }) => (
+            <>
+              <Typography className="mb-2 text-lg font-medium md:text-xl">{question}</Typography>
+
+              <div className="mb-5 flex flex-wrap gap-3">
+                {type === 0 &&
+                  options.map(({ text, correct, chosen }, index) => (
+                    <Button
+                      key={text}
+                      fullWidth
+                      variant={handleOptionVariant(correct, !!chosen)}
+                      color={handleOptionColor(correct, !!chosen, index)}
+                      disabled
+                    >
+                      {text}
+                    </Button>
+                  ))}
+              </div>
+            </>
+          ))}
+        </div>
+      </section>
     </div>
   );
 }
