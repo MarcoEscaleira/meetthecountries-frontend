@@ -132,7 +132,7 @@ export function Component() {
             How are other users doing?
           </Typography>
 
-          <div className="flex flex-col">
+          <div className="flex flex-col w-72">
             {loadingAllAttempts && <Loader2 size={20} className="mt-4 animate-spin" />}
 
             {quizAttempts?.attempts.length === 0 && !loadingAllAttempts && (

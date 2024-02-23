@@ -1,5 +1,6 @@
 import { Button, Card, CardBody, CardFooter, CardHeader, Spinner, Typography } from "@material-tailwind/react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { AttemptBadge } from "@components/AttemptBadge/AttemptBadge.tsx";
 import { DifficultyChip } from "@components/DifficultyChip/DifficultyChip.tsx";
 import { TimeLimitChip } from "@components/TimeLimitChip/TimeLimitChip.tsx";
 import { CountryQuizzesQuery, Roles } from "@generated/graphql.ts";
@@ -72,6 +73,9 @@ export const CountryQuizList = ({ quizList, isLoadingCountryQuizList }: CountryQ
           <CardHeader floated={false} color="blue-gray" className="flex items-center justify-center pt-3">
             <img src={image} alt="the background for the quiz" className="h-40" />
             <div className="to-bg-black-10 absolute inset-0 h-full w-full bg-gradient-to-tr from-transparent via-transparent to-black/60 " />
+            <div className="!absolute right-2 top-2">
+              <AttemptBadge quizId={id} />
+            </div>
           </CardHeader>
           <CardBody>
             <div className="mb-3 flex items-center justify-start">

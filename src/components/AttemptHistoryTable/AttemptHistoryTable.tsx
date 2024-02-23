@@ -7,11 +7,11 @@ import { ScoreChip } from "@components/ScoreChip/ScoreChip.tsx";
 import { useUserStore } from "@state/userStore.ts";
 import { GET_QUIZ_ATTEMPTS } from "@utils/queries/QuizAttempts.ts";
 
-interface QuizAttemptProps {
+interface AttemptHistoryTableProps {
   quizId: string;
 }
 
-export function AttemptHistoryTable({ quizId }: QuizAttemptProps) {
+export function AttemptHistoryTable({ quizId }: AttemptHistoryTableProps) {
   const navigate = useNavigate();
   const {
     user: { userId },
