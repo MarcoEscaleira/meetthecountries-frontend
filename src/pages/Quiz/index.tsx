@@ -72,16 +72,16 @@ export function Component() {
             </Typography>
             <Typography className="font-normal">{quiz?.description}</Typography>
 
-            <Typography className="mt-8 flex items-center gap-2 text-xl">
+            <Typography className="mt-4 flex items-center gap-2 text-xl md:mt-8">
               <img
                 src={countryDetails?.flags.svg}
                 alt={countryDetails?.name}
-                className="h-5 w-5 rounded-full object-cover"
+                className="size-5 rounded-full object-cover"
               />
               {countryDetails?.name}
             </Typography>
 
-            <div className="mt-6 flex gap-3">
+            <div className="mt-4 flex gap-3 md:mt-6">
               <DifficultyChip difficulty={quiz?.difficulty} />
               <TimeLimitChip timeLimit={quiz?.timeLimit || 0} />
             </div>
@@ -104,6 +104,7 @@ export function Component() {
 
       {!isAttemptRunning && (
         <div className="mt-6 block w-full md:hidden">
+          <hr className="border-secondaryShades.5 mb-4 w-full" />
           <AttemptHistoryTable quizId={quiz?.id || ""} />
         </div>
       )}
