@@ -43,8 +43,6 @@ export function QuizForm() {
     formState: { errors },
   } = form;
 
-  console.log(errors);
-
   const [createQuizMutation, { loading: isLoadingQuizCreation, error: mutationError }] = useMutation(CREATE_QUIZ, {
     onCompleted: async () => {
       toast.success(
