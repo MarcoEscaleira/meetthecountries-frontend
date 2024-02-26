@@ -5,9 +5,11 @@ import { Roles } from "@generated/graphql.ts";
 import { useUserStore } from "@state/userStore.ts";
 import { QuizForm } from "./QuizForm.tsx";
 
-interface CreateQuizDialogProps {}
+interface CreateQuizDialogProps {
+  simpleButton?: boolean;
+}
 
-export function CreateQuizDialog({}: CreateQuizDialogProps) {
+export function CreateQuizDialog({ simpleButton }: CreateQuizDialogProps) {
   const {
     user: { role },
   } = useUserStore();
@@ -19,7 +21,13 @@ export function CreateQuizDialog({}: CreateQuizDialogProps) {
 
   return (
     <>
-      <Button variant="outlined" size="md" onClick={toggleDialog} className="my-10">
+      <Button
+        variant={simpleButton ? "text" : "gradient"}
+        color={simpleButton ? "blue-gray" : "green"}
+        size="md"
+        onClick={toggleDialog}
+        className={simpleButton ? "px-1" : "my-10"}
+      >
         {title}
       </Button>
 
@@ -30,7 +38,7 @@ export function CreateQuizDialog({}: CreateQuizDialogProps) {
             <X className="size-5" />
           </IconButton>
         </DialogHeader>
-        <DialogBody>
+        <DialogBody className="h-[42rem] overflow-scroll">
           <QuizForm />
         </DialogBody>
       </Dialog>

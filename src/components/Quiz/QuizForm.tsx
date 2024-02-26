@@ -8,20 +8,12 @@ import { toast } from "react-toastify";
 import { useCountries } from "use-react-countries";
 import { z } from "zod";
 import { DifficultyChip } from "@components/DifficultyChip/DifficultyChip.tsx";
-import { Difficulty, Roles } from "@generated/graphql.ts";
+import { QuestionFields } from "@components/Quiz/QuestionsFields.tsx";
+import { quizFormSchema } from "@components/Quiz/quizFormSchema.ts";
+import { Difficulty, QuestionType, Roles } from "@generated/graphql.ts";
 import { useUserStore } from "@state/userStore.ts";
 import { CREATE_QUIZ } from "@utils/queries/CreateQuiz.ts";
 
-const formSchema = z.object({
-  title: z.string().min(5, { message: "Enter a title." }),
-  description: z.string().min(50, { message: "Enter a description." }),
-  country: z.string().min(1, { message: "Enter a country." }),
-  image: z.union([z.literal(""), z.string().trim().url()]),
-  // questions: z.array()
-  difficulty: z.nativeEnum(Difficulty),
-  timeLimit: z.number().nonnegative().optional(),
-  // tags: z.array()
-});
 export function QuizForm() {
   const navigate = useNavigate();
   const { countries } = useCountries();
@@ -30,22 +22,24 @@ export function QuizForm() {
     user: { role },
   } = useUserStore();
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof quizFormSchema>>({
+    resolver: zodResolver(quizFormSchema),
     defaultValues: {
       title: "",
       description: "",
       country: "",
       image: "",
-      // questions: [],
+      questions: [{ question: "", type: QuestionType.Single, options: [{ text: "", correct: false }] }],
       difficulty: Difficulty.Unknown,
       timeLimit: 0,
+      tags: [],
     },
   });
   const {
     register,
     handleSubmit,
     reset,
+    getValues,
     formState: { errors },
   } = form;
 
@@ -63,15 +57,13 @@ export function QuizForm() {
     },
   });
 
-  const onSubmit: SubmitHandler<z.infer<typeof formSchema>> = async (values, event) => {
+  const onSubmit: SubmitHandler<z.infer<typeof quizFormSchema>> = async (values, event) => {
     event?.preventDefault();
     try {
       await createQuizMutation({
         variables: {
           quiz: {
             ...values,
-            questions: [],
-            tags: [],
           },
         },
       });
@@ -82,7 +74,7 @@ export function QuizForm() {
 
   return (
     <FormProvider {...form}>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 overflow-y-auto">
         <Input {...register("title")} size="lg" label="Title" placeholder="A great quiz title" error={!!errors.title} />
 
         <Textarea
@@ -116,11 +108,14 @@ export function QuizForm() {
 
         <Input {...register("image")} size="lg" label="Image URL" placeholder="" error={!!errors.image} />
 
+        <QuestionFields />
+
         <div className="flex flex-col items-center gap-6 md:flex-row md:gap-3">
           <Select
             size="lg"
             label="Difficulty"
-            onChange={value => form.setValue("difficulty", value || Difficulty.Unknown)}
+            value={getValues("difficulty")}
+            onChange={value => form.setValue("difficulty", (value as Difficulty) || Difficulty.Unknown)}
             selected={element =>
               element &&
               cloneElement(element, {
@@ -132,7 +127,7 @@ export function QuizForm() {
           >
             {Object.keys(Difficulty).map(difficulty => (
               <Option key={difficulty} value={difficulty} className="flex items-center gap-2">
-                <DifficultyChip difficulty={Difficulty[difficulty]} />
+                <DifficultyChip difficulty={Difficulty[difficulty]} size="sm" />
               </Option>
             ))}
           </Select>
@@ -152,7 +147,21 @@ export function QuizForm() {
           </Typography>
         )}
 
-        <Button type="submit" fullWidth disabled={isLoadingQuizCreation} loading={isLoadingQuizCreation}>
+        {/* @ts-expect-error: not sure how to grab this type from Zod superRefine */}
+        {errors?.correctOption && (
+          <Typography variant="small" color="red">
+            {/* @ts-expect-error: not sure how to grab this type from Zod superRefine */}
+            {errors.correctOption.message}
+          </Typography>
+        )}
+
+        <Button
+          type="submit"
+          fullWidth
+          disabled={isLoadingQuizCreation}
+          loading={isLoadingQuizCreation}
+          className="mt-4"
+        >
           Create Quiz
         </Button>
       </form>

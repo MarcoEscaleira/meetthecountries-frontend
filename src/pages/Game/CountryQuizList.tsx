@@ -52,10 +52,8 @@ export const CountryQuizList = ({ quizList, isLoadingCountryQuizList }: CountryQ
       <>
         {headerContent} <Typography className="mt-6">No quizzes found for this country 🥹</Typography>
         <div className="mt-4 flex items-center">
-          <Typography>Please try again later or&nbsp;</Typography>
-          <Button variant="text" className="px-1">
-            create your quiz
-          </Button>
+          <Typography className="pl-1">Please try again later or&nbsp;</Typography>
+          <CreateQuizDialog simpleButton />
         </div>
       </>
     );
