@@ -43,9 +43,13 @@ export function AttemptHistoryTable({ quizId }: AttemptHistoryTableProps) {
                 className="flex items-center"
                 onClick={() => navigate(`/game/quiz/${quizId}/attempt/${id}`)}
               >
-                <Typography className="mr-2 text-lg font-medium">{index + 1}.</Typography>
-                <ScoreChip percentage={percentage} /> <ChevronRight className="mx-2 size-6" />
-                <Typography className="">
+                <div className="w-20 flex items-center">
+                  <Typography className="mr-2 text-lg font-medium flex-grow">{index + 1}.</Typography>
+
+                  <ScoreChip percentage={percentage} />
+                </div>
+                <ChevronRight className="mx-2 size-6" />
+                <Typography>
                   {minutes}m : {seconds}s
                 </Typography>
               </ListItem>
