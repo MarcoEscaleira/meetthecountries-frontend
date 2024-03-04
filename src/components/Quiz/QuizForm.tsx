@@ -14,6 +14,7 @@ import { Difficulty, QuestionType, QuizByIdQuery, Roles } from "@generated/graph
 import { useUserStore } from "@state/userStore.ts";
 import { CREATE_QUIZ } from "@utils/queries/CreateQuiz.ts";
 import { GET_QUIZ_BY_ID } from "@utils/queries/QuizById.ts";
+import { UPDATE_QUIZ } from "@utils/queries/UpdateQuiz.ts";
 
 const getDefaultValues = (quiz?: QuizByIdQuery["quizList"][0]) => ({
   title: quiz?.title || "",
@@ -61,28 +62,45 @@ export function QuizForm() {
     }
   }, [quizId, quiz]);
 
-  const [createQuizMutation, { loading: isLoadingQuizCreation, error: mutationError }] = useMutation(CREATE_QUIZ, {
+  const [createQuizMutation, { loading: isLoadingQuizCreation, error: mutationCreateError }] = useMutation(
+    CREATE_QUIZ,
+    {
+      onCompleted: async () => {
+        toast.success(
+          role === Roles.Admin
+            ? "Quiz created successfully!"
+            : "Quiz created successfully. An admin will review it promptly!"
+        );
+        navigate("/");
+        reset();
+      },
+    }
+  );
+
+  const [updateQuizMutation, { loading: isLoadingQuizUpdate, error: mutationUpdateError }] = useMutation(UPDATE_QUIZ, {
     onCompleted: async () => {
-      toast.success(
-        role === Roles.Admin
-          ? "Quiz created successfully!"
-          : "Quiz created successfully. An admin will review it promptly!"
-      );
-      navigate("/");
-      reset();
+      toast.success("Quiz updated successfully!");
     },
+    refetchQueries: [GET_QUIZ_BY_ID],
   });
 
   const onSubmit: SubmitHandler<z.infer<typeof quizFormSchema>> = async (values, event) => {
     event?.preventDefault();
     try {
-      await createQuizMutation({
-        variables: {
-          quiz: {
-            ...values,
+      if (quizId) {
+        await updateQuizMutation({
+          variables: {
+            quizId,
+            quiz: values,
           },
-        },
-      });
+        });
+      } else {
+        await createQuizMutation({
+          variables: {
+            quiz: values,
+          },
+        });
+      }
     } catch (e) {
       console.log("Something went wrong", e);
     }
@@ -157,9 +175,10 @@ export function QuizForm() {
           />
         </div>
 
-        {mutationError?.message && (
+        {(mutationCreateError?.message || mutationUpdateError?.message) && (
           <Typography variant="small" color="red">
-            {mutationError.message}
+            {mutationCreateError?.message}
+            {mutationUpdateError?.message}
           </Typography>
         )}
 
@@ -174,8 +193,8 @@ export function QuizForm() {
         <Button
           type="submit"
           fullWidth
-          disabled={isLoadingQuizCreation || !isDirty || Object.keys(errors).length > 0}
-          loading={isLoadingQuizCreation}
+          disabled={isLoadingQuizCreation || isLoadingQuizUpdate || !isDirty || Object.keys(errors).length > 0}
+          loading={isLoadingQuizCreation || isLoadingQuizUpdate}
           className="mt-4"
         >
           Create Quiz

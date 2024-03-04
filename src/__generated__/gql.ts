@@ -23,6 +23,7 @@ const documents = {
     "\n  query QuizById($quizId: String!) {\n    quizList(quizId: $quizId) {\n      id\n      title\n      description\n      difficulty\n      timeLimit\n      image\n      tags\n      questions {\n        question\n        type\n        options {\n          correct\n          text\n          chosen\n        }\n      }\n      country\n      creator {\n        lastName\n      }\n      lastEditor {\n        lastName\n      }\n      createdAt\n      updatedAt\n    }\n  }\n": types.QuizByIdDocument,
     "\n  mutation SignupUser($user: SignUpInput!) {\n    signupUser(user: $user) {\n      id\n    }\n  }\n": types.SignupUserDocument,
     "\n  mutation SubmitAttempt($attempt: AttemptAddInput!) {\n    addAttempt(attempt: $attempt) {\n      id\n    }\n  }\n": types.SubmitAttemptDocument,
+    "\n  mutation UpdateQuiz($quizId: String!, $quiz: QuizAddInput!) {\n    updateQuiz(quizId: $quizId, quiz: $quiz) {\n      id\n    }\n  }\n": types.UpdateQuizDocument,
     "\n  query GetMe {\n    getCurrentlyLoggedInUser {\n      id\n      email\n      firstName\n      lastName\n      dateOfBirth\n      country\n      role\n      createdAt\n      updatedAt\n    }\n  }\n": types.GetMeDocument,
 };
 
@@ -80,6 +81,10 @@ export function gql(source: "\n  mutation SignupUser($user: SignUpInput!) {\n   
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n  mutation SubmitAttempt($attempt: AttemptAddInput!) {\n    addAttempt(attempt: $attempt) {\n      id\n    }\n  }\n"): (typeof documents)["\n  mutation SubmitAttempt($attempt: AttemptAddInput!) {\n    addAttempt(attempt: $attempt) {\n      id\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  mutation UpdateQuiz($quizId: String!, $quiz: QuizAddInput!) {\n    updateQuiz(quizId: $quizId, quiz: $quiz) {\n      id\n    }\n  }\n"): (typeof documents)["\n  mutation UpdateQuiz($quizId: String!, $quiz: QuizAddInput!) {\n    updateQuiz(quizId: $quizId, quiz: $quiz) {\n      id\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

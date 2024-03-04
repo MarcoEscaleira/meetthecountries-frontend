@@ -6,6 +6,7 @@ import type {} from "@redux-devtools/extension";
 import { QuizByIdQuery } from "@generated/graphql.ts";
 import { useUserStore } from "@state/userStore.ts";
 import { apolloClient } from "@utils/apolloSetup.ts";
+import { GET_QUIZ_ATTEMPTS } from "@utils/queries/QuizAttempts.ts";
 import { SUBMIT_ATTEMPT } from "@utils/queries/SubmitAttempt.ts";
 
 type Questions = QuizByIdQuery["quizList"][0]["questions"];
@@ -54,6 +55,7 @@ export const useAttemptStore = create<AttemptState>()(
           variables: {
             attempt: { questions, startTime, endTime, quiz: quizId, user: useUserStore.getState().user.userId },
           },
+          refetchQueries: [GET_QUIZ_ATTEMPTS],
         });
 
         if (data?.addAttempt?.id) {
