@@ -1,47 +1,65 @@
-import { cloneElement } from "react";
-import { useMutation } from "@apollo/client";
+import { cloneElement, useEffect } from "react";
+import { useLazyQuery, useMutation } from "@apollo/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Input, Option, Select, Textarea, Typography } from "@material-tailwind/react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useCountries } from "use-react-countries";
 import { z } from "zod";
 import { DifficultyChip } from "@components/DifficultyChip/DifficultyChip.tsx";
 import { QuestionFields } from "@components/Quiz/QuestionsFields.tsx";
 import { quizFormSchema } from "@components/Quiz/quizFormSchema.ts";
-import { Difficulty, QuestionType, Roles } from "@generated/graphql.ts";
+import { Difficulty, QuestionType, QuizByIdQuery, Roles } from "@generated/graphql.ts";
 import { useUserStore } from "@state/userStore.ts";
 import { CREATE_QUIZ } from "@utils/queries/CreateQuiz.ts";
+import { GET_QUIZ_BY_ID } from "@utils/queries/QuizById.ts";
+
+const getDefaultValues = (quiz?: QuizByIdQuery["quizList"][0]) => ({
+  title: quiz?.title || "",
+  description: quiz?.description || "",
+  country: quiz?.country || "",
+  image: quiz?.image || "",
+  questions: quiz?.questions || [{ question: "", type: QuestionType.Single, options: [{ text: "", correct: false }] }],
+  difficulty: quiz?.difficulty || Difficulty.Unknown,
+  timeLimit: quiz?.timeLimit || 0,
+  tags: quiz?.tags || [],
+});
 
 export function QuizForm() {
   const navigate = useNavigate();
   const { countries } = useCountries();
 
+  const { quizId } = useParams();
+
+  const [fetchQuiz, { data, loading }] = useLazyQuery(GET_QUIZ_BY_ID, { variables: { quizId: quizId || "" } });
+  const quiz = data?.quizList[0];
+
   const {
     user: { role },
   } = useUserStore();
 
+  useEffect(() => {
+    if (quizId && !loading) fetchQuiz();
+  }, [quizId]);
+
   const form = useForm<z.infer<typeof quizFormSchema>>({
     resolver: zodResolver(quizFormSchema),
-    defaultValues: {
-      title: "",
-      description: "",
-      country: "",
-      image: "",
-      questions: [{ question: "", type: QuestionType.Single, options: [{ text: "", correct: false }] }],
-      difficulty: Difficulty.Unknown,
-      timeLimit: 0,
-      tags: [],
-    },
+    defaultValues: getDefaultValues(quiz),
   });
   const {
     register,
     handleSubmit,
     reset,
     getValues,
-    formState: { errors },
+    formState: { errors, isDirty },
   } = form;
+
+  useEffect(() => {
+    if (quizId && quiz) {
+      reset(getDefaultValues(quiz));
+    }
+  }, [quizId, quiz]);
 
   const [createQuizMutation, { loading: isLoadingQuizCreation, error: mutationError }] = useMutation(CREATE_QUIZ, {
     onCompleted: async () => {
@@ -72,7 +90,7 @@ export function QuizForm() {
 
   return (
     <FormProvider {...form}>
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 overflow-y-auto">
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
         <Input {...register("title")} size="lg" label="Title" placeholder="A great quiz title" error={!!errors.title} />
 
         <Textarea
@@ -156,7 +174,7 @@ export function QuizForm() {
         <Button
           type="submit"
           fullWidth
-          disabled={isLoadingQuizCreation}
+          disabled={isLoadingQuizCreation || !isDirty || Object.keys(errors).length > 0}
           loading={isLoadingQuizCreation}
           className="mt-4"
         >

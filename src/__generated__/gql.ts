@@ -13,12 +13,12 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
-    "\n  query Query {\n    logoutUser\n  }\n": types.QueryDocument,
     "\n  query CountryQuizzes($country: String!) {\n    quizList(country: $country) {\n      id\n      title\n      description\n      difficulty\n      timeLimit\n      image\n      tags\n      questions {\n        question\n        type\n      }\n      creator {\n        lastName\n      }\n    }\n  }\n": types.CountryQuizzesDocument,
     "\n  mutation UpdateUser($userId: String!, $user: UserUpdateInput!) {\n    updateUser(userId: $userId, user: $user) {\n      id\n    }\n  }\n": types.UpdateUserDocument,
     "\n  query AttemptResult($attemptId: String!) {\n    attempts(attemptId: $attemptId) {\n      id\n      correctOptions\n      percentage\n      minutes\n      seconds\n      startTime\n      endTime\n      questions {\n        question\n        type\n        options {\n          text\n          correct\n          chosen\n        }\n      }\n      user {\n        firstName\n        lastName\n      }\n      quiz {\n        title\n        country\n        creator {\n          firstName\n          lastName\n          country\n        }\n      }\n    }\n  }\n": types.AttemptResultDocument,
     "\n  mutation CreateQuiz($quiz: QuizAddInput!) {\n    createQuiz(quiz: $quiz) {\n      id\n    }\n  }\n": types.CreateQuizDocument,
     "\n    mutation LoginUser($input: LoginInput!) {\n        loginUser(input: $input) {\n            access_token\n        }\n    }\n": types.LoginUserDocument,
+    "\n    query LogoutQuery {\n        logoutUser\n    }\n": types.LogoutQueryDocument,
     "\n  query QuizAttempts($quizId: String!, $userId: String) {\n    attempts(quizId: $quizId, userId: $userId) {\n      id\n      correctOptions\n      percentage\n      minutes\n      seconds\n      startTime\n      endTime\n      quiz {\n        questions {\n          question\n        }\n      }\n      user {\n        id\n        firstName\n      }\n    }\n  }\n": types.QuizAttemptsDocument,
     "\n  query QuizById($quizId: String!) {\n    quizList(quizId: $quizId) {\n      id\n      title\n      description\n      difficulty\n      timeLimit\n      image\n      tags\n      questions {\n        question\n        type\n        options {\n          correct\n          text\n          chosen\n        }\n      }\n      country\n      creator {\n        lastName\n      }\n      lastEditor {\n        lastName\n      }\n      createdAt\n      updatedAt\n    }\n  }\n": types.QuizByIdDocument,
     "\n  mutation SignupUser($user: SignUpInput!) {\n    signupUser(user: $user) {\n      id\n    }\n  }\n": types.SignupUserDocument,
@@ -43,10 +43,6 @@ export function gql(source: string): unknown;
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "\n  query Query {\n    logoutUser\n  }\n"): (typeof documents)["\n  query Query {\n    logoutUser\n  }\n"];
-/**
- * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
 export function gql(source: "\n  query CountryQuizzes($country: String!) {\n    quizList(country: $country) {\n      id\n      title\n      description\n      difficulty\n      timeLimit\n      image\n      tags\n      questions {\n        question\n        type\n      }\n      creator {\n        lastName\n      }\n    }\n  }\n"): (typeof documents)["\n  query CountryQuizzes($country: String!) {\n    quizList(country: $country) {\n      id\n      title\n      description\n      difficulty\n      timeLimit\n      image\n      tags\n      questions {\n        question\n        type\n      }\n      creator {\n        lastName\n      }\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
@@ -64,6 +60,10 @@ export function gql(source: "\n  mutation CreateQuiz($quiz: QuizAddInput!) {\n  
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n    mutation LoginUser($input: LoginInput!) {\n        loginUser(input: $input) {\n            access_token\n        }\n    }\n"): (typeof documents)["\n    mutation LoginUser($input: LoginInput!) {\n        loginUser(input: $input) {\n            access_token\n        }\n    }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n    query LogoutQuery {\n        logoutUser\n    }\n"): (typeof documents)["\n    query LogoutQuery {\n        logoutUser\n    }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

@@ -2,23 +2,18 @@ import { useState } from "react";
 import { useLazyQuery } from "@apollo/client";
 import { Drawer, IconButton, List, ListItem, ListItemPrefix, Typography } from "@material-tailwind/react";
 import { Menu, Home, Play, FileQuestion, X, CircleUserRound, Power } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import useBreakpoint from "use-breakpoint";
 import { LoginForm } from "@components/Login/LoginForm.tsx";
-import { gql } from "@generated/index.ts";
 import { useUserStore } from "@state/userStore.ts";
 import { BREAKPOINTS } from "@utils/constants.ts";
-
-const LOGOUT_USER = gql(/* GraphQL */ `
-  query Query {
-    logoutUser
-  }
-`);
+import { LOGOUT_USER } from "@utils/queries/Logout.ts";
 
 export function Header() {
   // const { notifications, clear, markAllAsRead, markAsRead, add, update, remove, find, sort, unreadCount } =
   //   useNotificationCenter();
+  const location = useLocation();
   const { breakpoint } = useBreakpoint(BREAKPOINTS);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const { user, isLoggedIn, resetUser } = useUserStore();
@@ -27,9 +22,13 @@ export function Header() {
 
   const toggleDrawer = () => setIsDrawerOpen(!isDrawerOpen);
 
+  const isHome = location.pathname === "/";
+
   return (
     <>
-      <header className="absolute left-0 top-0 z-10 w-full px-2 py-2 sm:px-6 sm:py-4 md:px-4">
+      <header
+        className={`absolute left-0 top-0 z-10 w-full px-2 py-2 sm:px-6 sm:py-4 md:px-4 ${isHome ? "bg-transparent" : "bg-white"}`}
+      >
         <div className="flex items-center justify-between">
           <Link to="/">
             <img src="/images/mtc-logo.svg" alt="Planet Earth" className="h-[44px] w-[48px] md:h-[54px] md:w-[58px]" />

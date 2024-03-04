@@ -9,7 +9,7 @@ import {
   Spinner,
   Typography,
 } from "@material-tailwind/react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { AttemptHistoryTable } from "@components/AttemptHistoryTable/AttemptHistoryTable.tsx";
 import { DifficultyChip } from "@components/DifficultyChip/DifficultyChip.tsx";
 import { QuizAttempt } from "@components/QuizAttempt/QuizAttempt.tsx";
@@ -21,6 +21,7 @@ import { useCountryDetails } from "@utils/hooks/useCountryDetails.ts";
 import { GET_QUIZ_BY_ID } from "@utils/queries/QuizById.ts";
 
 export function Component() {
+  const navigate = useNavigate();
   const { quizId } = useParams();
   const {
     user: { role },
@@ -58,6 +59,7 @@ export function Component() {
                 size="sm"
                 onClick={event => {
                   event.stopPropagation();
+                  navigate(`/game/quiz/${quiz?.id}/edit/`);
                 }}
               >
                 Edit quiz

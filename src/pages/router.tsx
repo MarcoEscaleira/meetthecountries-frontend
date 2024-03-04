@@ -28,6 +28,14 @@ export const router = createBrowserRouter([
         lazy: () => import("./QuizResult"),
       },
       {
+        path: "/game/quiz/:quizId/edit",
+        lazy: () => import("./QuizEdit"),
+      },
+      {
+        path: "/game/quiz/add",
+        lazy: () => import("./QuizEdit"),
+      },
+      {
         path: "/register",
         loader: loggedOutRouteLoader,
         lazy: () => import("./Register"),

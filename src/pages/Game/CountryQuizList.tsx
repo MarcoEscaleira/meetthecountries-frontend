@@ -2,7 +2,6 @@ import { Button, Card, CardBody, CardFooter, CardHeader, Spinner, Typography } f
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { AttemptBadge } from "@components/AttemptBadge/AttemptBadge.tsx";
 import { DifficultyChip } from "@components/DifficultyChip/DifficultyChip.tsx";
-import { CreateQuizDialog } from "@components/Quiz/CreateQuizDialog.tsx";
 import { TimeLimitChip } from "@components/TimeLimitChip/TimeLimitChip.tsx";
 import { CountryQuizzesQuery } from "@generated/graphql.ts";
 import { CountryInfoModal } from "@pages/Game/CountryInfoModal.tsx";
@@ -53,7 +52,15 @@ export const CountryQuizList = ({ quizList, isLoadingCountryQuizList }: CountryQ
         {headerContent} <Typography className="mt-6">No quizzes found for this country 🥹</Typography>
         <div className="mt-4 flex items-center">
           <Typography className="pl-1">Please try again later or&nbsp;</Typography>
-          <CreateQuizDialog simpleButton />
+          <Button
+            variant="text"
+            color="blue-gray"
+            size="md"
+            onClick={() => navigate("/game/quiz/add")}
+            className="px-1"
+          >
+            Create a new quiz
+          </Button>
         </div>
       </>
     );
@@ -92,7 +99,9 @@ export const CountryQuizList = ({ quizList, isLoadingCountryQuizList }: CountryQ
         </Card>
       ))}
 
-      <CreateQuizDialog />
+      <Button variant="gradient" color="green" size="md" onClick={() => navigate("/game/quiz/add")} className="my-10">
+        Create a new quiz
+      </Button>
     </>
   );
 };
