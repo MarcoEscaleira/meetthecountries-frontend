@@ -5,6 +5,7 @@ import { DifficultyChip } from "@components/DifficultyChip/DifficultyChip.tsx";
 import { TimeLimitChip } from "@components/TimeLimitChip/TimeLimitChip.tsx";
 import { CountryQuizzesQuery } from "@generated/graphql.ts";
 import { CountryInfoModal } from "@pages/Game/CountryInfoModal.tsx";
+import { useUserStore } from "@state/userStore.ts";
 import { useCountryDetails } from "@utils/hooks/useCountryDetails.ts";
 
 interface CountryQuizListProps {
@@ -15,6 +16,7 @@ interface CountryQuizListProps {
 export const CountryQuizList = ({ quizList, isLoadingCountryQuizList }: CountryQuizListProps) => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const { isLoggedIn } = useUserStore();
 
   const countryDetails = useCountryDetails(searchParams.get("country") || "");
 
@@ -52,15 +54,17 @@ export const CountryQuizList = ({ quizList, isLoadingCountryQuizList }: CountryQ
         {headerContent} <Typography className="mt-6">No quizzes found for this country 🥹</Typography>
         <div className="mt-4 flex items-center">
           <Typography className="pl-1">Please try again later or&nbsp;</Typography>
-          <Button
-            variant="text"
-            color="blue-gray"
-            size="md"
-            onClick={() => navigate("/game/quiz/add")}
-            className="px-1"
-          >
-            Create a new quiz
-          </Button>
+          {isLoggedIn && (
+            <Button
+              variant="text"
+              color="blue-gray"
+              size="md"
+              onClick={() => navigate("/game/quiz/add")}
+              className="px-1"
+            >
+              Create a new quiz
+            </Button>
+          )}
         </div>
       </>
     );
@@ -99,9 +103,11 @@ export const CountryQuizList = ({ quizList, isLoadingCountryQuizList }: CountryQ
         </Card>
       ))}
 
-      <Button variant="gradient" color="green" size="md" onClick={() => navigate("/game/quiz/add")} className="my-10">
-        Create a new quiz
-      </Button>
+      {isLoggedIn && (
+        <Button variant="gradient" color="green" size="md" onClick={() => navigate("/game/quiz/add")} className="my-10">
+          Create a new quiz
+        </Button>
+      )}
     </>
   );
 };
