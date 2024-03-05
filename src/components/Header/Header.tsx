@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useLazyQuery } from "@apollo/client";
 import { Drawer, IconButton, List, ListItem, ListItemPrefix, Typography } from "@material-tailwind/react";
-import { Menu, Home, Play, FileQuestion, X, CircleUserRound, Power } from "lucide-react";
+import {Menu, Home, Play, FileQuestion, X, CircleUserRound, Power, LibraryBig} from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import useBreakpoint from "use-breakpoint";
@@ -108,6 +108,14 @@ export function Header() {
                       <CircleUserRound />
                     </ListItemPrefix>
                     Profile
+                  </ListItem>
+                </Link>
+                <Link to="/quizzes" onClick={toggleDrawer}>
+                  <ListItem>
+                    <ListItemPrefix>
+                      <LibraryBig />
+                    </ListItemPrefix>
+                    Manage Quizzes
                   </ListItem>
                 </Link>
                 <ListItem

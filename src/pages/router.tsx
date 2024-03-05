@@ -1,7 +1,12 @@
 import { createBrowserRouter } from "react-router-dom";
 import { Layout } from "@components/Layout/Layout.tsx";
 import NotFound from "@pages/NotFound";
-import { loggedOutRouteLoader, protectedRouteLoader, sessionLoader } from "@utils/routeLoaders.ts";
+import {
+  loggedOutRouteLoader,
+  protectedAdminRouteLoader,
+  protectedRouteLoader,
+  sessionLoader
+} from "@utils/routeLoaders.ts";
 import UnhandledError from "./Error";
 
 export const router = createBrowserRouter([
@@ -44,6 +49,11 @@ export const router = createBrowserRouter([
         path: "/profile",
         loader: protectedRouteLoader,
         lazy: () => import("./Profile"),
+      },
+      {
+        path: "/quizzes",
+        loader: protectedAdminRouteLoader,
+        lazy: () => import("./Quizzes"),
       },
       {
         path: "/about",

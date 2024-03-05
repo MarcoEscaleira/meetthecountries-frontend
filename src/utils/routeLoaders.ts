@@ -1,5 +1,6 @@
 import { type LoaderFunctionArgs, redirect } from "react-router-dom";
 import { gql } from "@generated/gql.ts";
+import { Roles } from "@generated/graphql.ts";
 import { useUserStore } from "@state/userStore.ts";
 import { apolloClient } from "./apolloSetup.ts";
 
@@ -23,7 +24,13 @@ const GET_USER = gql(/* GraphQL */ `
  * Tries to log in the current user if authentication cookie is set and stores it into the user store
  * @return string - for userId or undefined if it fails
  */
-const tryUserLogin = async (): Promise<string | undefined> => {
+const tryUserLogin = async (): Promise<
+  | {
+      id: string;
+      role: Roles;
+    }
+  | undefined
+> => {
   try {
     const result = await apolloClient.query({ query: GET_USER });
 
@@ -38,14 +45,18 @@ const tryUserLogin = async (): Promise<string | undefined> => {
         lastName: lastName || "",
         dateOfBirth: dateOfBirth || "",
         country: country || "",
-        role: role,
+        role,
         createdAt,
         updatedAt,
       });
 
-      return id;
+      return {
+        id,
+        role,
+      };
     }
   } catch (e) {}
+
   return undefined;
 };
 
@@ -56,6 +67,17 @@ export async function sessionLoader({}: LoaderFunctionArgs) {
 
 export async function protectedRouteLoader({}: LoaderFunctionArgs) {
   if (!(await tryUserLogin())) {
+    return redirect("/");
+  }
+  return null;
+}
+
+export async function protectedAdminRouteLoader({}: LoaderFunctionArgs) {
+  const user = await tryUserLogin();
+  if (!user) {
+    return redirect("/");
+  }
+  if (user.role === Roles.User) {
     return redirect("/");
   }
   return null;
