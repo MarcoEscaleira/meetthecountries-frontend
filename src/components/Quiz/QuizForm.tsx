@@ -107,8 +107,6 @@ export function QuizForm() {
     }
   };
 
-  console.log(getValues("tags"));
-
   return (
     <FormProvider {...form}>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
