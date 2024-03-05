@@ -92,7 +92,7 @@ export function RegisterForm() {
         />
 
         <div>
-          <div className="flex space-x-4">
+          <div className="flex flex-col space-y-2 md:flex-row md:space-x-4 md:space-y-0">
             <Input
               {...register("password")}
               name="password"
