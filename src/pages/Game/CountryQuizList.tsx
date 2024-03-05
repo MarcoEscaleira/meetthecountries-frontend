@@ -75,8 +75,8 @@ export const CountryQuizList = ({ quizList, isLoadingCountryQuizList }: CountryQ
       {headerContent}
 
       {quizList.map(({ id, title, image, description, timeLimit, difficulty }) => (
-        <Card key={title} className="w-full max-w-[20rem] shadow-lg">
-          <CardHeader floated={false} color="blue-gray" className="flex items-center justify-center pt-3">
+        <Card key={title} className="w-full max-w-[20rem] shadow-lg" onClick={() => navigate(`/game/quiz/${id}`)}>
+          <CardHeader floated={false} color="blue-gray" className="items-ce nter flex justify-center pt-3">
             <img src={image} alt="the background for the quiz" className="h-40" />
             <div className="to-bg-black-10 absolute inset-0 h-full w-full bg-gradient-to-tr from-transparent via-transparent to-black/60 " />
             <div className="!absolute right-2 top-2">

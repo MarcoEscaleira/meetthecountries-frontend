@@ -10,6 +10,7 @@ import { z } from "zod";
 import { DifficultyChip } from "@components/DifficultyChip/DifficultyChip.tsx";
 import { QuestionFields } from "@components/Quiz/QuestionsFields.tsx";
 import { quizFormSchema } from "@components/Quiz/quizFormSchema.ts";
+import { TagsInput } from "@components/TagsInput/TagsInput.tsx";
 import { Difficulty, QuestionType, QuizByIdQuery, Roles } from "@generated/graphql.ts";
 import { useUserStore } from "@state/userStore.ts";
 import { CREATE_QUIZ } from "@utils/queries/CreateQuiz.ts";
@@ -106,6 +107,8 @@ export function QuizForm() {
     }
   };
 
+  console.log(getValues("tags"));
+
   return (
     <FormProvider {...form}>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
@@ -174,6 +177,8 @@ export function QuizForm() {
             type="number"
           />
         </div>
+
+        <TagsInput name="tags" label="Tags" />
 
         {(mutationCreateError?.message || mutationUpdateError?.message) && (
           <Typography variant="small" color="red">

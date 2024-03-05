@@ -30,7 +30,7 @@ export function OptionsFields({ questionIndex }: OptionsFieldsProps) {
 
       {fields.map((field, optionIndex) => (
         <div key={field.id} className="mb-4">
-          <div className="mb-2 flex items-center justify-between">
+          <div className="flex items-center justify-between">
             <Typography>Option #{optionIndex + 1}</Typography>
             <IconButton onClick={() => remove(optionIndex)} variant="text" size="sm">
               <X className="size-4 stroke-red-500" />

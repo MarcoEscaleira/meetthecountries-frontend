@@ -1795,6 +1795,13 @@
     "@types/geojson" "*"
     "@types/react" "*"
 
+"@types/react-tagsinput@^3.20.6":
+  version "3.20.6"
+  resolved "https://registry.yarnpkg.com/@types/react-tagsinput/-/react-tagsinput-3.20.6.tgz#243aedb4cb28accfeb68277edf2c0b912b066879"
+  integrity sha512-Tx0jOqLSzlosxgKmGg7zNF6hwfeVSNbolWb0HgV2LsOE5nxJyfnlOTcbwQ9HKvfu2jOEKJ46OXszv1PUZHnCTw==
+  dependencies:
+    "@types/react" "*"
+
 "@types/react@*":
   version "18.2.37"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-18.2.37.tgz#0f03af69e463c0f19a356c2660dbca5d19c44cae"
@@ -5170,6 +5177,11 @@ react-simple-maps@^4.0.0-beta.6:
     d3-selection "^3.0.0"
     d3-zoom "^3.0.0"
     topojson-client "^3.1.0"
+
+react-tagsinput@^3.20.3:
+  version "3.20.3"
+  resolved "https://registry.yarnpkg.com/react-tagsinput/-/react-tagsinput-3.20.3.tgz#d5790ccf8a387bdaa8c2c8306e62a7276ac581c1"
+  integrity sha512-a+7nZ9gg0SwuoPPmh2AAB98OXYduwi6WgYWgWlPts3mq1ookXGphq9Fe/XLhQcdunkiqJO4WXjWXtHE9UlFyiw==
 
 react-timer-hook@^3.0.7:
   version "3.0.7"

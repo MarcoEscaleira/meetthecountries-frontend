@@ -22,8 +22,8 @@ export function QuestionFields() {
   });
 
   return (
-    <>
-      <div className="flex items-center justify-between">
+    <div>
+      <div className="mb-1 flex items-center justify-between">
         <Typography>Questions: {fields.length}</Typography>
         <IconButton
           onClick={() => append({ question: "", type: QuestionType.Single, options: [{ text: "", correct: false }] })}
@@ -35,7 +35,7 @@ export function QuestionFields() {
       </div>
 
       {fields.map((field, questionIndex) => (
-        <div key={field.id} className="flex flex-col gap-2">
+        <div key={field.id} className="flex flex-col">
           <div className="flex items-center justify-between">
             <Typography>Question #{questionIndex + 1}</Typography>
             <IconButton onClick={() => remove(questionIndex)} variant="text" size="sm">
@@ -43,13 +43,16 @@ export function QuestionFields() {
             </IconButton>
           </div>
 
-          <Input
-            {...register(`questions.${questionIndex}.question`)}
-            size="md"
-            label="Title"
-            placeholder=""
-            error={!!errors.questions?.[questionIndex]?.question}
-          />
+          <div className="mb-2">
+            <Input
+              {...register(`questions.${questionIndex}.question`)}
+              size="md"
+              label="Title"
+              placeholder=""
+              error={!!errors.questions?.[questionIndex]?.question}
+            />
+          </div>
+
           <Select
             label="Type"
             value={getValues(`questions.${questionIndex}.type`)}
@@ -76,6 +79,6 @@ export function QuestionFields() {
           <hr className="border-secondaryShades.5 mt-2 w-full" />
         </div>
       ))}
-    </>
+    </div>
   );
 }
