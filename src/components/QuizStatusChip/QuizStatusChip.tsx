@@ -15,5 +15,5 @@ export function QuizStatusChip({ status, size = "md" }: QuizStatusChipProps) {
     [QuizStatus.Cancelled]: "red",
   }[status || QuizStatus.Pending];
 
-  return <Chip color={color as colors} value={status} size={size} />;
+  return <Chip color={color as colors} value={status} size={size} className='rounded-full' />;
 }

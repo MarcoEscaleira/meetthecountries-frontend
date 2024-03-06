@@ -17,5 +17,5 @@ export function DifficultyChip({ difficulty, size = "md" }: DifficultyChipProps)
     [Difficulty.Unknown]: "gray",
   }[difficulty || Difficulty.Unknown];
 
-  return <Chip color={color as colors} value={difficulty} size={size} />;
+  return <Chip color={color as colors} value={difficulty} size={size} className="flex items-center justify-center" />;
 }
