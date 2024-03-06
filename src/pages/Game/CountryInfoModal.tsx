@@ -18,7 +18,7 @@ export const CountryInfoModal = ({
       </Button>
       <Dialog open={isOpen} handler={toggleDialog}>
         <DialogHeader>
-          <img src={flags.svg} alt={name} className="mr-3 h-5 w-5 rounded-full object-cover" />
+          <img src={flags.svg} alt={name} className="mr-3 size-5 rounded-full object-cover" />
           {name}
         </DialogHeader>
         <DialogBody>

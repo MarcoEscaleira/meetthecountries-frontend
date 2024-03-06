@@ -5,7 +5,7 @@ import {
   loggedOutRouteLoader,
   protectedAdminRouteLoader,
   protectedRouteLoader,
-  sessionLoader
+  sessionLoader,
 } from "@utils/routeLoaders.ts";
 import UnhandledError from "./Error";
 

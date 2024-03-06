@@ -5,25 +5,17 @@ export const GET_QUIZZES = gql(/* GraphQL */ `
     quizList(country: $country, status: $status) {
       id
       title
-      description
       difficulty
       timeLimit
-      image
       tags
-      questions {
-        question
-        type
-        options {
-          correct
-          text
-          chosen
-        }
-      }
+      status
       country
       creator {
+        firstName
         lastName
       }
       lastEditor {
+        firstName
         lastName
       }
       createdAt
