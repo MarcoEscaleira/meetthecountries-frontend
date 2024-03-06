@@ -9,7 +9,7 @@ import { apolloClient } from "@utils/apolloSetup.ts";
 import { GET_QUIZ_ATTEMPTS } from "@utils/queries/QuizAttempts.ts";
 import { SUBMIT_ATTEMPT } from "@utils/queries/SubmitAttempt.ts";
 
-type Questions = QuizByIdQuery["quizList"][0]["questions"];
+type Questions = QuizByIdQuery["quizById"]["questions"];
 
 interface AttemptState {
   isAttemptRunning: boolean;
