@@ -28,7 +28,7 @@ export function Component() {
 
   return (
     <div className="flex h-full w-full flex-col items-center px-4 pb-4 pt-16 md:px-12 md:pt-24">
-      <Card className="w-full overflow-auto border border-gray-200">
+      <Card className="mt-4 w-full overflow-auto border border-gray-200">
         <CardHeader floated={false} shadow={false} className="rounded-none">
           <div className="mb-4 flex flex-col items-center">
             <Typography variant="h5" color="blue-gray" className="mb-1">

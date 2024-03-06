@@ -9,20 +9,20 @@ import {
   IconButton,
   Typography,
 } from "@material-tailwind/react";
-import { X } from "lucide-react";
+import { Check } from "lucide-react";
 import { toast } from "react-toastify";
-import { CANCEL_QUIZ } from "@utils/queries/CancelQuiz.ts";
+import { APPROVE_QUIZ } from "@utils/queries/ApproveQuiz.ts";
 import { GET_QUIZZES } from "@utils/queries/Quizzes.ts";
 
-export function DeleteQuiz({ quizId }: { quizId: string }) {
+export function ApproveQuiz({ quizId }: { quizId: string }) {
   const [isOpen, setIsOpen] = useState(false);
   const toggleDialog = () => setIsOpen(!isOpen);
 
-  const [quizCancelMutation, { loading: isLoadingQuizCancellation }] = useMutation(CANCEL_QUIZ, {
+  const [quizApprovalMutation, { loading: isLoadingQuizApproval }] = useMutation(APPROVE_QUIZ, {
     variables: { quizId },
     onCompleted: async () => {
       toggleDialog();
-      toast.success("Quiz cancelled successfully!");
+      toast.success("Quiz approved successfully!");
     },
     refetchQueries: [GET_QUIZZES],
   });
@@ -30,16 +30,13 @@ export function DeleteQuiz({ quizId }: { quizId: string }) {
   return (
     <>
       <IconButton size="sm" variant="text" onClick={toggleDialog}>
-        <X className="size-5 stroke-red-500" />
+        <Check className="size-5 stroke-green-500" />
       </IconButton>
 
       <Dialog open={isOpen} handler={toggleDialog}>
-        <DialogHeader>Are you sure you want to delete this quiz?</DialogHeader>
+        <DialogHeader>Are you sure you want to approve this quiz?</DialogHeader>
         <DialogBody>
-          <Typography>
-            This action will make a soft delete of the quiz by making it with status <b>cancelled</b>. Also, it will
-            delete all existing <b>attempts</b> from every user.
-          </Typography>
+          <Typography>This action will make the quiz available for all users to play.</Typography>
         </DialogBody>
         <DialogFooter>
           <Button variant="gradient" color="gray" onClick={toggleDialog} className="mr-4">
@@ -47,12 +44,12 @@ export function DeleteQuiz({ quizId }: { quizId: string }) {
           </Button>
           <Button
             variant="filled"
-            color="red"
-            loading={isLoadingQuizCancellation}
-            disabled={isLoadingQuizCancellation}
-            onClick={() => quizCancelMutation()}
+            color="green"
+            loading={isLoadingQuizApproval}
+            disabled={isLoadingQuizApproval}
+            onClick={() => quizApprovalMutation()}
           >
-            Delete
+            Approve
           </Button>
         </DialogFooter>
       </Dialog>

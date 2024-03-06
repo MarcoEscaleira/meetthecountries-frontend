@@ -15,5 +15,12 @@ export function QuizStatusChip({ status, size = "md" }: QuizStatusChipProps) {
     [QuizStatus.Cancelled]: "red",
   }[status || QuizStatus.Pending];
 
-  return <Chip color={color as colors} value={status} size={size} className='rounded-full' />;
+  return (
+    <Chip
+      color={color as colors}
+      value={status?.toString()}
+      size={size}
+      className="flex items-center justify-center rounded-full"
+    />
+  );
 }

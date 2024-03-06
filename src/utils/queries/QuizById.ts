@@ -2,7 +2,7 @@ import { gql } from "@generated/gql.ts";
 
 export const GET_QUIZ_BY_ID = gql(/* GraphQL */ `
   query QuizById($quizId: String!) {
-    quizList(quizId: $quizId) {
+    quizById(quizId: $quizId) {
       id
       title
       description

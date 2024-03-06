@@ -6,15 +6,21 @@ import { Link } from "react-router-dom";
 import { DifficultyChip } from "@components/DifficultyChip/DifficultyChip.tsx";
 import { QuizStatusChip } from "@components/QuizStatusChip/QuizStatusChip.tsx";
 import { Difficulty, QuizStatus } from "@generated/graphql.ts";
+import { ApproveQuiz } from "@pages/Quizzes/ApproveQuiz.tsx";
 import { Country } from "@pages/Quizzes/Country.tsx";
 import { DeleteQuiz } from "@pages/Quizzes/DeleteQuiz.tsx";
 import { QuizListData } from "@pages/Quizzes/mapTableData.ts";
+import { DATE_TIME_READ } from "@utils/constants.ts";
 
 export const tableColumns: ColumnDef<QuizListData>[] = [
   {
     accessorKey: "title",
     header: "Title",
-    cell: ({ getValue }) => <Typography variant="small">{getValue() as string}</Typography>,
+    cell: ({ getValue }) => (
+      <Typography variant="small" className="font-medium">
+        {getValue() as string}
+      </Typography>
+    ),
   },
   {
     accessorKey: "status",
@@ -39,27 +45,39 @@ export const tableColumns: ColumnDef<QuizListData>[] = [
   {
     accessorKey: "createdAt",
     header: "Created at",
-    cell: ({ getValue }) => <Typography variant="small">{format(getValue() as Date, "dd MMM yyyy")}</Typography>,
+    cell: ({ getValue }) => <Typography variant="small">{format(getValue() as Date, DATE_TIME_READ)}</Typography>,
   },
   {
     accessorKey: "updatedAt",
     header: "Updated at",
-    cell: ({ getValue }) => <Typography variant="small">{format(getValue() as Date, "dd MMM yyyy")}</Typography>,
+    cell: ({ getValue }) => <Typography variant="small">{format(getValue() as Date, DATE_TIME_READ)}</Typography>,
   },
   {
     accessorKey: "id",
     header: "Actions",
     enableSorting: false,
-    cell: ({ getValue }) => (
-      <div>
-        <Link to={`/game/quiz/${getValue()}/edit`}>
-          <IconButton size="sm" variant="text">
-            <Eye className="size-4" />
-          </IconButton>
-        </Link>
+    cell: ({ getValue, row }) => {
+      const id = (getValue() as string) || "";
+      const status = row.getValue("status");
 
-        <DeleteQuiz quizId={(getValue() as string) || ""} />
-      </div>
-    ),
+      return (
+        <div className="flex gap-2">
+          <Link to={`/game/quiz/${getValue()}/edit`}>
+            <IconButton size="sm" variant="text">
+              <Eye className="size-5" />
+            </IconButton>
+          </Link>
+
+          {status === QuizStatus.Pending && (
+            <>
+              <ApproveQuiz quizId={id} />
+              <DeleteQuiz quizId={id} />
+            </>
+          )}
+          {status === QuizStatus.Approved && <DeleteQuiz quizId={id} />}
+          {status === QuizStatus.Cancelled && <ApproveQuiz quizId={id} />}
+        </div>
+      );
+    },
   },
 ];
