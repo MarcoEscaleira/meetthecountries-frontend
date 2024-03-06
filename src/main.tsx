@@ -16,6 +16,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <ApolloProvider client={apolloClient}>
       <ThemeProvider>
+        {/* @ts-expect-error: due to a temporary update on the @types/react */}
         <RouterProvider
           router={router}
           fallbackElement={
