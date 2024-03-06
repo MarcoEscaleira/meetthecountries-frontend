@@ -82,8 +82,9 @@ export type LoginResponse = {
 export type Mutation = {
   __typename?: 'Mutation';
   addAttempt: AttemptData;
+  /** Approve a quiz */
   approveQuiz: Scalars['Boolean']['output'];
-  /** Cancel a quiz. All attempts will be removed. */
+  /** Cancel a quiz. All attempts will be removed alongside. */
   cancelQuiz: Scalars['Boolean']['output'];
   createQuiz: QuizData;
   deleteAttempt: Scalars['Boolean']['output'];
@@ -91,6 +92,7 @@ export type Mutation = {
   deleteUser: Scalars['Boolean']['output'];
   loginUser: LoginResponse;
   signupUser: UserData;
+  /** Update a quiz */
   updateQuiz: QuizData;
   updateUser: UserData;
 };
@@ -171,9 +173,11 @@ export type Query = {
   attempts: Array<AttemptData>;
   getCurrentlyLoggedInUser: UserData;
   logoutUser: Scalars['Boolean']['output'];
-  quizById: Array<QuizData>;
+  /** Get a quiz by its ID */
+  quizById: QuizData;
   /** Get the list of all quizzes based on any filter. Admin only. */
   quizList: Array<QuizData>;
+  /** Get the list of all quizzes based on the country */
   quizzesByCountry: Array<QuizData>;
   refreshAccessToken: LoginResponse;
 };
@@ -417,7 +421,7 @@ export type QuizByIdQueryVariables = Exact<{
 }>;
 
 
-export type QuizByIdQuery = { __typename?: 'Query', quizById: Array<{ __typename?: 'QuizData', id: string, title: string, description: string, difficulty?: Difficulty | null, timeLimit?: number | null, image: string, tags?: Array<string> | null, country: string, createdAt: any, updatedAt: any, questions: Array<{ __typename?: 'QuestionData', question: string, type: QuestionType, options: Array<{ __typename?: 'OptionData', correct: boolean, text: string, chosen?: boolean | null }> }>, creator: { __typename?: 'UserData', lastName?: string | null }, lastEditor?: { __typename?: 'UserData', lastName?: string | null } | null }> };
+export type QuizByIdQuery = { __typename?: 'Query', quizById: { __typename?: 'QuizData', id: string, title: string, description: string, difficulty?: Difficulty | null, timeLimit?: number | null, image: string, tags?: Array<string> | null, country: string, createdAt: any, updatedAt: any, questions: Array<{ __typename?: 'QuestionData', question: string, type: QuestionType, options: Array<{ __typename?: 'OptionData', correct: boolean, text: string, chosen?: boolean | null }> }>, creator: { __typename?: 'UserData', lastName?: string | null }, lastEditor?: { __typename?: 'UserData', lastName?: string | null } | null } };
 
 export type QuizzesQueryVariables = Exact<{
   country?: InputMaybe<Scalars['String']['input']>;

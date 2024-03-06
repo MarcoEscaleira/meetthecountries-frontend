@@ -99,7 +99,7 @@ export function Component() {
         </Button>
       </div>
       <div className="flex w-full flex-col items-center md:flex-row md:items-start md:gap-5">
-        <section className="flex w-full flex-grow flex-col gap-4">
+        <section className="flex w-full flex-grow flex-col gap-4 md:w-3/5">
           <Typography variant="h2" className="mt-8 text-xl md:text-3xl">
             Review your answers
           </Typography>
@@ -128,7 +128,7 @@ export function Component() {
           </div>
         </section>
 
-        <section className="flex flex-col gap-3">
+        <section className="flex w-full flex-col gap-3 md:w-auto">
           <Typography variant="h2" className="mt-8 text-xl md:text-3xl">
             How are other users doing?
           </Typography>

@@ -20,7 +20,7 @@ export function Component() {
     <div className="flex w-full flex-col items-center overflow-y-auto px-4 pb-4 pt-20 md:px-12 md:pt-24">
       <MapChart />
 
-      <CountryQuizList quizList={data?.quizList || []} isLoadingCountryQuizList={isLoadingCountryQuizList} />
+      <CountryQuizList quizList={data?.quizzesByCountry || []} isLoadingCountryQuizList={isLoadingCountryQuizList} />
     </div>
   );
 }

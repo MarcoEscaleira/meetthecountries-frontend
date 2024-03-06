@@ -9,7 +9,7 @@ import { useUserStore } from "@state/userStore.ts";
 import { useCountryDetails } from "@utils/hooks/useCountryDetails.ts";
 
 interface CountryQuizListProps {
-  quizList: CountryQuizzesQuery["quizList"];
+  quizList: CountryQuizzesQuery["quizzesByCountry"];
   isLoadingCountryQuizList: boolean;
 }
 

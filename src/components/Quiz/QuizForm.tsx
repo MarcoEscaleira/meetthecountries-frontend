@@ -17,7 +17,7 @@ import { CREATE_QUIZ } from "@utils/queries/CreateQuiz.ts";
 import { GET_QUIZ_BY_ID } from "@utils/queries/QuizById.ts";
 import { UPDATE_QUIZ } from "@utils/queries/UpdateQuiz.ts";
 
-const getDefaultValues = (quiz?: QuizByIdQuery["quizList"][0]) => ({
+const getDefaultValues = (quiz?: QuizByIdQuery["quizById"]) => ({
   title: quiz?.title || "",
   description: quiz?.description || "",
   country: quiz?.country || "",
@@ -35,7 +35,7 @@ export function QuizForm() {
   const { quizId } = useParams();
 
   const [fetchQuiz, { data, loading }] = useLazyQuery(GET_QUIZ_BY_ID, { variables: { quizId: quizId || "" } });
-  const quiz = data?.quizList[0];
+  const quiz = data?.quizById;
 
   const {
     user: { role },

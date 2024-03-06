@@ -1,10 +1,11 @@
 import { useEffect } from "react";
 import Modal from "react-modal";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import { Footer } from "@components/Footer/Footer.tsx";
 import { Header } from "@components/Header/Header.tsx";
 
 export function Layout() {
+  const location = useLocation();
   useEffect(() => {
     Modal.setAppElement("#root");
   }, []);
@@ -15,7 +16,7 @@ export function Layout() {
       <main className="relative flex h-screen w-full flex-col items-center">
         <Outlet />
       </main>
-      <Footer />
+      {location && location.pathname !== "/" && <Footer />}
     </>
   );
 }

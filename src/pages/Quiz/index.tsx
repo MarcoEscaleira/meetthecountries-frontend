@@ -29,7 +29,7 @@ export function Component() {
   const { isAttemptRunning, quizAccordion, handleQuizAccordion } = useAttemptStore();
 
   const { data, loading, error } = useQuery(GET_QUIZ_BY_ID, { variables: { quizId: quizId || "" } });
-  const quiz = data?.quizList[0];
+  const quiz = data?.quizById;
 
   const countryDetails = useCountryDetails(quiz?.country || "");
 
