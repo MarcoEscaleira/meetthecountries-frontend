@@ -10,7 +10,7 @@
     "build": "tsc && vite build",
     "lint": "yarn lint:eslint && yarn lint:ts",
     "lint:eslint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0 --fix",
-    "lint:ts": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0 --fix",
+    "lint:ts": "tsc --noEmit",
     "preview": "vite preview",
     "compile:gql": "graphql-codegen"
   },
