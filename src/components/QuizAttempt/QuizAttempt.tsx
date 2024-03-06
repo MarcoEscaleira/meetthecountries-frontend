@@ -12,7 +12,7 @@ import { useUserStore } from "@state/userStore.ts";
 import { BREAKPOINTS, COLOURS } from "@utils/constants.ts";
 
 interface QuizAttemptProps {
-  quiz: QuizByIdQuery["quizList"][0];
+  quiz: QuizByIdQuery["quizById"];
 }
 
 export function QuizAttempt({ quiz }: QuizAttemptProps) {

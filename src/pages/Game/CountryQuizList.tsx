@@ -53,17 +53,20 @@ export const CountryQuizList = ({ quizList, isLoadingCountryQuizList }: CountryQ
       <>
         {headerContent} <Typography className="mt-6">No quizzes found for this country 🥹</Typography>
         <div className="mt-4 flex items-center">
-          <Typography className="pl-1">Please try again later or&nbsp;</Typography>
+          <Typography className="pl-1">Please try again later </Typography>
           {isLoggedIn && (
-            <Button
-              variant="text"
-              color="blue-gray"
-              size="md"
-              onClick={() => navigate("/game/quiz/add")}
-              className="px-1"
-            >
-              Create a new quiz
-            </Button>
+            <>
+              <Typography>&nbsp;or&nbsp;</Typography>
+              <Button
+                variant="text"
+                color="blue-gray"
+                size="md"
+                onClick={() => navigate("/game/quiz/add")}
+                className="px-1 py-1"
+              >
+                Create a new quiz
+              </Button>
+            </>
           )}
         </div>
       </>
