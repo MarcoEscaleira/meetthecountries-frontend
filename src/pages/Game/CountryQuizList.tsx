@@ -51,7 +51,7 @@ export const CountryQuizList = ({ quizList, isLoadingCountryQuizList }: CountryQ
   if (quizList.length === 0) {
     return (
       <>
-        {headerContent} <Typography className="mt-6">No quizzes found for this country 🥹</Typography>
+        {headerContent} <Typography className="mt-6">No quizzes found for this country.</Typography>
         <div className="mt-4 flex items-center">
           <Typography className="pl-1">Please try again later </Typography>
           {isLoggedIn && (
@@ -59,7 +59,7 @@ export const CountryQuizList = ({ quizList, isLoadingCountryQuizList }: CountryQ
               <Typography>&nbsp;or&nbsp;</Typography>
               <Button
                 variant="text"
-                color="blue-gray"
+                color="green"
                 size="md"
                 onClick={() => navigate("/game/quiz/add")}
                 className="px-1 py-1"

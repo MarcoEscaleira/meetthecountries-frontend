@@ -1,4 +1,4 @@
-import { cloneElement, useEffect } from "react";
+import { cloneElement, useCallback, useEffect } from "react";
 import { useLazyQuery, useMutation } from "@apollo/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Input, Option, Select, Textarea, Typography } from "@material-tailwind/react";
@@ -31,6 +31,9 @@ const getDefaultValues = (quiz?: QuizByIdQuery["quizById"]) => ({
 export function QuizForm() {
   const navigate = useNavigate();
   const { countries } = useCountries();
+  const orderedCountries = useCallback(() => {
+    return countries.sort((a, b) => (a.name < b.name ? -1 : 1));
+  }, [countries]);
 
   const { quizId } = useParams();
 
@@ -54,7 +57,7 @@ export function QuizForm() {
     handleSubmit,
     reset,
     getValues,
-    formState: { errors, isDirty },
+    formState: { errors },
   } = form;
 
   useEffect(() => {
@@ -123,6 +126,7 @@ export function QuizForm() {
         <Select
           size="lg"
           label="Country"
+          value={getValues("country")}
           onChange={value => form.setValue("country", value || "")}
           selected={element =>
             element &&
@@ -133,7 +137,7 @@ export function QuizForm() {
           }
           error={!!errors.country}
         >
-          {countries.map(({ name, flags }) => (
+          {orderedCountries().map(({ name, flags }) => (
             <Option key={name} value={name} className="flex items-center gap-2">
               <img src={flags.svg} alt={name} className="h-5 w-5 rounded-full object-cover" />
               {name}
@@ -196,11 +200,11 @@ export function QuizForm() {
         <Button
           type="submit"
           fullWidth
-          disabled={isLoadingQuizCreation || isLoadingQuizUpdate || !isDirty || Object.keys(errors).length > 0}
+          disabled={isLoadingQuizCreation || isLoadingQuizUpdate}
           loading={isLoadingQuizCreation || isLoadingQuizUpdate}
-          className="mt-4"
+          className="mb-8 mt-4"
         >
-          Create Quiz
+          {quizId ? "Update Quiz" : "Create Quiz"}
         </Button>
       </form>
     </FormProvider>

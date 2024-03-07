@@ -49,60 +49,62 @@ export function Component() {
         <Link to="">Quiz</Link>
       </Breadcrumbs>
 
-      <Accordion open={quizAccordion === 1}>
-        <AccordionHeader className="py-3 outline-none" onClick={() => handleQuizAccordion(1)}>
-          <div className="flex w-full items-center justify-between md:justify-start md:gap-3">
-            <Typography className="font-medium">Quiz information</Typography>
-            {role === Roles.Admin && (
-              <Button
-                variant="outlined"
-                size="sm"
-                onClick={event => {
-                  event.stopPropagation();
-                  navigate(`/game/quiz/${quiz?.id}/edit/`);
-                }}
-              >
-                Edit quiz
-              </Button>
-            )}
-          </div>
-        </AccordionHeader>
-        <AccordionBody className="flex gap-3">
-          <section className="flex-grow">
-            <Typography variant="h1" className="mb-3 text-xl font-medium md:text-2xl">
-              {quiz?.title}
-            </Typography>
-            <Typography className="font-normal">{quiz?.description}</Typography>
-
-            <Typography className="mt-4 flex items-center gap-2 text-xl md:mt-8">
-              <img
-                src={countryDetails?.flags.svg}
-                alt={countryDetails?.name}
-                className="size-5 rounded-full object-cover"
-              />
-              {countryDetails?.name}
-            </Typography>
-
-            <div className="mt-4 flex gap-3 md:mt-6">
-              <DifficultyChip difficulty={quiz?.difficulty} />
-              <TimeLimitChip timeLimit={quiz?.timeLimit || 0} />
+      <section className='container'>
+        <Accordion open={quizAccordion === 1}>
+          <AccordionHeader className="py-3 outline-none" onClick={() => handleQuizAccordion(1)}>
+            <div className="flex w-full items-center justify-between md:justify-start md:gap-3">
+              <Typography className="font-medium">Quiz information</Typography>
+              {role === Roles.Admin && (
+                <Button
+                  variant="outlined"
+                  size="sm"
+                  onClick={event => {
+                    event.stopPropagation();
+                    navigate(`/game/quiz/${quiz?.id}/edit/`);
+                  }}
+                >
+                  Edit quiz
+                </Button>
+              )}
             </div>
+          </AccordionHeader>
+          <AccordionBody className="flex gap-3">
+            <section className="flex-grow">
+              <Typography variant="h1" className="mb-3 text-xl font-medium md:text-2xl">
+                {quiz?.title}
+              </Typography>
+              <Typography className="font-normal">{quiz?.description}</Typography>
 
-            {(quiz?.tags?.length || 0) > 0 && (
-              <div className="mt-4 flex gap-3">
-                {quiz?.tags?.map(tag => <Chip key={tag} value={`#${tag}`} color="gray" />)}
+              <Typography className="mt-4 flex items-center gap-2 text-xl md:mt-8">
+                <img
+                  src={countryDetails?.flags.svg}
+                  alt={countryDetails?.name}
+                  className="size-5 rounded-full object-cover"
+                />
+                {countryDetails?.name}
+              </Typography>
+
+              <div className="mt-4 flex gap-3 md:mt-6">
+                <DifficultyChip difficulty={quiz?.difficulty} />
+                <TimeLimitChip timeLimit={quiz?.timeLimit || 0} />
+              </div>
+
+              {(quiz?.tags?.length || 0) > 0 && (
+                <div className="mt-4 flex gap-3">
+                  {quiz?.tags?.map(tag => <Chip key={tag} value={`#${tag}`} color="gray" />)}
+                </div>
+              )}
+            </section>
+            {!isAttemptRunning && (
+              <div className="hidden w-80 md:flex">
+                <AttemptHistoryTable quizId={quiz?.id || ""} />
               </div>
             )}
-          </section>
-          {!isAttemptRunning && (
-            <div className="hidden w-80 md:flex">
-              <AttemptHistoryTable quizId={quiz?.id || ""} />
-            </div>
-          )}
-        </AccordionBody>
-      </Accordion>
+          </AccordionBody>
+        </Accordion>
 
-      <QuizAttempt quiz={quiz!} />
+        <QuizAttempt quiz={quiz!} />
+      </section>
 
       {!isAttemptRunning && (
         <div className="mt-6 block w-full md:hidden">
