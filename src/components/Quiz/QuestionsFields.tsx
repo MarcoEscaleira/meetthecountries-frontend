@@ -22,7 +22,7 @@ export function QuestionFields() {
   });
 
   return (
-    <div>
+    <div className="mt-4 border-t pt-2">
       <div className="mb-1 flex items-center justify-between">
         <Typography>Questions: {fields.length}</Typography>
         <IconButton
@@ -35,8 +35,8 @@ export function QuestionFields() {
       </div>
 
       {fields.map((field, questionIndex) => (
-        <div key={field.id} className="flex flex-col">
-          <div className="flex items-center justify-between">
+        <div key={field.id} className="flex flex-col mt-3">
+          <div className="flex items-center justify-between mb-2">
             <Typography>Question #{questionIndex + 1}</Typography>
             <IconButton onClick={() => remove(questionIndex)} variant="text" size="sm">
               <X className="size-4 stroke-red-500" />

@@ -20,7 +20,7 @@ export function OptionsFields({ questionIndex }: OptionsFieldsProps) {
   });
 
   return (
-    <div className="flex flex-col gap-3 px-2 py-2 md:px-4">
+    <div className="mt-4 flex flex-col gap-3 border-t px-3 py-2 pt-2 md:px-5">
       <div className="flex items-center justify-between">
         <Typography>Options: {fields.length}</Typography>
         <IconButton onClick={() => append({ text: "", correct: false })} color="green" size="sm">
