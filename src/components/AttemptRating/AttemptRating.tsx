@@ -1,6 +1,7 @@
 import { useMutation } from "@apollo/client";
 import { Rating } from "@material-tailwind/react";
 import { toast } from "react-toastify";
+import { GET_QUIZ_RATING } from "@utils/queries/GetQuizRating.ts";
 import { SUBMIT_ATTEMPT_RATING } from "@utils/queries/SubmitAttemptRating.ts";
 
 interface QuizRatingProps {
@@ -13,6 +14,7 @@ export function AttemptRating({ attemptId, rating }: QuizRatingProps) {
     onCompleted: async () => {
       toast.success("Rating submitted successfully!");
     },
+    refetchQueries: [GET_QUIZ_RATING],
   });
 
   return (

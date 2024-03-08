@@ -16,7 +16,7 @@ export function AttemptHistoryTable({ quizId }: AttemptHistoryTableProps) {
   const {
     user: { userId },
   } = useUserStore();
-  const [fetchQuizAttempts, { data, loading }] = useLazyQuery(GET_QUIZ_ATTEMPTS);
+  const [fetchQuizAttempts, { data, loading }] = useLazyQuery(GET_QUIZ_ATTEMPTS, { fetchPolicy: "network-only" });
 
   useEffect(() => {
     if (quizId && userId) fetchQuizAttempts({ variables: { quizId, userId } });
@@ -43,8 +43,8 @@ export function AttemptHistoryTable({ quizId }: AttemptHistoryTableProps) {
                 className="flex items-center"
                 onClick={() => navigate(`/game/quiz/${quizId}/attempt/${id}`)}
               >
-                <div className="w-20 flex items-center">
-                  <Typography className="mr-2 text-lg font-medium flex-grow">{index + 1}.</Typography>
+                <div className="flex w-20 items-center">
+                  <Typography className="mr-2 flex-grow text-lg font-medium">{index + 1}.</Typography>
 
                   <ScoreChip percentage={percentage} />
                 </div>

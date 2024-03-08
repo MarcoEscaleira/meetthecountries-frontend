@@ -1,4 +1,4 @@
-import { cloneElement } from "react";
+import { cloneElement, useCallback } from "react";
 import { useMutation } from "@apollo/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input, Typography, Button, Select, Option } from "@material-tailwind/react";
@@ -34,6 +34,9 @@ const formSchema = z
 export function RegisterForm() {
   const navigate = useNavigate();
   const { countries } = useCountries();
+  const orderedCountries = useCallback(() => {
+    return countries.sort((a, b) => (a.name < b.name ? -1 : 1));
+  }, [countries]);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -157,7 +160,7 @@ export function RegisterForm() {
           }
           error={!!errors.country}
         >
-          {countries.map(({ name, flags }) => (
+          {orderedCountries().map(({ name, flags }) => (
             <Option key={name} value={name} className="flex items-center gap-2">
               <img src={flags.svg} alt={name} className="h-5 w-5 rounded-full object-cover" />
               {name}

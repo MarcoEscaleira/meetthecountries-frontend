@@ -29,7 +29,7 @@ export function Header() {
   return (
     <>
       <header
-        className={`absolute left-0 top-0 z-10 w-full px-2 py-2 sm:px-6 sm:py-4 md:px-4 ${isHome ? "bg-transparent" : "bg-white"}`}
+        className={`fixed left-0 top-0 z-10 w-full px-2 py-2 sm:px-6 sm:py-4 md:px-4 ${isHome ? "bg-transparent" : "bg-white"}`}
       >
         <div className="flex items-center justify-between">
           <Link to="/">
