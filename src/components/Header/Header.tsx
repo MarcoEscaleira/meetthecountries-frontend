@@ -6,7 +6,6 @@ import { Link, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import useBreakpoint from "use-breakpoint";
 import { LoginForm } from "@components/Login/LoginForm.tsx";
-import { Roles } from "@generated/graphql.ts";
 import { useUserStore } from "@state/userStore.ts";
 import { BREAKPOINTS } from "@utils/constants.ts";
 import { LOGOUT_USER } from "@utils/queries/Logout.ts";
@@ -17,8 +16,7 @@ export function Header() {
   const location = useLocation();
   const { breakpoint } = useBreakpoint(BREAKPOINTS);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const { user, isLoggedIn, resetUser } = useUserStore();
-  const isAdmin = user.role === Roles.Admin;
+  const { user, isLoggedIn, isAdmin, resetUser } = useUserStore();
 
   const [makeLogout] = useLazyQuery(LOGOUT_USER);
 

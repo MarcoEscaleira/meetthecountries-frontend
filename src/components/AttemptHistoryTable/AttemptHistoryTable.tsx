@@ -1,9 +1,8 @@
 import { useEffect } from "react";
 import { useLazyQuery } from "@apollo/client";
-import { List, ListItem, Typography } from "@material-tailwind/react";
-import { ChevronRight, Loader2 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
-import { ScoreChip } from "@components/ScoreChip/ScoreChip.tsx";
+import { List, Typography } from "@material-tailwind/react";
+import { Loader2 } from "lucide-react";
+import { AttemptRow } from "@components/AttempRow/AttemptRow.tsx";
 import { useUserStore } from "@state/userStore.ts";
 import { GET_QUIZ_ATTEMPTS } from "@utils/queries/QuizAttempts.ts";
 
@@ -12,7 +11,6 @@ interface AttemptHistoryTableProps {
 }
 
 export function AttemptHistoryTable({ quizId }: AttemptHistoryTableProps) {
-  const navigate = useNavigate();
   const {
     user: { userId },
   } = useUserStore();
@@ -36,25 +34,18 @@ export function AttemptHistoryTable({ quizId }: AttemptHistoryTableProps) {
         <Loader2 size={20} className="mt-4 animate-spin" />
       ) : (
         <List className="mt-4 flex flex-col p-0">
-          {data?.attempts.map(({ id, percentage, minutes, seconds }, index) => {
-            return (
-              <ListItem
-                key={id}
-                className="flex items-center"
-                onClick={() => navigate(`/game/quiz/${quizId}/attempt/${id}`)}
-              >
-                <div className="flex w-20 items-center">
-                  <Typography className="mr-2 flex-grow text-lg font-medium">{index + 1}.</Typography>
-
-                  <ScoreChip percentage={percentage} />
-                </div>
-                <ChevronRight className="mx-2 size-6" />
-                <Typography>
-                  {minutes}m : {seconds}s
-                </Typography>
-              </ListItem>
-            );
-          })}
+          {data?.attempts.map(({ id, percentage, minutes, seconds }, index) => (
+            <AttemptRow
+              key={id}
+              canNavigate
+              percentage={percentage}
+              minutes={minutes}
+              seconds={seconds}
+              index={index}
+              quizId={quizId}
+              attemptId={id}
+            />
+          ))}
         </List>
       )}
     </div>

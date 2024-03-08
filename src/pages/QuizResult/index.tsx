@@ -1,9 +1,10 @@
 import { useEffect } from "react";
 import { useLazyQuery, useQuery } from "@apollo/client";
-import { Breadcrumbs, Button, List, ListItem, Spinner, Typography } from "@material-tailwind/react";
+import { Breadcrumbs, Button, List, Spinner, Typography } from "@material-tailwind/react";
 import { format } from "date-fns";
 import { ChevronRight, Loader2 } from "lucide-react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { AttemptRow } from "@components/AttempRow/AttemptRow.tsx";
 import { AttemptRating } from "@components/AttemptRating/AttemptRating.tsx";
 import { ScoreChip } from "@components/ScoreChip/ScoreChip.tsx";
 import { QuestionType } from "@generated/graphql.ts";
@@ -29,6 +30,7 @@ export function Component() {
   const { quizId, attemptId } = useParams();
   const {
     user: { userId },
+    isAdmin,
   } = useUserStore();
 
   const [fetchQuizAttempts, { data: quizAttempts, loading: loadingAllAttempts }] = useLazyQuery(GET_QUIZ_ATTEMPTS);
@@ -153,14 +155,17 @@ export function Component() {
                     if (user.id === userId) return null;
 
                     return (
-                      <ListItem key={id} className="flex items-center">
-                        <Typography className="mr-2 text-lg font-medium">{index + 1}.</Typography>
-                        <ScoreChip percentage={percentage} /> <ChevronRight className="mx-2 size-6" />
-                        <Typography className="">
-                          {minutes}m : {seconds}s
-                        </Typography>
-                        <Typography className="ml-2 font-medium">by {user.firstName}</Typography>
-                      </ListItem>
+                      <AttemptRow
+                        key={id}
+                        canNavigate={isAdmin}
+                        percentage={percentage}
+                        minutes={minutes}
+                        seconds={seconds}
+                        index={index}
+                        quizId={quizId || ""}
+                        attemptId={id}
+                        name={user.firstName}
+                      />
                     );
                   })}
                 </List>

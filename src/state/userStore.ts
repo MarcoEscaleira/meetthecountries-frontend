@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import type {} from "@redux-devtools/extension";
+import { Roles } from "@generated/graphql.ts";
 
 export interface User {
   userId: string;
@@ -17,6 +18,7 @@ export interface User {
 interface UserState {
   user: User;
   isLoggedIn: boolean;
+  isAdmin: boolean;
   setUser: (user: User) => void;
   resetUser: () => void;
 }
@@ -38,7 +40,8 @@ export const useUserStore = create<UserState>()(
     set => ({
       user: defaultUser,
       isLoggedIn: false,
-      setUser: newUser => set(() => ({ user: newUser, isLoggedIn: true })),
+      isAdmin: false,
+      setUser: newUser => set(() => ({ user: newUser, isLoggedIn: true, isAdmin: newUser.role === Roles.Admin })),
       resetUser: () => set(() => ({ user: defaultUser, isLoggedIn: false })),
     }),
     {
