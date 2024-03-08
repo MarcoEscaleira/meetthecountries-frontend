@@ -6,5 +6,5 @@ interface TimeLimitChipProps {
 }
 
 export function TimeLimitChip({ timeLimit }: TimeLimitChipProps) {
-  return <Chip value={timeLimit ? `${timeLimit} minutes` : "Unlimited time"} color="blue-gray" />;
+  return <Chip value={timeLimit ? `${timeLimit} mins` : "No time"} color="blue-gray" />;
 }

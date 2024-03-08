@@ -2,6 +2,7 @@ import { Button, Card, CardBody, CardFooter, CardHeader, Spinner, Typography } f
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { AttemptBadge } from "@components/AttemptBadge/AttemptBadge.tsx";
 import { DifficultyChip } from "@components/DifficultyChip/DifficultyChip.tsx";
+import { QuizRating } from "@components/QuizRating/QuizRating.tsx";
 import { TimeLimitChip } from "@components/TimeLimitChip/TimeLimitChip.tsx";
 import { CountryQuizzesQuery } from "@generated/graphql.ts";
 import { CountryInfoModal } from "@pages/Game/CountryInfoModal.tsx";
@@ -100,6 +101,7 @@ export const CountryQuizList = ({ quizList, isLoadingCountryQuizList }: CountryQ
             <div className="mt-4 flex gap-3">
               <DifficultyChip difficulty={difficulty} />
               <TimeLimitChip timeLimit={timeLimit || 0} />
+              <QuizRating quizId={id} />
             </div>
           </CardBody>
           <CardFooter className="px-6 pb-4 pt-2">
