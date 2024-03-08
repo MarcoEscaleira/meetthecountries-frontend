@@ -1,9 +1,10 @@
 import { useEffect } from "react";
-import { useLazyQuery, useQuery } from "@apollo/client";
+import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
 import { Breadcrumbs, Button, List, Spinner, Typography } from "@material-tailwind/react";
 import { format } from "date-fns";
 import { ChevronRight, Loader2 } from "lucide-react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 import { AttemptRow } from "@components/AttempRow/AttemptRow.tsx";
 import { AttemptRating } from "@components/AttemptRating/AttemptRating.tsx";
 import { ScoreChip } from "@components/ScoreChip/ScoreChip.tsx";
@@ -12,6 +13,7 @@ import { useUserStore } from "@state/userStore.ts";
 import { COLOURS } from "@utils/constants.ts";
 import { useCountryDetails } from "@utils/hooks/useCountryDetails.ts";
 import { GET_ATTEMPT_BY_ID } from "@utils/queries/AttemptById.ts";
+import { DELETE_ATTEMPT } from "@utils/queries/DeleteAttempt.ts";
 import { GET_QUIZ_ATTEMPTS } from "@utils/queries/QuizAttempts.ts";
 
 const handleOptionColor = (correct: boolean, chosen: boolean, index: number) => {
@@ -32,6 +34,13 @@ export function Component() {
     user: { userId },
     isAdmin,
   } = useUserStore();
+
+  const [deleteAttempt] = useMutation(DELETE_ATTEMPT, {
+    onCompleted: async () => {
+      toast.success("Attempt deleted successfully!");
+      navigate(-1);
+    },
+  });
 
   const [fetchQuizAttempts, { data: quizAttempts, loading: loadingAllAttempts }] = useLazyQuery(GET_QUIZ_ATTEMPTS);
 
@@ -173,6 +182,17 @@ export function Component() {
             </div>
           </section>
         </div>
+        {isAdmin && (
+          <Button
+            variant="outlined"
+            color="red"
+            className="mt-6"
+            size="sm"
+            onClick={() => deleteAttempt({ variables: { attemptId: attemptId || "" } })}
+          >
+            Delete attempt
+          </Button>
+        )}
       </section>
     </div>
   );

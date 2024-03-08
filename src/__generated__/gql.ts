@@ -19,6 +19,7 @@ const documents = {
     "\n  mutation CancelQuiz($quizId: String!) {\n    cancelQuiz(quizId: $quizId)\n  }\n": types.CancelQuizDocument,
     "\n  query CountryQuizzes($country: String!) {\n    quizzesByCountry(country: $country) {\n      id\n      title\n      description\n      difficulty\n      timeLimit\n      image\n      tags\n      questions {\n        question\n        type\n      }\n      creator {\n        lastName\n      }\n    }\n  }\n": types.CountryQuizzesDocument,
     "\n  mutation CreateQuiz($quiz: QuizAddInput!) {\n    createQuiz(quiz: $quiz) {\n      id\n    }\n  }\n": types.CreateQuizDocument,
+    "\n  mutation DeleteAttempt($attemptId: String!) {\n    deleteAttempt(attemptId: $attemptId)\n  }\n": types.DeleteAttemptDocument,
     "\n  query QuizRating($quizId: String!) {\n    quizRating(quizId: $quizId)\n  }\n": types.QuizRatingDocument,
     "\n    mutation LoginUser($input: LoginInput!) {\n        loginUser(input: $input) {\n            access_token\n        }\n    }\n": types.LoginUserDocument,
     "\n    query LogoutQuery {\n        logoutUser\n    }\n": types.LogoutQueryDocument,
@@ -70,6 +71,10 @@ export function gql(source: "\n  query CountryQuizzes($country: String!) {\n    
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n  mutation CreateQuiz($quiz: QuizAddInput!) {\n    createQuiz(quiz: $quiz) {\n      id\n    }\n  }\n"): (typeof documents)["\n  mutation CreateQuiz($quiz: QuizAddInput!) {\n    createQuiz(quiz: $quiz) {\n      id\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  mutation DeleteAttempt($attemptId: String!) {\n    deleteAttempt(attemptId: $attemptId)\n  }\n"): (typeof documents)["\n  mutation DeleteAttempt($attemptId: String!) {\n    deleteAttempt(attemptId: $attemptId)\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
