@@ -4,12 +4,13 @@ import { Breadcrumbs, Button, List, ListItem, Spinner, Typography } from "@mater
 import { format } from "date-fns";
 import { ChevronRight, Loader2 } from "lucide-react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { AttemptRating } from "@components/AttemptRating/AttemptRating.tsx";
 import { ScoreChip } from "@components/ScoreChip/ScoreChip.tsx";
 import { QuestionType } from "@generated/graphql.ts";
 import { useUserStore } from "@state/userStore.ts";
 import { COLOURS } from "@utils/constants.ts";
 import { useCountryDetails } from "@utils/hooks/useCountryDetails.ts";
-import { GET_ATTEMPT_RESULT } from "@utils/queries/AttemptResult.ts";
+import { GET_ATTEMPT_BY_ID } from "@utils/queries/AttemptById.ts";
 import { GET_QUIZ_ATTEMPTS } from "@utils/queries/QuizAttempts.ts";
 
 const handleOptionColor = (correct: boolean, chosen: boolean, index: number) => {
@@ -36,11 +37,11 @@ export function Component() {
     if (quizId && userId) fetchQuizAttempts({ variables: { quizId } });
   }, [quizId, userId]);
 
-  const { data: currentAttempt, loading: loadingCurrentAttempt } = useQuery(GET_ATTEMPT_RESULT, {
+  const { data: currentAttempt, loading: loadingCurrentAttempt } = useQuery(GET_ATTEMPT_BY_ID, {
     variables: { attemptId: attemptId || "" },
   });
-  const attempt = currentAttempt?.attempts[0];
-  const quiz = currentAttempt?.attempts[0]?.quiz;
+  const attempt = currentAttempt?.attemptById;
+  const quiz = attempt?.quiz;
   const countryDetails = useCountryDetails(quiz?.country || "");
 
   if (loadingCurrentAttempt && !currentAttempt)
@@ -73,6 +74,12 @@ export function Component() {
           In your last attempt you have guessed {attempt?.correctOptions} out of {totalQuestions} questions.
           <ScoreChip percentage={attempt?.percentage || 0} />
         </Typography>
+
+        <div className="flex gap-2">
+          <Typography>Rate the quiz</Typography>
+
+          <AttemptRating attemptId={attemptId || ""} rating={attempt?.rating || undefined} />
+        </div>
 
         <div className="mb-4 mt-2 flex flex-col gap-2 md:mt-5">
           <Typography variant="small" className="flex items-center">

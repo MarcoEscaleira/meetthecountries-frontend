@@ -10,6 +10,7 @@ export const GET_QUIZ_ATTEMPTS = gql(/* GraphQL */ `
       seconds
       startTime
       endTime
+      rating
       quiz {
         questions {
           question

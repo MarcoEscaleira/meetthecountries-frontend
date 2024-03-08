@@ -1,8 +1,8 @@
 import { gql } from "@generated/gql.ts";
 
-export const GET_ATTEMPT_RESULT = gql(/* GraphQL */ `
-  query AttemptResult($attemptId: String!) {
-    attempts(attemptId: $attemptId) {
+export const GET_ATTEMPT_BY_ID = gql(/* GraphQL */ `
+  query QuizAttempt($attemptId: String!) {
+    attemptById(attemptId: $attemptId) {
       id
       correctOptions
       percentage
@@ -10,6 +10,7 @@ export const GET_ATTEMPT_RESULT = gql(/* GraphQL */ `
       seconds
       startTime
       endTime
+      rating
       questions {
         question
         type

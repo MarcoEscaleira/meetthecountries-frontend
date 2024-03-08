@@ -13,6 +13,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { AttemptHistoryTable } from "@components/AttemptHistoryTable/AttemptHistoryTable.tsx";
 import { DifficultyChip } from "@components/DifficultyChip/DifficultyChip.tsx";
 import { QuizAttempt } from "@components/QuizAttempt/QuizAttempt.tsx";
+import { QuizRating } from "@components/QuizRating/QuizRating.tsx";
 import { TimeLimitChip } from "@components/TimeLimitChip/TimeLimitChip.tsx";
 import { Roles } from "@generated/graphql.ts";
 import { useAttemptStore } from "@state/attemptStore.ts";
@@ -49,7 +50,7 @@ export function Component() {
         <Link to="">Quiz</Link>
       </Breadcrumbs>
 
-      <section className='container'>
+      <section className="container">
         <Accordion open={quizAccordion === 1}>
           <AccordionHeader className="py-3 outline-none" onClick={() => handleQuizAccordion(1)}>
             <div className="flex w-full items-center justify-between md:justify-start md:gap-3">
@@ -87,6 +88,7 @@ export function Component() {
               <div className="mt-4 flex gap-3 md:mt-6">
                 <DifficultyChip difficulty={quiz?.difficulty} />
                 <TimeLimitChip timeLimit={quiz?.timeLimit || 0} />
+                <QuizRating quizId={quizId || ""} />
               </div>
 
               {(quiz?.tags?.length || 0) > 0 && (
