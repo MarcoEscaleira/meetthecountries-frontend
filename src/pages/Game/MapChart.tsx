@@ -1,5 +1,5 @@
 import { FC, Fragment, useState } from "react";
-import { Button, Tooltip } from "@material-tailwind/react";
+import { Button, Tooltip, Typography } from "@material-tailwind/react";
 import { geoCentroid } from "d3-geo";
 import { Minus, Plus } from "lucide-react";
 import { useSearchParams } from "react-router-dom";
@@ -70,8 +70,8 @@ export const MapChart: FC = () => {
                           key={geo.rsmKey}
                           geography={geo}
                           data-tooltip-id="country-tooltip"
-                          onClick={e => {
-                            e.stopPropagation();
+                          onClick={event => {
+                            event.stopPropagation();
 
                             const country = geo.properties.name;
                             if (searchParams.get("country") === country) {
@@ -116,12 +116,43 @@ export const MapChart: FC = () => {
         </ComposableMap>
       </div>
       <div className="absolute right-2 top-0 mt-3 flex items-center gap-2 md:right-4 md:gap-3">
-        <Button onClick={handleZoomIn} size="sm" className="p-2">
-          <Plus className="h-4 w-4 md:h-6 md:w-6" />
-        </Button>
-        <Button onClick={handleZoomOut} size="sm" className="p-2">
-          <Minus className="h-4 w-4 md:h-6 md:w-6" />
-        </Button>
+        <Tooltip content="Zoom in">
+          <Button onClick={handleZoomIn} size="sm" className="p-2">
+            <Plus className="size-4 md:size-6" />
+          </Button>
+        </Tooltip>
+        <Tooltip content="Zoom out">
+          <Button onClick={handleZoomOut} size="sm" className="p-2">
+            <Minus className="size-4 md:size-6" />
+          </Button>
+        </Tooltip>
+      </div>
+
+      <div className="absolute -bottom-7 left-2 mt-3 flex items-center gap-3 sm:gap-6 md:right-4 ">
+        <Tooltip content="Completed all quizzes">
+          <div className="flex gap-2">
+            <span className="size-5 rounded-full bg-green-200" />
+            <Typography variant="small" className="font-medium">
+              Completed
+            </Typography>
+          </div>
+        </Tooltip>
+        <Tooltip content="Completed some quizzes">
+          <div className="flex gap-2">
+            <span className="size-5 rounded-full bg-blue-200" />
+            <Typography variant="small" className="font-medium">
+              In Progress
+            </Typography>
+          </div>
+        </Tooltip>
+        <Tooltip content="No quizzes attempted or no quizzes available">
+          <div className="flex gap-2">
+            <span className="size-5 rounded-full bg-blue-gray-200" />
+            <Typography variant="small" className="font-medium">
+              None
+            </Typography>
+          </div>
+        </Tooltip>
       </div>
     </div>
   );

@@ -1,4 +1,5 @@
-import { Button, Card, CardBody, CardFooter, CardHeader, Spinner, Typography } from "@material-tailwind/react";
+import { Button, Card, CardBody, CardFooter, CardHeader, Spinner, Tooltip, Typography } from "@material-tailwind/react";
+import { Plus } from "lucide-react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { AttemptBadge } from "@components/AttemptBadge/AttemptBadge.tsx";
 import { DifficultyChip } from "@components/DifficultyChip/DifficultyChip.tsx";
@@ -23,27 +24,38 @@ export const CountryQuizList = ({ quizList, isLoadingCountryQuizList }: CountryQ
 
   if (!countryDetails) {
     return (
-      <Typography variant="h3" className="mt-8 text-xl">
-        👆 Get started and select a country 👆
-      </Typography>
+      <>
+        <Typography variant="h2" className="mt-16 text-2xl font-bold">
+          Begin by choosing a country
+        </Typography>
+        <img src="/images/world-hand.png" alt="World Hand" className="mt-4 size-2/4 sm:size-auto" />
+      </>
     );
   }
 
   const headerContent = (
-    <div className="mb-4 mt-6 flex w-full items-center justify-between sm:justify-center gap-3 sm:gap-14 border-b-2 pb-4 md:mt-10 md:px-0 md:pb-6">
+    <div className="mb-4 mt-6 flex w-full items-center justify-between gap-3 border-b-2 pb-4 sm:justify-center sm:gap-14 md:mt-10 md:px-0 md:pb-6">
       <Typography variant="h2" className="flex items-center gap-2 text-2xl">
         <img src={countryDetails.flags.svg} alt={countryDetails.name} className="h-5 w-5 rounded-full object-cover" />
 
         {countryDetails.name}
       </Typography>
 
-      <div className="flex flex-col gap-2 md:gap-6 sm:flex-row">
+      <div className="flex flex-col gap-2 sm:flex-row md:gap-6">
         <CountryInfoModal countryDetails={countryDetails} />
 
         {isLoggedIn && (
-          <Button variant="gradient" color="green" size="md" onClick={() => navigate("/game/quiz/add")} className="p-3">
-            Create a quiz
-          </Button>
+          <Tooltip content="Create a quiz">
+            <Button
+              variant="outlined"
+              color="green"
+              size="md"
+              onClick={() => navigate("/game/quiz/add")}
+              className="p-3"
+            >
+              <Plus />
+            </Button>
+          </Tooltip>
         )}
       </div>
     </div>
@@ -60,24 +72,15 @@ export const CountryQuizList = ({ quizList, isLoadingCountryQuizList }: CountryQ
   if (quizList.length === 0) {
     return (
       <>
-        {headerContent} <Typography className="mt-6">No quizzes found for this country.</Typography>
-        <div className="mt-4 flex items-center">
-          <Typography className="pl-1">Please try again later </Typography>
-          {isLoggedIn && (
-            <>
-              <Typography>&nbsp;or&nbsp;</Typography>
-              <Button
-                variant="text"
-                color="green"
-                size="md"
-                onClick={() => navigate("/game/quiz/add")}
-                className="px-1 py-1"
-              >
-                Create a new quiz
-              </Button>
-            </>
-          )}
-        </div>
+        {headerContent}{" "}
+        <Typography className="mt-6 font-medium">
+          Sorry, no quizzes available for this country at the moment.
+        </Typography>
+        {isLoggedIn && (
+          <Button variant="text" color="green" size="md" onClick={() => navigate("/game/quiz/add")} className="mt-4">
+            Create a quiz
+          </Button>
+        )}
       </>
     );
   }
