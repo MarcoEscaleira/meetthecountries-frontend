@@ -47,6 +47,11 @@ export const MapChart: FC = () => {
             height: "auto",
             maxHeight: "600px",
           }}
+          onClick={() => {
+            setSearchParams({
+              country: "",
+            });
+          }}
         >
           {/* @ts-expect-error: due to a temporary update on the @types/react */}
           <ZoomableGroup zoom={position.zoom} center={position.coordinates} onMoveEnd={handleMoveEnd}>
@@ -65,10 +70,19 @@ export const MapChart: FC = () => {
                           key={geo.rsmKey}
                           geography={geo}
                           data-tooltip-id="country-tooltip"
-                          onClick={() => {
-                            setSearchParams({
-                              country: geo.properties.name,
-                            });
+                          onClick={e => {
+                            e.stopPropagation();
+
+                            const country = geo.properties.name;
+                            if (searchParams.get("country") === country) {
+                              setSearchParams({
+                                country: "",
+                              });
+                            } else {
+                              setSearchParams({
+                                country,
+                              });
+                            }
                           }}
                           className={`${isCountrySelected ? "fill-blue-400" : countryColor} cursor-pointer outline-none hover:fill-blue-300`}
                         />

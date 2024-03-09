@@ -30,14 +30,14 @@ export const CountryQuizList = ({ quizList, isLoadingCountryQuizList }: CountryQ
   }
 
   const headerContent = (
-    <div className="mb-4 mt-6 flex w-full items-center justify-between md:justify-center gap-3 md:gap-14 border-b-2 pb-4 md:mt-10 md:px-0 md:pb-6">
+    <div className="mb-4 mt-6 flex w-full items-center justify-between sm:justify-center gap-3 sm:gap-14 border-b-2 pb-4 md:mt-10 md:px-0 md:pb-6">
       <Typography variant="h2" className="flex items-center gap-2 text-2xl">
         <img src={countryDetails.flags.svg} alt={countryDetails.name} className="h-5 w-5 rounded-full object-cover" />
 
         {countryDetails.name}
       </Typography>
 
-      <div className="flex flex-col gap-2 md:gap-6 md:flex-row">
+      <div className="flex flex-col gap-2 md:gap-6 sm:flex-row">
         <CountryInfoModal countryDetails={countryDetails} />
 
         {isLoggedIn && (
