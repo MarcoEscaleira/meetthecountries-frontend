@@ -30,7 +30,7 @@ export const CountryQuizList = ({ quizList, isLoadingCountryQuizList }: CountryQ
   }
 
   const headerContent = (
-    <div className="mb-4 mt-6 flex w-full items-center justify-center gap-8 border-b-2 px-2 pb-4 md:mt-8 md:px-0">
+    <div className="mb-4 mt-6 flex w-full items-center justify-center gap-8 border-b-2 px-2 pb-4 md:pb-6 md:mt-10 md:px-0">
       <Typography variant="h2" className="flex items-center gap-2 text-2xl">
         <img src={countryDetails.flags.svg} alt={countryDetails.name} className="h-5 w-5 rounded-full object-cover" />
 
@@ -38,6 +38,12 @@ export const CountryQuizList = ({ quizList, isLoadingCountryQuizList }: CountryQ
       </Typography>
 
       <CountryInfoModal countryDetails={countryDetails} />
+
+      {isLoggedIn && (
+        <Button variant="gradient" color="green" size="md" onClick={() => navigate("/game/quiz/add")}>
+          Create a new quiz
+        </Button>
+      )}
     </div>
   );
 
@@ -78,45 +84,41 @@ export const CountryQuizList = ({ quizList, isLoadingCountryQuizList }: CountryQ
     <>
       {headerContent}
 
-      {quizList.map(({ id, title, image, description, timeLimit, difficulty }) => (
-        <Card
-          key={title}
-          className="w-full max-w-[20rem] border border-gray-200 shadow-lg"
-          onClick={() => navigate(`/game/quiz/${id}`)}
-        >
-          <CardHeader floated={false} color="blue-gray" className="items-ce nter flex justify-center pt-3">
-            <img src={image} alt="the background for the quiz" className="h-40" />
-            <div className="to-bg-black-10 absolute inset-0 h-full w-full bg-gradient-to-tr from-transparent via-transparent to-black/60 " />
-            <div className="!absolute right-2 top-2">
-              <AttemptBadge quizId={id} />
-            </div>
-          </CardHeader>
-          <CardBody>
-            <div className="mb-3 flex items-center justify-start">
-              <Typography variant="h5" color="blue-gray" className="font-medium">
-                {title}
-              </Typography>
-            </div>
-            <Typography color="gray">{description}</Typography>
-            <div className="mt-4 flex gap-3">
-              <DifficultyChip difficulty={difficulty} />
-              <TimeLimitChip timeLimit={timeLimit || 0} />
-              <QuizRating quizId={id} />
-            </div>
-          </CardBody>
-          <CardFooter className="px-6 pb-4 pt-2">
-            <Button size="md" color="blue" fullWidth={true} onClick={() => navigate(`/game/quiz/${id}`)}>
-              Go to quiz
-            </Button>
-          </CardFooter>
-        </Card>
-      ))}
-
-      {isLoggedIn && (
-        <Button variant="gradient" color="green" size="md" onClick={() => navigate("/game/quiz/add")} className="my-10">
-          Create a new quiz
-        </Button>
-      )}
+      <div className="flex w-full flex-wrap gap-8">
+        {quizList.map(({ id, title, image, description, timeLimit, difficulty }) => (
+          <Card
+            key={title}
+            className="w-full max-w-[20rem] border border-gray-200 shadow-lg"
+            onClick={() => navigate(`/game/quiz/${id}`)}
+          >
+            <CardHeader floated={false} color="blue-gray" className="items-ce nter flex justify-center pt-3">
+              <img src={image} alt="the background for the quiz" className="h-40" />
+              <div className="to-bg-black-10 absolute inset-0 h-full w-full bg-gradient-to-tr from-transparent via-transparent to-black/60 " />
+              <div className="!absolute right-2 top-2">
+                <AttemptBadge quizId={id} />
+              </div>
+            </CardHeader>
+            <CardBody>
+              <div className="mb-3 flex items-center justify-start">
+                <Typography variant="h5" color="blue-gray" className="font-medium">
+                  {title}
+                </Typography>
+              </div>
+              <Typography color="gray">{description}</Typography>
+              <div className="mt-4 flex gap-3">
+                <DifficultyChip difficulty={difficulty} />
+                <TimeLimitChip timeLimit={timeLimit || 0} />
+                <QuizRating quizId={id} />
+              </div>
+            </CardBody>
+            <CardFooter className="px-6 pb-4 pt-2">
+              <Button size="md" color="blue" fullWidth={true} onClick={() => navigate(`/game/quiz/${id}`)}>
+                Go to quiz
+              </Button>
+            </CardFooter>
+          </Card>
+        ))}
+      </div>
     </>
   );
 };

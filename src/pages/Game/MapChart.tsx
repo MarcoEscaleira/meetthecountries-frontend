@@ -4,6 +4,9 @@ import { geoCentroid } from "d3-geo";
 import { Minus, Plus } from "lucide-react";
 import { useSearchParams } from "react-router-dom";
 import { ZoomableGroup, ComposableMap, Geographies, Geography, Marker } from "react-simple-maps";
+import useBreakpoint from "use-breakpoint";
+import { BREAKPOINTS } from "@utils/constants.ts";
+import { useCountriesColors } from "@utils/hooks/useCountriesColors.ts";
 
 interface Position {
   coordinates: Array<number>;
@@ -13,6 +16,9 @@ interface Position {
 export const MapChart: FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [position, setPosition] = useState<Position>({ coordinates: [5, 46], zoom: 1 });
+  const { breakpoint } = useBreakpoint(BREAKPOINTS);
+
+  const mappedCountries = useCountriesColors();
 
   function handleZoomIn() {
     if (position.zoom >= 10) return;
@@ -50,6 +56,7 @@ export const MapChart: FC = () => {
                 geographies.map(geo => {
                   const provinceCenter = geoCentroid(geo);
                   const isCountrySelected = searchParams.get("country") === geo.properties.name;
+                  const countryColor = mappedCountries[geo.properties.name] || "fill-blue-gray-200";
 
                   return (
                     <Fragment key={geo.rsmKey}>
@@ -63,7 +70,7 @@ export const MapChart: FC = () => {
                               country: geo.properties.name,
                             });
                           }}
-                          className={`${isCountrySelected ? "fill-blue-400" : "fill-blue-gray-200"} cursor-pointer outline-none hover:fill-blue-300`}
+                          className={`${isCountrySelected ? "fill-blue-400" : countryColor} cursor-pointer outline-none hover:fill-blue-300`}
                         />
                       </Tooltip>
                       <Marker
@@ -76,7 +83,13 @@ export const MapChart: FC = () => {
                         }}
                       >
                         {/* @ts-expect-error: text not found in svg */}
-                        <text textAnchor="middle" fill="black" strokeWidth={0} fontSize="8px" cursor="pointer">
+                        <text
+                          textAnchor="middle"
+                          fill="black"
+                          strokeWidth={0}
+                          fontSize={breakpoint === "mobile" ? "15px" : "10px"}
+                          cursor="pointer"
+                        >
                           {geo.properties.name}
                         </text>
                       </Marker>

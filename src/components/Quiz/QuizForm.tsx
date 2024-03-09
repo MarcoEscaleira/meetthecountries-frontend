@@ -13,16 +13,28 @@ import { quizFormSchema } from "@components/Quiz/quizFormSchema.ts";
 import { TagsInput } from "@components/TagsInput/TagsInput.tsx";
 import { Difficulty, QuestionType, QuizByIdQuery, Roles } from "@generated/graphql.ts";
 import { useUserStore } from "@state/userStore.ts";
+import { GET_COUNTRY_QUIZZES } from "@utils/queries/CountryQuizzes.ts";
 import { CREATE_QUIZ } from "@utils/queries/CreateQuiz.ts";
 import { GET_QUIZ_BY_ID } from "@utils/queries/QuizById.ts";
+import { GET_QUIZZES } from "@utils/queries/Quizzes.ts";
 import { UPDATE_QUIZ } from "@utils/queries/UpdateQuiz.ts";
+import { GET_USER_ATTEMPTS } from "@utils/queries/UserAttempts.ts";
 
 const getDefaultValues = (quiz?: QuizByIdQuery["quizById"]) => ({
   title: quiz?.title || "",
   description: quiz?.description || "",
   country: quiz?.country || "",
   image: quiz?.image || "",
-  questions: quiz?.questions || [{ question: "", type: QuestionType.Single, options: [{ text: "", correct: false }] }],
+  questions: quiz?.questions || [
+    {
+      question: "",
+      type: QuestionType.Single,
+      options: [
+        { text: "", correct: false },
+        { text: "", correct: false },
+      ],
+    },
+  ],
   difficulty: quiz?.difficulty || Difficulty.Unknown,
   timeLimit: quiz?.timeLimit || 0,
   tags: quiz?.tags || [],
@@ -78,6 +90,7 @@ export function QuizForm() {
         navigate("/");
         reset();
       },
+      refetchQueries: [GET_QUIZZES, GET_COUNTRY_QUIZZES, GET_USER_ATTEMPTS],
     }
   );
 

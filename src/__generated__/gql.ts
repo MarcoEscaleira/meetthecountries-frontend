@@ -30,6 +30,7 @@ const documents = {
     "\n  mutation SubmitAttempt($attempt: AttemptAddInput!) {\n    addAttempt(attempt: $attempt) {\n      id\n    }\n  }\n": types.SubmitAttemptDocument,
     "\n    mutation SubmitAttemptRating($attemptId: String!, $rating: Int!) {\n        addAttemptRating(attemptId: $attemptId, rating: $rating)\n    }\n": types.SubmitAttemptRatingDocument,
     "\n  mutation UpdateQuiz($quizId: String!, $quiz: QuizAddInput!) {\n    updateQuiz(quizId: $quizId, quiz: $quiz) {\n      id\n    }\n  }\n": types.UpdateQuizDocument,
+    "\n  query UserAttempts($userId: String) {\n    attempts(userId: $userId) {\n      id\n      quiz {\n        id\n        country\n      }\n    }\n  }\n": types.UserAttemptsDocument,
     "\n  query GetMe {\n    getCurrentlyLoggedInUser {\n      id\n      email\n      firstName\n      lastName\n      dateOfBirth\n      country\n      role\n      createdAt\n      updatedAt\n    }\n  }\n": types.GetMeDocument,
 };
 
@@ -115,6 +116,10 @@ export function gql(source: "\n    mutation SubmitAttemptRating($attemptId: Stri
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n  mutation UpdateQuiz($quizId: String!, $quiz: QuizAddInput!) {\n    updateQuiz(quizId: $quizId, quiz: $quiz) {\n      id\n    }\n  }\n"): (typeof documents)["\n  mutation UpdateQuiz($quizId: String!, $quiz: QuizAddInput!) {\n    updateQuiz(quizId: $quizId, quiz: $quiz) {\n      id\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  query UserAttempts($userId: String) {\n    attempts(userId: $userId) {\n      id\n      quiz {\n        id\n        country\n      }\n    }\n  }\n"): (typeof documents)["\n  query UserAttempts($userId: String) {\n    attempts(userId: $userId) {\n      id\n      quiz {\n        id\n        country\n      }\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
