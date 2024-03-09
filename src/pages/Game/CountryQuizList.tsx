@@ -30,20 +30,22 @@ export const CountryQuizList = ({ quizList, isLoadingCountryQuizList }: CountryQ
   }
 
   const headerContent = (
-    <div className="mb-4 mt-6 flex w-full items-center justify-center gap-8 border-b-2 px-2 pb-4 md:pb-6 md:mt-10 md:px-0">
+    <div className="mb-4 mt-6 flex w-full items-center justify-between md:justify-center gap-3 md:gap-14 border-b-2 pb-4 md:mt-10 md:px-0 md:pb-6">
       <Typography variant="h2" className="flex items-center gap-2 text-2xl">
         <img src={countryDetails.flags.svg} alt={countryDetails.name} className="h-5 w-5 rounded-full object-cover" />
 
         {countryDetails.name}
       </Typography>
 
-      <CountryInfoModal countryDetails={countryDetails} />
+      <div className="flex flex-col gap-2 md:gap-6 md:flex-row">
+        <CountryInfoModal countryDetails={countryDetails} />
 
-      {isLoggedIn && (
-        <Button variant="gradient" color="green" size="md" onClick={() => navigate("/game/quiz/add")}>
-          Create a new quiz
-        </Button>
-      )}
+        {isLoggedIn && (
+          <Button variant="gradient" color="green" size="md" onClick={() => navigate("/game/quiz/add")} className="p-3">
+            Create a quiz
+          </Button>
+        )}
+      </div>
     </div>
   );
 
@@ -84,7 +86,7 @@ export const CountryQuizList = ({ quizList, isLoadingCountryQuizList }: CountryQ
     <>
       {headerContent}
 
-      <div className="flex w-full flex-wrap gap-8">
+      <div className="flex w-full flex-wrap justify-center gap-8">
         {quizList.map(({ id, title, image, description, timeLimit, difficulty }) => (
           <Card
             key={title}
@@ -94,21 +96,25 @@ export const CountryQuizList = ({ quizList, isLoadingCountryQuizList }: CountryQ
             <CardHeader floated={false} color="blue-gray" className="items-ce nter flex justify-center pt-3">
               <img src={image} alt="the background for the quiz" className="h-40" />
               <div className="to-bg-black-10 absolute inset-0 h-full w-full bg-gradient-to-tr from-transparent via-transparent to-black/60 " />
+              <div className="!absolute bottom-2 left-2">
+                <QuizRating quizId={id} />
+              </div>
               <div className="!absolute right-2 top-2">
                 <AttemptBadge quizId={id} />
               </div>
             </CardHeader>
-            <CardBody>
+            <CardBody className="flex-grow">
               <div className="mb-3 flex items-center justify-start">
                 <Typography variant="h5" color="blue-gray" className="font-medium">
                   {title}
                 </Typography>
               </div>
-              <Typography color="gray">{description}</Typography>
-              <div className="mt-4 flex gap-3">
+              <Typography color="gray" className="break-words">
+                {description}
+              </Typography>
+              <div className="mt-4 flex flex-wrap gap-3">
                 <DifficultyChip difficulty={difficulty} />
                 <TimeLimitChip timeLimit={timeLimit || 0} />
-                <QuizRating quizId={id} />
               </div>
             </CardBody>
             <CardFooter className="px-6 pb-4 pt-2">

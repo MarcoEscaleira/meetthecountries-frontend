@@ -23,5 +23,10 @@ export function AttemptBadge({ quizId }: AttemptBadgeProps) {
 
   if (data?.attempts.length === 0) return null;
 
-  return <div className="rounded-full bg-green-500 p-1 px-3 text-sm">{data?.attempts.length} attempts</div>;
+  const attempts = data?.attempts.length || 0;
+  return (
+    <div className="rounded-full bg-gray-500 p-1 px-3 text-sm">
+      {attempts} attempt{attempts > 1 ? "s" : ""}
+    </div>
+  );
 }

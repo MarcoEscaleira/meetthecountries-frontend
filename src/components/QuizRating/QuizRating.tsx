@@ -15,7 +15,7 @@ export function QuizRating({ quizId }: QuizRatingProps) {
 
   return (
     <div className="flex">
-      <Rating value={ratingValue} readonly />
+      <Rating value={ratingValue} readonly unratedColor="amber" ratedColor="amber" />
     </div>
   );
 }

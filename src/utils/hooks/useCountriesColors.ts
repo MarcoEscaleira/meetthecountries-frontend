@@ -39,8 +39,6 @@ export const useCountriesColors = (): CountryColors => {
         };
       }, {});
 
-      console.log(totalQuizzesPerCountry, attemptsList);
-
       // Map the country colour based on the total quizzes and attempts
       // Return an object that keys are the country and value is the color
       return Object.keys(totalQuizzesPerCountry)?.reduce((acc, country) => {

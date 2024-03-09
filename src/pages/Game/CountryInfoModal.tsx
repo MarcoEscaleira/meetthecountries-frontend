@@ -13,7 +13,7 @@ export const CountryInfoModal = ({
 
   return (
     <>
-      <Button onClick={toggleDialog} variant="gradient">
+      <Button onClick={toggleDialog} variant="gradient" className="p-3">
         View country
       </Button>
       <Dialog open={isOpen} handler={toggleDialog}>

@@ -87,7 +87,7 @@ export function QuizForm() {
             ? "Quiz created successfully!"
             : "Quiz created successfully. An admin will review it promptly!"
         );
-        navigate("/");
+        navigate(`/game?country=${getValues("country")}`);
         reset();
       },
       refetchQueries: [GET_QUIZZES, GET_COUNTRY_QUIZZES, GET_USER_ATTEMPTS],
