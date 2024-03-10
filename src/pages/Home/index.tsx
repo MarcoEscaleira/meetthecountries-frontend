@@ -26,7 +26,7 @@ export function Component() {
             alt="Planet Earth"
             className="mb-6 h-32 w-32 sm:mb-8 sm:h-44 sm:w-44"
           />
-          <Typography variant="h3" className="mb-4 font-semibold">
+          <Typography variant="h1" className="mb-4 font-semibold text-3xl md:text-4xl">
             Meet the Countries
           </Typography>
           <Typography className="mb-6 text-center text-base font-light text-black sm:mb-8 sm:text-lg">
