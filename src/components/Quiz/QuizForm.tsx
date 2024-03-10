@@ -3,7 +3,7 @@ import { useLazyQuery, useMutation } from "@apollo/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Input, Option, Select, Textarea, Typography } from "@material-tailwind/react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useCountries } from "use-react-countries";
 import { z } from "zod";
@@ -20,10 +20,10 @@ import { GET_QUIZZES } from "@utils/queries/Quizzes.ts";
 import { UPDATE_QUIZ } from "@utils/queries/UpdateQuiz.ts";
 import { GET_USER_ATTEMPTS } from "@utils/queries/UserAttempts.ts";
 
-const getDefaultValues = (quiz?: QuizByIdQuery["quizById"]) => ({
+const getDefaultValues = (searchParams: URLSearchParams, quiz?: QuizByIdQuery["quizById"]) => ({
   title: quiz?.title || "",
   description: quiz?.description || "",
-  country: quiz?.country || "",
+  country: quiz?.country || searchParams.get("country") || "",
   image: quiz?.image || "",
   questions: quiz?.questions || [
     {
@@ -41,6 +41,7 @@ const getDefaultValues = (quiz?: QuizByIdQuery["quizById"]) => ({
 });
 
 export function QuizForm() {
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const { countries } = useCountries();
   const orderedCountries = useCallback(() => {
@@ -62,7 +63,7 @@ export function QuizForm() {
 
   const form = useForm<z.infer<typeof quizFormSchema>>({
     resolver: zodResolver(quizFormSchema),
-    defaultValues: getDefaultValues(quiz),
+    defaultValues: getDefaultValues(searchParams, quiz),
   });
   const {
     register,
@@ -74,7 +75,7 @@ export function QuizForm() {
 
   useEffect(() => {
     if (quizId && quiz) {
-      reset(getDefaultValues(quiz));
+      reset(getDefaultValues(searchParams, quiz));
     }
   }, [quizId, quiz]);
 
