@@ -71,7 +71,7 @@ export function Component() {
 
   return (
     <div className="flex h-full w-full flex-col items-center px-4 pb-4 pt-20 md:px-12">
-      <Typography variant="h1" className="mb-6">
+      <Typography variant="h2" className="mb-6 sm:mb-10">
         Profile
       </Typography>
 
@@ -145,7 +145,7 @@ export function Component() {
         </form>
       </FormProvider>
       {!isEditing && (
-        <Button type="button" fullWidth variant="outlined" onClick={() => setIsEditing(true)} className="mb-4 w-80">
+        <Button type="button" fullWidth variant="outlined" onClick={() => setIsEditing(true)} className="my-4 w-80">
           Edit profile
         </Button>
       )}

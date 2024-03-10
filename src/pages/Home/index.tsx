@@ -30,7 +30,9 @@ export function Component() {
             Meet the Countries
           </Typography>
           <Typography className="mb-6 text-center text-base font-light text-black sm:mb-8 sm:text-lg">
-            Do you dare to come with us on this journey to meet countries never explored?
+            Embark on an exciting journey with us to explore uncharted territories and discover countries like never
+            before.
+            <Typography className="font-medium mt-3">Are you ready for the adventure?</Typography>
           </Typography>
           <div className="flex items-center justify-center">
             <Link
