@@ -4,6 +4,7 @@ import { format } from "date-fns";
 import { ChevronRightIcon, ChevronLeftIcon } from "lucide-react";
 import { DayPicker, DayPickerProps } from "react-day-picker";
 import { useFormContext } from "react-hook-form";
+import "./dropdown.css";
 
 type DatePickerProps = {
   name: string;
@@ -38,10 +39,13 @@ export const DatePicker: FC<DatePickerProps> = ({ name, label, error, disabledIn
             setValue(name, newDate);
           }}
           {...props}
+          captionLayout="dropdown"
+          fromYear={1900}
+          toYear={new Date().getFullYear() - 10}
           className="border-0"
           classNames={{
-            caption: "flex justify-center py-2 mb-4 relative items-center",
-            caption_label: "text-sm font-medium text-gray-900",
+            caption: "flex justify-center py-2 relative items-center",
+            caption_label: "text-sm font-medium text-gray-900 caption-label",
             nav: "flex items-center",
             nav_button: "h-6 w-6 bg-transparent hover:bg-blue-gray-50 p-1 rounded-md transition-colors duration-300",
             nav_button_previous: "absolute left-1.5",
@@ -62,8 +66,8 @@ export const DatePicker: FC<DatePickerProps> = ({ name, label, error, disabledIn
             day_hidden: "invisible",
           }}
           components={{
-            IconLeft: ({ ...props }) => <ChevronLeftIcon {...props} className="h-4 w-4 stroke-2" />,
-            IconRight: ({ ...props }) => <ChevronRightIcon {...props} className="h-4 w-4 stroke-2" />,
+            IconLeft: ({ ...props }) => <ChevronLeftIcon {...props} className="size-4 stroke-2" />,
+            IconRight: ({ ...props }) => <ChevronRightIcon {...props} className="size-4 stroke-2" />,
           }}
         />
       </PopoverContent>

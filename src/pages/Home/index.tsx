@@ -18,7 +18,7 @@ export function Component() {
         style={{ width: "100%", height: "100%", position: "relative" }}
         mapStyle="mapbox://styles/marcoescaleiradmu/clp7mzxrf01q701qycptw1thq"
       >
-        <section className="absolute left-1/2 top-1/2 flex w-80 -translate-x-1/2 -translate-y-1/2 transform flex-col items-center justify-center rounded-2xl bg-gray-100 bg-opacity-90 p-3 sm:w-auto sm:p-8">
+        <section className="absolute left-1/2 top-1/2 flex w-80 -translate-x-1/2 -translate-y-1/2 transform flex-col items-center justify-center rounded-2xl bg-gray-100 bg-opacity-90 p-3 sm:w-[450px] md:w-[600px] sm:p-8">
           <img
             src="/images/planet-earth.svg"
             width={180}

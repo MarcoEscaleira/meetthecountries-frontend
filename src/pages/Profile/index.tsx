@@ -9,17 +9,9 @@ import { useCountries } from "use-react-countries";
 import { z } from "zod";
 import { DatePicker } from "@components/DatePicker/DatePicker";
 import { UserRoleChip } from "@components/UserRoleChip/UserRoleChip.tsx";
-import { gql } from "@generated/gql.ts";
 import { useUserStore } from "@state/userStore.ts";
 import { DATE_TIME, DATE_TIME_READ } from "@utils/constants.ts";
-
-const UPDATE_USER = gql(/* GraphQL */ `
-  mutation UpdateUser($userId: String!, $user: UserUpdateInput!) {
-    updateUser(userId: $userId, user: $user) {
-      id
-    }
-  }
-`);
+import { UPDATE_USER } from "@utils/queries/UpdateUser";
 
 const formSchema = z.object({
   firstName: z.string().min(1, { message: "Enter a first name." }),

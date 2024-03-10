@@ -149,6 +149,10 @@ export function QuizForm() {
               className: "flex items-center opacity-100 px-0 gap-2 pointer-events-none",
             })
           }
+          animate={{
+            mount: { y: 0 },
+            unmount: { y: 25 },
+          }}
           error={!!errors.country}
         >
           {orderedCountries().map(({ name, flags }) => (

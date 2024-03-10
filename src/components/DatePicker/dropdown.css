@@ -1,0 +1,19 @@
+.rdp-caption_dropdowns {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.rdp-vhidden {
+  visibility: hidden;
+}
+
+.caption-label {
+  visibility: hidden;
+}
+
+.rdp-dropdown {
+  padding: 10px;
+  background-color: #fff;
+}

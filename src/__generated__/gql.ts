@@ -13,7 +13,6 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
-    "\n  mutation UpdateUser($userId: String!, $user: UserUpdateInput!) {\n    updateUser(userId: $userId, user: $user) {\n      id\n    }\n  }\n": types.UpdateUserDocument,
     "\n  mutation ApproveQuiz($quizId: String!) {\n    approveQuiz(quizId: $quizId)\n  }\n": types.ApproveQuizDocument,
     "\n  query QuizAttempt($attemptId: String!) {\n    attemptById(attemptId: $attemptId) {\n      id\n      correctOptions\n      percentage\n      minutes\n      seconds\n      startTime\n      endTime\n      rating\n      questions {\n        question\n        type\n        options {\n          text\n          correct\n          chosen\n        }\n      }\n      user {\n        firstName\n        lastName\n      }\n      quiz {\n        title\n        country\n        creator {\n          firstName\n          lastName\n          country\n        }\n      }\n    }\n  }\n": types.QuizAttemptDocument,
     "\n  mutation CancelQuiz($quizId: String!) {\n    cancelQuiz(quizId: $quizId)\n  }\n": types.CancelQuizDocument,
@@ -30,6 +29,7 @@ const documents = {
     "\n  mutation SubmitAttempt($attempt: AttemptAddInput!) {\n    addAttempt(attempt: $attempt) {\n      id\n    }\n  }\n": types.SubmitAttemptDocument,
     "\n    mutation SubmitAttemptRating($attemptId: String!, $rating: Int!) {\n        addAttemptRating(attemptId: $attemptId, rating: $rating)\n    }\n": types.SubmitAttemptRatingDocument,
     "\n  mutation UpdateQuiz($quizId: String!, $quiz: QuizAddInput!) {\n    updateQuiz(quizId: $quizId, quiz: $quiz) {\n      id\n    }\n  }\n": types.UpdateQuizDocument,
+    "\n  mutation UpdateUser($userId: String!, $user: UserUpdateInput!) {\n    updateUser(userId: $userId, user: $user) {\n      id\n    }\n  }\n": types.UpdateUserDocument,
     "\n  query UserAttempts($userId: String) {\n    attempts(userId: $userId) {\n      id\n      quiz {\n        id\n        country\n      }\n    }\n  }\n": types.UserAttemptsDocument,
     "\n  query GetMe {\n    getCurrentlyLoggedInUser {\n      id\n      email\n      firstName\n      lastName\n      dateOfBirth\n      country\n      role\n      createdAt\n      updatedAt\n    }\n  }\n": types.GetMeDocument,
 };
@@ -48,10 +48,6 @@ const documents = {
  */
 export function gql(source: string): unknown;
 
-/**
- * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function gql(source: "\n  mutation UpdateUser($userId: String!, $user: UserUpdateInput!) {\n    updateUser(userId: $userId, user: $user) {\n      id\n    }\n  }\n"): (typeof documents)["\n  mutation UpdateUser($userId: String!, $user: UserUpdateInput!) {\n    updateUser(userId: $userId, user: $user) {\n      id\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -116,6 +112,10 @@ export function gql(source: "\n    mutation SubmitAttemptRating($attemptId: Stri
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n  mutation UpdateQuiz($quizId: String!, $quiz: QuizAddInput!) {\n    updateQuiz(quizId: $quizId, quiz: $quiz) {\n      id\n    }\n  }\n"): (typeof documents)["\n  mutation UpdateQuiz($quizId: String!, $quiz: QuizAddInput!) {\n    updateQuiz(quizId: $quizId, quiz: $quiz) {\n      id\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  mutation UpdateUser($userId: String!, $user: UserUpdateInput!) {\n    updateUser(userId: $userId, user: $user) {\n      id\n    }\n  }\n"): (typeof documents)["\n  mutation UpdateUser($userId: String!, $user: UserUpdateInput!) {\n    updateUser(userId: $userId, user: $user) {\n      id\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
