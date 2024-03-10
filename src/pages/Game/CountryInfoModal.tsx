@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Dialog, DialogBody, DialogFooter, DialogHeader, Typography } from "@material-tailwind/react";
+import { Button, Dialog, DialogBody, DialogFooter, DialogHeader, Tooltip, Typography } from "@material-tailwind/react";
 
 interface CountryInfoModalProps {
   countryDetails: Country;
@@ -13,9 +13,11 @@ export const CountryInfoModal = ({
 
   return (
     <>
-      <Button onClick={toggleDialog} variant="gradient" className="p-3">
-        View country
-      </Button>
+      <Tooltip content={`View ${name} details`}>
+        <Button onClick={toggleDialog} variant="gradient" className="p-3">
+          View country
+        </Button>
+      </Tooltip>
       <Dialog open={isOpen} handler={toggleDialog}>
         <DialogHeader>
           <img src={flags.svg} alt={name} className="mr-3 size-5 rounded-full object-cover" />

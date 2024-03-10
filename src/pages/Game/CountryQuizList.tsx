@@ -34,14 +34,14 @@ export const CountryQuizList = ({ quizList, isLoadingCountryQuizList }: CountryQ
   }
 
   const headerContent = (
-    <div className="mb-4 mt-6 flex w-full items-center justify-between gap-3 border-b-2 pb-4 sm:justify-center sm:gap-14 md:mt-10 md:px-0 md:pb-6">
+    <div className="mb-4 mt-12 flex w-full items-center justify-between gap-3 border-b-2 pb-4 sm:justify-center sm:gap-14 md:mt-10 md:px-0 md:pb-6">
       <Typography variant="h2" className="flex items-center gap-2 text-2xl">
         <img src={countryDetails.flags.svg} alt={countryDetails.name} className="h-5 w-5 rounded-full object-cover" />
 
         {countryDetails.name}
       </Typography>
 
-      <div className="flex flex-col gap-2 sm:flex-row md:gap-6">
+      <div className="flex gap-4">
         <CountryInfoModal countryDetails={countryDetails} />
 
         {isLoggedIn && (
@@ -64,7 +64,7 @@ export const CountryQuizList = ({ quizList, isLoadingCountryQuizList }: CountryQ
   if (isLoadingCountryQuizList) {
     return (
       <>
-        {headerContent} <Spinner className="mt-10 h-14 w-14" />
+        {headerContent} <Spinner className="mt-10 size-14" />
       </>
     );
   }
@@ -72,9 +72,9 @@ export const CountryQuizList = ({ quizList, isLoadingCountryQuizList }: CountryQ
   if (quizList.length === 0) {
     return (
       <>
-        {headerContent}{" "}
+        {headerContent}
         <Typography className="mt-6 font-medium">
-          Sorry, no quizzes available for this country at the moment.
+          Sorry, no quizzes available for {searchParams.get("country") || "this country"} at the moment.
         </Typography>
         {isLoggedIn && (
           <Button variant="text" color="green" size="md" onClick={() => navigate("/game/quiz/add")} className="mt-4">
