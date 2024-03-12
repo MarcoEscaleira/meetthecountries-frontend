@@ -1,7 +1,8 @@
 import { cloneElement, useCallback, useEffect } from "react";
-import { useLazyQuery, useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Input, Option, Select, Textarea, Typography } from "@material-tailwind/react";
+import { Loader2 } from "lucide-react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -11,34 +12,17 @@ import { DifficultyChip } from "@components/DifficultyChip/DifficultyChip.tsx";
 import { QuestionFields } from "@components/Quiz/QuestionsFields.tsx";
 import { quizFormSchema } from "@components/Quiz/quizFormSchema.ts";
 import { TagsInput } from "@components/TagsInput/TagsInput.tsx";
-import { Difficulty, QuestionType, QuizByIdQuery, Roles } from "@generated/graphql.ts";
+import { Difficulty, Roles } from "@generated/graphql.ts";
 import { useUserStore } from "@state/userStore.ts";
-import { GET_COUNTRY_QUIZZES } from "@utils/queries/CountryQuizzes.ts";
-import { CREATE_QUIZ } from "@utils/queries/CreateQuiz.ts";
-import { GET_QUIZ_BY_ID } from "@utils/queries/QuizById.ts";
-import { GET_QUIZZES } from "@utils/queries/Quizzes.ts";
-import { UPDATE_QUIZ } from "@utils/queries/UpdateQuiz.ts";
-import { GET_USER_ATTEMPTS } from "@utils/queries/UserAttempts.ts";
-
-const getDefaultValues = (searchParams: URLSearchParams, quiz?: QuizByIdQuery["quizById"]) => ({
-  title: quiz?.title || "",
-  description: quiz?.description || "",
-  country: quiz?.country || searchParams.get("country") || "",
-  image: quiz?.image || "",
-  questions: quiz?.questions || [
-    {
-      question: "",
-      type: QuestionType.Single,
-      options: [
-        { text: "", correct: false },
-        { text: "", correct: false },
-      ],
-    },
-  ],
-  difficulty: quiz?.difficulty || Difficulty.Unknown,
-  timeLimit: quiz?.timeLimit || 0,
-  tags: quiz?.tags || [],
-});
+import {
+  GET_COUNTRY_QUIZZES,
+  CREATE_QUIZ,
+  GET_QUIZ_BY_ID,
+  GET_QUIZZES,
+  UPDATE_QUIZ,
+  GET_USER_ATTEMPTS,
+} from "@utils/queries";
+import { getQuizFormDefaultValues } from "./quizDefaultValues";
 
 export function QuizForm() {
   const [searchParams] = useSearchParams();
@@ -50,20 +34,16 @@ export function QuizForm() {
 
   const { quizId } = useParams();
 
-  const [fetchQuiz, { data, loading }] = useLazyQuery(GET_QUIZ_BY_ID, { variables: { quizId: quizId || "" } });
+  const { data, loading } = useQuery(GET_QUIZ_BY_ID, { variables: { quizId: quizId || "" } });
   const quiz = data?.quizById;
 
   const {
     user: { role },
   } = useUserStore();
 
-  useEffect(() => {
-    if (quizId && !loading) fetchQuiz();
-  }, [quizId]);
-
   const form = useForm<z.infer<typeof quizFormSchema>>({
     resolver: zodResolver(quizFormSchema),
-    defaultValues: getDefaultValues(searchParams, quiz),
+    defaultValues: getQuizFormDefaultValues(searchParams, quiz),
   });
   const {
     register,
@@ -75,7 +55,7 @@ export function QuizForm() {
 
   useEffect(() => {
     if (quizId && quiz) {
-      reset(getDefaultValues(searchParams, quiz));
+      reset(getQuizFormDefaultValues(searchParams, quiz));
     }
   }, [quizId, quiz]);
 
@@ -123,6 +103,13 @@ export function QuizForm() {
       console.log("Something went wrong", e);
     }
   };
+
+  if (loading)
+    return (
+      <div className="flex w-full items-center justify-center">
+        <Loader2 size={42} className="animate-spin" />
+      </div>
+    );
 
   return (
     <FormProvider {...form}>

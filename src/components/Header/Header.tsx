@@ -18,7 +18,7 @@ export function Header() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const { user, isLoggedIn, isAdmin, resetUser } = useUserStore();
 
-  const [makeLogout] = useLazyQuery(LOGOUT_USER);
+  const [makeLogout, { client }] = useLazyQuery(LOGOUT_USER);
 
   const toggleDrawer = () => setIsDrawerOpen(!isDrawerOpen);
 
@@ -123,6 +123,7 @@ export function Header() {
                 <ListItem
                   onClick={async () => {
                     await makeLogout();
+                    client.resetStore();
                     resetUser();
                     toast.success("Logout successful");
                     toggleDrawer();

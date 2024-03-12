@@ -35,4 +35,35 @@ export const quizFormSchema = z
         path: ["correctOption"],
       });
     }
+
+    // if question is multi choice type, then it must have at least 2 correct options
+    const hasAllMultiChoiceQuestionsHaveAtLeastTwoCorrectOptions = questions.every(question => {
+      if (question.type === QuestionType.Multi) {
+        const correctOptions = question.options.filter(option => option.correct);
+        return correctOptions.length >= 2;
+      }
+      return true;
+    });
+
+    if (!hasAllMultiChoiceQuestionsHaveAtLeastTwoCorrectOptions) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Multi choice question must at least have two correct options.",
+        path: ["correctOption"],
+      });
+    }
+
+    // Question cannot have all options as correct
+    const hasAllQuestionsHaveNotAllOptionsCorrect = questions.every(question => {
+      const correctOptions = question.options.filter(option => option.correct);
+      return correctOptions.length !== question.options.length;
+    });
+
+    if (!hasAllQuestionsHaveNotAllOptionsCorrect) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "A question cannot have all options as correct.",
+        path: ["correctOption"],
+      });
+    }
   });

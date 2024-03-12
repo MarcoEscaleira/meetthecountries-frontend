@@ -135,7 +135,20 @@ export function QuizAttempt({ quiz }: QuizAttemptProps) {
             </Button>
           ))}
 
-        {question.type === QuestionType.Multi && <Typography>Multi choice not yet supported</Typography>}
+        {question.type === QuestionType.Multi &&
+          question.options.map(({ text }, index) => (
+            <Button
+              key={text}
+              fullWidth
+              variant="outlined"
+              color={COLOURS[index]}
+              onClick={() => {
+                handleOptionSelection(text);
+              }}
+            >
+              {text}
+            </Button>
+          ))}
       </div>
     </div>
   );

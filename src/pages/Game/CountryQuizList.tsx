@@ -70,7 +70,7 @@ export const CountryQuizList = ({ quizList, isLoadingCountryQuizList }: CountryQ
           Sorry, no quizzes available for {searchParams.get("country") || "this country"} at the moment.
         </Typography>
         {isLoggedIn && (
-          <Button variant="text" color="green" size="md" onClick={goToQuizForm} className="mt-4">
+          <Button variant="text" color="green" size="md" onClick={goToQuizForm} className="mt-4 mb-16">
             Create a quiz
           </Button>
         )}

@@ -5,7 +5,14 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { Link, useRevalidator } from "react-router-dom";
 import { toast } from "react-toastify";
 import { z } from "zod";
-import { LOGIN_USER } from "@utils/queries/LoginUser.ts";
+import {
+  LOGIN_USER,
+  GET_USER_ATTEMPTS,
+  GET_QUIZ_RATING,
+  GET_COUNTRY_QUIZZES,
+  GET_QUIZ_BY_ID,
+  GET_QUIZ_ATTEMPTS,
+} from "@utils/queries";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -33,6 +40,7 @@ export function LoginForm({ toggleDrawer }: { toggleDrawer: () => void }) {
       toast.success("Logged in successfully!");
       reset();
     },
+    refetchQueries: [GET_COUNTRY_QUIZZES, GET_QUIZ_RATING, GET_USER_ATTEMPTS, GET_QUIZ_BY_ID, GET_QUIZ_ATTEMPTS],
   });
 
   const onSubmit: SubmitHandler<z.infer<typeof formSchema>> = async (values, event) => {

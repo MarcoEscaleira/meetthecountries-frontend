@@ -1,5 +1,5 @@
 import { cloneElement } from "react";
-import { IconButton, Input, Option, Select, Typography } from "@material-tailwind/react";
+import { IconButton, Input, Option, Select, Tooltip, Typography } from "@material-tailwind/react";
 import { Plus, X } from "lucide-react";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import { z } from "zod";
@@ -22,24 +22,28 @@ export function QuestionFields() {
   });
 
   return (
-    <div className="mt-4 border-t pt-2">
-      <div className="mb-1 flex items-center justify-between">
-        <Typography>Questions: {fields.length}</Typography>
-        <IconButton
-          onClick={() => append({ question: "", type: QuestionType.Single, options: [{ text: "", correct: false }] })}
-          color="green"
-          size="sm"
-        >
-          <Plus className="size-5" />
-        </IconButton>
+    <div className="mt-4">
+      <div className="mb-1 flex items-center gap-3">
+        <Typography className="font-medium">Questions: {fields.length}</Typography>
+        <Tooltip content="Add a question" placement="top">
+          <IconButton
+            onClick={() => append({ question: "", type: QuestionType.Single, options: [{ text: "", correct: false }] })}
+            color="green"
+            size="sm"
+          >
+            <Plus className="size-5" />
+          </IconButton>
+        </Tooltip>
       </div>
 
+      <hr className="border-secondaryShades.5 mt-2 w-full" />
+
       {fields.map((field, questionIndex) => (
-        <div key={field.id} className="flex flex-col mt-3">
-          <div className="flex items-center justify-between mb-2">
+        <div key={field.id} className="mt-3 flex flex-col">
+          <div className="mb-2 flex items-center justify-between">
             <Typography>Question #{questionIndex + 1}</Typography>
             <IconButton onClick={() => remove(questionIndex)} variant="text" size="sm">
-              <X className="size-4 stroke-red-500" />
+              <X className="size-5 stroke-red-500" />
             </IconButton>
           </div>
 
@@ -75,8 +79,6 @@ export function QuestionFields() {
           </Select>
 
           <OptionsFields questionIndex={questionIndex} />
-
-          <hr className="border-secondaryShades.5 mt-2 w-full" />
         </div>
       ))}
     </div>

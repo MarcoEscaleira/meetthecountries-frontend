@@ -1,7 +1,7 @@
 import { IconButton, Typography } from "@material-tailwind/react";
 import { ColumnDef } from "@tanstack/table-core";
 import { format } from "date-fns";
-import { Eye } from "lucide-react";
+import { Pencil } from "lucide-react";
 import { Link } from "react-router-dom";
 import { DifficultyChip } from "@components/DifficultyChip/DifficultyChip.tsx";
 import { QuizStatusChip } from "@components/QuizStatusChip/QuizStatusChip.tsx";
@@ -64,7 +64,7 @@ export const tableColumns: ColumnDef<QuizListData>[] = [
         <div className="flex gap-2">
           <Link to={`/game/quiz/${getValue()}/edit`}>
             <IconButton size="sm" variant="text">
-              <Eye className="size-5" />
+              <Pencil className="size-4" />
             </IconButton>
           </Link>
 
