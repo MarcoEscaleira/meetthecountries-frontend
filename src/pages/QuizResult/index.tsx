@@ -5,27 +5,16 @@ import { format } from "date-fns";
 import { ChevronRight, Loader2 } from "lucide-react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { AttemptRow } from "@components/AttempRow/AttemptRow.tsx";
 import { AttemptRating } from "@components/AttemptRating/AttemptRating.tsx";
+import { AttemptRow } from "@components/AttemptRow/AttemptRow";
 import { ScoreChip } from "@components/ScoreChip/ScoreChip.tsx";
 import { QuestionType } from "@generated/graphql.ts";
 import { useUserStore } from "@state/userStore.ts";
-import { COLOURS } from "@utils/constants.ts";
 import { useCountryDetails } from "@utils/hooks/useCountryDetails.ts";
 import { GET_ATTEMPT_BY_ID } from "@utils/queries/AttemptById.ts";
 import { DELETE_ATTEMPT } from "@utils/queries/DeleteAttempt.ts";
 import { GET_QUIZ_ATTEMPTS } from "@utils/queries/QuizAttempts.ts";
-
-const handleOptionColor = (correct: boolean, chosen: boolean, index: number) => {
-  if (chosen && !correct) return "red";
-  if (correct) return "green";
-  return COLOURS[index];
-};
-
-const handleOptionVariant = (correct: boolean, chosen: boolean) => {
-  if (correct || chosen) return "filled";
-  return "outlined";
-};
+import { DATE_FORMAT, generateIntroText, handleOptionColor, handleOptionVariant } from "./utils";
 
 export function Component() {
   const navigate = useNavigate();
@@ -53,7 +42,11 @@ export function Component() {
   });
   const attempt = currentAttempt?.attemptById;
   const quiz = attempt?.quiz;
-  const countryDetails = useCountryDetails(quiz?.country || "");
+  const userCountryDetails = useCountryDetails(attempt?.user?.country || "");
+  const quizCountryDetails = useCountryDetails(quiz?.country || "");
+  const totalQuestions = attempt?.questions.length || 0;
+  const creatorName = `${quiz?.creator.firstName} ${quiz?.creator.lastName}`;
+  const attemptUserName = attempt?.user?.firstName;
 
   if (loadingCurrentAttempt && !currentAttempt)
     return (
@@ -61,8 +54,6 @@ export function Component() {
         <Spinner className="h-16 w-16" />
       </div>
     );
-
-  const totalQuestions = attempt?.questions.length || 0;
 
   return (
     <div className="flex h-full w-full flex-col items-center px-4 pb-4 pt-16 md:px-12 md:pt-24">
@@ -78,7 +69,7 @@ export function Component() {
 
       <section className="container">
         <Typography variant="h1" className="mb-4 text-4xl md:text-6xl">
-          Well done {attempt?.user?.firstName}!
+          {generateIntroText(attempt?.percentage || 0)} {attemptUserName}!
         </Typography>
 
         <Typography variant="lead" className="mb-2 flex gap-2 text-lg md:mb-5 md:text-2xl">
@@ -87,27 +78,19 @@ export function Component() {
         </Typography>
 
         <div className="flex gap-2">
-          <Typography>Rate the quiz</Typography>
+          <Typography className="font-medium">Rate the quiz</Typography>
 
           <AttemptRating attemptId={attemptId || ""} rating={attempt?.rating || undefined} />
         </div>
 
         <div className="mb-4 mt-2 flex flex-col gap-2 md:mt-5">
           <Typography variant="small" className="flex items-center">
-            <ChevronRight className="size-4" /> {format(new Date(attempt?.startTime), "dd MMM yyyy hh:mm:ss")}
+            <ChevronRight className="size-4" /> Started at {format(new Date(attempt?.startTime), DATE_FORMAT)}
           </Typography>
           <Typography variant="small" className="flex items-center">
-            <ChevronRight className="size-4" /> {format(new Date(attempt?.endTime), "dd MMM yyyy hh:mm:ss")}
+            <ChevronRight className="size-4" /> Finished at {format(new Date(attempt?.endTime), DATE_FORMAT)}
           </Typography>
         </div>
-        <Typography className="flex items-center font-medium">
-          Quiz made by {attempt?.quiz?.creator.firstName} {attempt?.quiz?.creator.lastName}
-          <img
-            src={countryDetails?.flags.svg}
-            alt={countryDetails?.name}
-            className="ml-1 size-5 rounded-full object-cover"
-          />
-        </Typography>
         <div className="mt-4 flex items-center gap-4 md:mt-6">
           <Button color="light-blue" onClick={() => navigate(`/game?country=${attempt?.quiz.country}`)}>
             Go to country
@@ -118,7 +101,25 @@ export function Component() {
         </div>
         <div className="flex w-full flex-col items-center md:flex-row md:items-start md:gap-5">
           <section className="flex w-full flex-grow flex-col gap-4 md:w-3/5">
-            <Typography variant="h2" className="mt-8 text-xl md:text-3xl">
+            <Typography variant="h2" className="mt-8 flex items-center text-xl md:text-3xl">
+              <img
+                src={quizCountryDetails?.flags.svg}
+                alt={quizCountryDetails?.name}
+                className="mr-2 size-5 rounded-full object-cover"
+              />
+              {quiz?.title}
+            </Typography>
+
+            <Typography className="flex items-center">
+              Quiz made by <span className="ml-1 font-medium">{creatorName}</span>
+              <img
+                src={userCountryDetails?.flags.svg}
+                alt={userCountryDetails?.name}
+                className="ml-1 size-5 rounded-full object-cover"
+              />
+            </Typography>
+
+            <Typography variant="h2" className="mt-2 text-xl font-medium md:text-3xl">
               Review your answers
             </Typography>
 
@@ -147,7 +148,7 @@ export function Component() {
           </section>
 
           <section className="flex w-full flex-col gap-3 md:w-auto">
-            <Typography variant="h2" className="mt-8 text-xl md:text-3xl">
+            <Typography variant="h2" className="mt-8 text-xl font-medium md:text-3xl">
               How are other users doing?
             </Typography>
 

@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useLazyQuery } from "@apollo/client";
 import { List, Typography } from "@material-tailwind/react";
 import { Loader2 } from "lucide-react";
-import { AttemptRow } from "@components/AttempRow/AttemptRow.tsx";
+import { AttemptRow } from "@components/AttemptRow/AttemptRow";
 import { useUserStore } from "@state/userStore.ts";
 import { GET_QUIZ_ATTEMPTS } from "@utils/queries/QuizAttempts.ts";
 

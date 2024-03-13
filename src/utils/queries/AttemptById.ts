@@ -23,6 +23,7 @@ export const GET_ATTEMPT_BY_ID = gql(/* GraphQL */ `
       user {
         firstName
         lastName
+        country
       }
       quiz {
         title

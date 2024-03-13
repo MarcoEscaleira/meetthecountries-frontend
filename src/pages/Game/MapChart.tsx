@@ -63,6 +63,21 @@ export const MapChart: FC = () => {
                   const isCountrySelected = searchParams.get("country") === geo.properties.name;
                   const countryColor = mappedCountries[geo.properties.name] || "fill-blue-gray-200";
 
+                  const handleOnCountryClick = (event: React.MouseEvent<SVGPathElement, MouseEvent>) => {
+                    event.stopPropagation();
+
+                    const country = geo.properties.name;
+                    if (searchParams.get("country") === country) {
+                      setSearchParams({
+                        country: "",
+                      });
+                    } else {
+                      setSearchParams({
+                        country,
+                      });
+                    }
+                  };
+
                   return (
                     <Fragment key={geo.rsmKey}>
                       <Tooltip content={geo.properties.name}>
@@ -70,32 +85,11 @@ export const MapChart: FC = () => {
                           key={geo.rsmKey}
                           geography={geo}
                           data-tooltip-id="country-tooltip"
-                          onClick={event => {
-                            event.stopPropagation();
-
-                            const country = geo.properties.name;
-                            if (searchParams.get("country") === country) {
-                              setSearchParams({
-                                country: "",
-                              });
-                            } else {
-                              setSearchParams({
-                                country,
-                              });
-                            }
-                          }}
+                          onClick={handleOnCountryClick}
                           className={`${isCountrySelected ? "fill-blue-400" : countryColor} cursor-pointer outline-none hover:fill-blue-300`}
                         />
                       </Tooltip>
-                      <Marker
-                        key={`name-${geo.rsmKey}`}
-                        coordinates={provinceCenter}
-                        onClick={() => {
-                          setSearchParams({
-                            country: geo.properties.name,
-                          });
-                        }}
-                      >
+                      <Marker key={`name-${geo.rsmKey}`} coordinates={provinceCenter} onClick={handleOnCountryClick}>
                         {/* @ts-expect-error: text not found in svg */}
                         <text
                           textAnchor="middle"

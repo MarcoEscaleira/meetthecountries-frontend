@@ -35,7 +35,7 @@ export const CountryQuizCard = ({ id, image, title, description, difficulty, tim
       </CardHeader>
       <CardBody className="flex-grow">
         <div className="mb-3 flex items-center justify-start">
-          <Typography variant="h5" color="blue-gray" className="font-medium">
+          <Typography variant="h5" color="blue-gray" className="font-medium" style={{ wordBreak: "break-word" }}>
             {title}
           </Typography>
         </div>
