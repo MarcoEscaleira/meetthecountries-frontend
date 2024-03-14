@@ -1,7 +1,7 @@
 import { cloneElement, useCallback, useEffect } from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, Input, Option, Select, Textarea, Typography } from "@material-tailwind/react";
+import { Button, Option, Select, Textarea } from "@material-tailwind/react";
 import { Loader2 } from "lucide-react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import { useCountries } from "use-react-countries";
 import { z } from "zod";
 import { DifficultyChip } from "@components/DifficultyChip/DifficultyChip.tsx";
+import { ErrorText, FormInput } from "@components/Form";
 import { QuestionFields } from "@components/Quiz/QuestionsFields.tsx";
 import { quizFormSchema } from "@components/Quiz/quizFormSchema.ts";
 import { TagsInput } from "@components/TagsInput/TagsInput.tsx";
@@ -114,15 +115,18 @@ export function QuizForm() {
   return (
     <FormProvider {...form}>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
-        <Input {...register("title")} size="lg" label="Title" placeholder="A great quiz title" error={!!errors.title} />
+        <FormInput name="title" label="Title" placeholder="A great quiz title" />
 
-        <Textarea
-          {...register("description")}
-          size="lg"
-          label="Description"
-          placeholder=""
-          error={!!errors.description}
-        />
+        <div>
+          <Textarea
+            {...register("description")}
+            size="lg"
+            label="Description"
+            placeholder=""
+            error={!!errors.description}
+          />
+          <ErrorText text={errors.description?.message || ""} className="mt-0" />
+        </div>
 
         <Select
           size="lg"
@@ -150,7 +154,7 @@ export function QuizForm() {
           ))}
         </Select>
 
-        <Input {...register("image")} size="lg" label="Image URL" placeholder="" error={!!errors.image} />
+        <FormInput name="image" label="Image URL" />
 
         <QuestionFields />
 
@@ -176,11 +180,10 @@ export function QuizForm() {
             ))}
           </Select>
 
-          <Input
-            {...register("timeLimit", { valueAsNumber: true, validate: value => value! > 0 })}
-            size="lg"
+          <FormInput
+            name="timeLimit"
+            registerOptions={{ valueAsNumber: true, validate: value => value! > 0 }}
             label="Time limit (minutes, 0 means no limit)"
-            error={!!errors.timeLimit}
             type="number"
           />
         </div>
@@ -188,19 +191,11 @@ export function QuizForm() {
         <TagsInput name="tags" label="Tags" />
 
         {(mutationCreateError?.message || mutationUpdateError?.message) && (
-          <Typography variant="small" color="red">
-            {mutationCreateError?.message}
-            {mutationUpdateError?.message}
-          </Typography>
+          <ErrorText text={mutationCreateError?.message || mutationUpdateError?.message || ""} />
         )}
 
         {/* @ts-expect-error: not sure how to grab this type from Zod superRefine */}
-        {errors?.correctOption && (
-          <Typography variant="small" color="red">
-            {/* @ts-expect-error: not sure how to grab this type from Zod superRefine */}
-            {errors.correctOption.message}
-          </Typography>
-        )}
+        {errors?.correctOption && <ErrorText text={errors.correctOption.message} />}
 
         <Button
           type="submit"

@@ -1,8 +1,9 @@
 import { cloneElement } from "react";
-import { IconButton, Input, Option, Select, Tooltip, Typography } from "@material-tailwind/react";
+import { IconButton, Option, Select, Tooltip, Typography } from "@material-tailwind/react";
 import { Plus, X } from "lucide-react";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import { z } from "zod";
+import { FormInput } from "@components/Form";
 import { QuestionTypeChip } from "@components/QuestionTypeChip/QuestionTypeChip.tsx";
 import { QuestionType } from "@generated/graphql.ts";
 import { OptionsFields } from "./OptionsFields";
@@ -11,7 +12,6 @@ import { quizFormSchema } from "./quizFormSchema";
 export function QuestionFields() {
   const {
     control,
-    register,
     getValues,
     setValue,
     formState: { errors },
@@ -48,12 +48,11 @@ export function QuestionFields() {
           </div>
 
           <div className="mb-2">
-            <Input
-              {...register(`questions.${questionIndex}.question`)}
+            <FormInput
+              name={`questions.${questionIndex}.question`}
               size="md"
               label="Title"
-              placeholder=""
-              error={!!errors.questions?.[questionIndex]?.question}
+              fieldError={errors.questions?.[questionIndex]?.question}
             />
           </div>
 

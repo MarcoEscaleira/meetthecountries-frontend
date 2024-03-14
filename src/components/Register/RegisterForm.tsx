@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import { useCountries } from "use-react-countries";
 import { z } from "zod";
 import { DatePicker } from "@components/DatePicker/DatePicker.tsx";
+import { ErrorText, FormInput } from "@components/Form";
 import { REGISTER_USER } from "@utils/queries/RegisterUser.ts";
 
 const formSchema = z
@@ -51,7 +52,6 @@ export function RegisterForm() {
     },
   });
   const {
-    register,
     handleSubmit,
     reset,
     formState: { errors },
@@ -84,36 +84,12 @@ export function RegisterForm() {
   return (
     <FormProvider {...form}>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 py-4">
-        <Input
-          {...register("email")}
-          name="email"
-          type="email"
-          size="lg"
-          label="Email address"
-          placeholder="name@mail.com"
-          error={!!errors.email}
-        />
+        <FormInput name="email" type="email" label="Email address" placeholder="name@mail.com" />
 
         <div>
           <div className="flex flex-col space-y-2 md:flex-row md:space-x-4 md:space-y-0">
-            <Input
-              {...register("password")}
-              name="password"
-              size="lg"
-              type="password"
-              label="Password"
-              placeholder="*******"
-              error={!!errors.password}
-            />
-            <Input
-              {...register("passwordConfirm")}
-              name="passwordConfirm"
-              size="lg"
-              type="password"
-              label="Password confirmation"
-              placeholder="*******"
-              error={!!errors.passwordConfirm}
-            />
+            <FormInput name="password" type="password" label="Password" placeholder="*******" />
+            <FormInput name="passwordConfirm" type="password" label="Password confirmation" placeholder="*******" />
           </div>
 
           <Typography variant="small" color="gray" className="mt-2 flex items-center gap-1 font-normal">
@@ -122,51 +98,43 @@ export function RegisterForm() {
           </Typography>
         </div>
 
-        <Input
-          {...register("firstName")}
-          name="firstName"
-          size="lg"
-          label="First name"
-          placeholder=""
-          error={!!errors.firstName}
-        />
+        <FormInput name="firstName" label="First name" placeholder="" />
 
-        <Input
-          {...register("lastName")}
-          name="lastName"
-          size="lg"
-          label="Last name"
-          placeholder=""
-          error={!!errors.lastName}
-        />
+        <Input name="lastName" label="Last name" />
 
-        <DatePicker
-          name="dateOfBirth"
-          label="Date of birth"
-          disabled={{ after: new Date() }}
-          error={!!errors.dateOfBirth}
-        />
+        <div>
+          <DatePicker
+            name="dateOfBirth"
+            label="Date of birth"
+            disabled={{ after: new Date() }}
+            error={!!errors.dateOfBirth}
+          />
+          <ErrorText text={errors.dateOfBirth?.message || ""} />
+        </div>
 
-        <Select
-          size="lg"
-          label="Select Country"
-          onChange={value => form.setValue("country", value || "")}
-          selected={element =>
-            element &&
-            cloneElement(element, {
-              disabled: true,
-              className: "flex items-center opacity-100 px-0 gap-2 pointer-events-none",
-            })
-          }
-          error={!!errors.country}
-        >
-          {orderedCountries().map(({ name, flags }) => (
-            <Option key={name} value={name} className="flex items-center gap-2">
-              <img src={flags.svg} alt={name} className="h-5 w-5 rounded-full object-cover" />
-              {name}
-            </Option>
-          ))}
-        </Select>
+        <div>
+          <Select
+            size="lg"
+            label="Select Country"
+            onChange={value => form.setValue("country", value || "")}
+            selected={element =>
+              element &&
+              cloneElement(element, {
+                disabled: true,
+                className: "flex items-center opacity-100 px-0 gap-2 pointer-events-none",
+              })
+            }
+            error={!!errors.country}
+          >
+            {orderedCountries().map(({ name, flags }) => (
+              <Option key={name} value={name} className="flex items-center gap-2">
+                <img src={flags.svg} alt={name} className="h-5 w-5 rounded-full object-cover" />
+                {name}
+              </Option>
+            ))}
+          </Select>
+          <ErrorText text={errors.country?.message || ""} />
+        </div>
 
         {mutationError?.message && (
           <Typography variant="small" color="red">

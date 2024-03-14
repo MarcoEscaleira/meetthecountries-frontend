@@ -1,7 +1,8 @@
-import { Checkbox, IconButton, Input, Tooltip, Typography } from "@material-tailwind/react";
+import { Checkbox, IconButton, Tooltip, Typography } from "@material-tailwind/react";
 import { Plus, X } from "lucide-react";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import { z } from "zod";
+import { FormInput } from "@components/Form";
 import { quizFormSchema } from "./quizFormSchema";
 
 interface OptionsFieldsProps {
@@ -34,7 +35,7 @@ export function OptionsFields({ questionIndex }: OptionsFieldsProps) {
 
       {fields.map((field, optionIndex) => (
         <div key={field.id} className="mb-4">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 mb-1">
             <Typography>Option #{optionIndex + 1}</Typography>
             <Tooltip content="Remove option" placement="top">
               <IconButton onClick={() => remove(optionIndex)} variant="text" size="sm">
@@ -43,12 +44,11 @@ export function OptionsFields({ questionIndex }: OptionsFieldsProps) {
             </Tooltip>
           </div>
           <div className="flex items-center gap-3">
-            <Input
-              {...register(`questions.${questionIndex}.options.${optionIndex}.text`)}
+            <FormInput
+              name={`questions.${questionIndex}.options.${optionIndex}.text`}
               size="md"
               label="Text"
-              placeholder=""
-              error={!!errors.questions?.[questionIndex]?.options?.[optionIndex]?.text}
+              fieldError={errors.questions?.[questionIndex]?.options?.[optionIndex]?.text}
             />
             <Checkbox
               {...register(`questions.${questionIndex}.options.${optionIndex}.correct`)}
