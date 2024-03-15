@@ -1,10 +1,11 @@
 import { useEffect } from "react";
-import { Button, Typography } from "@material-tailwind/react";
+import { Button, Tooltip, Typography } from "@material-tailwind/react";
 import { X, Timer } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useTimer } from "react-timer-hook";
 import { toast } from "react-toastify";
 import useBreakpoint from "use-breakpoint";
+import { QuestionTypeChip } from "@components/QuestionTypeChip/QuestionTypeChip";
 import { QuizAttemptDialog } from "@components/QuizAttemptDialog/QuizAttemptDialog.tsx";
 import { QuestionType, QuizByIdQuery } from "@generated/graphql.ts";
 import { useAttemptStore } from "@state/attemptStore.ts";
@@ -39,13 +40,9 @@ export function QuizAttempt({ quiz }: QuizAttemptProps) {
   });
 
   useEffect(() => {
-    if (quizTimeLimit > 0) {
-      restart(expiryTimestamp);
-    }
+    if (quizTimeLimit > 0) restart(expiryTimestamp);
 
-    if (!isAttemptRunning) {
-      pause();
-    }
+    if (!isAttemptRunning) pause();
   }, [isAttemptRunning]);
 
   const question = questions[currentQuestion];
@@ -93,63 +90,84 @@ export function QuizAttempt({ quiz }: QuizAttemptProps) {
   }
 
   return (
-    <div className="container mt-6 flex flex-col items-center">
-      <div className="mb-6 flex w-full items-center justify-between md:pr-3">
-        <Typography className="">
-          {currentQuestion + 1} out of {questions.length} question{questions.length > 1 ? "s" : ""}
-        </Typography>
+    <div className="container mt-6 flex max-w-[500px] flex-col items-center">
+      <div className="mb-6 flex w-full items-center justify-between">
+        <div className="flex flex-col items-end gap-1">
+          {minutes > 0 || seconds > 0 ? (
+            <Typography className="flex gap-1 text-xl font-medium">
+              <Timer />
+              {minutes}:{seconds}
+            </Typography>
+          ) : (
+            <Typography className="text-l flex gap-1">
+              <Timer /> No limit
+            </Typography>
+          )}
+          <Typography className="font-medium">
+            {currentQuestion + 1} out of {questions.length}
+          </Typography>
+        </div>
 
-        <Typography className="flex gap-1 text-xl font-light">
-          <Timer />
-          {minutes}:{seconds}
-        </Typography>
-
-        <Button
-          variant="outlined"
-          color="red"
-          size="sm"
-          onClick={() => {
-            resetAttempt();
-            toast.success("Quiz attempt cancelled successfully!");
-          }}
-        >
-          {breakpoint === "mobile" ? <X className="size-6" /> : "Cancel attempt"}
-        </Button>
+        <Tooltip content="Cancel this quiz attempt">
+          <Button
+            variant="outlined"
+            color="red"
+            size="sm"
+            className="p-2 sm:p-3"
+            onClick={() => {
+              resetAttempt();
+              toast.success("Quiz attempt cancelled successfully!");
+            }}
+          >
+            {breakpoint === "mobile" ? <X className="size-5" /> : "Cancel"}
+          </Button>
+        </Tooltip>
       </div>
 
-      <Typography className="text-xl font-bold">{question.question}</Typography>
+      <section className="w-full">
+        <Typography className="mt-4 flex items-center gap-2 text-xl font-medium">
+          <QuestionTypeChip questionType={question.type} />
+          {question.question}
+        </Typography>
 
-      <div className="mt-10 flex flex-wrap gap-4">
-        {question.type === QuestionType.Single &&
-          question.options.map(({ text }, index) => (
-            <Button
-              key={text}
-              fullWidth
-              variant="outlined"
-              color={COLOURS[index]}
-              onClick={() => {
-                handleOptionSelection(text);
-              }}
-            >
-              {text}
-            </Button>
-          ))}
+        <div className="mt-10 flex flex-wrap gap-5 sm:gap-7">
+          {question.type === QuestionType.Single &&
+            question.options.map(({ text }, index) => (
+              <Button
+                key={text}
+                fullWidth
+                variant="outlined"
+                color={COLOURS[index]}
+                onClick={() => {
+                  handleOptionSelection(text);
+                }}
+              >
+                {text}
+              </Button>
+            ))}
 
-        {question.type === QuestionType.Multi &&
-          question.options.map(({ text }, index) => (
-            <Button
-              key={text}
-              fullWidth
-              variant="outlined"
-              color={COLOURS[index]}
-              onClick={() => {
-                handleOptionSelection(text);
-              }}
-            >
-              {text}
-            </Button>
-          ))}
-      </div>
+          {question.type === QuestionType.Multi &&
+            question.options.map(({ text }, index) => (
+              <Button
+                key={text}
+                fullWidth
+                variant="outlined"
+                color={COLOURS[index]}
+                onClick={() => {
+                  handleOptionSelection(text);
+                }}
+              >
+                {text}
+              </Button>
+            ))}
+        </div>
+        <div className="mt-12 flex w-full justify-between">
+          <Button variant="outlined" color="blue-gray">
+            Previous
+          </Button>
+          <Button color="blue">Next</Button>
+        </div>
+      </section>
     </div>
   );
 }

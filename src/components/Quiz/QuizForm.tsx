@@ -100,6 +100,7 @@ export function QuizForm() {
           },
         });
       }
+      navigate(-1);
     } catch (e) {
       console.log("Something went wrong", e);
     }

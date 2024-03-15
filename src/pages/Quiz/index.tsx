@@ -105,7 +105,9 @@ export function Component() {
           </AccordionBody>
         </Accordion>
 
-        <QuizAttempt quiz={quiz!} />
+        <div className="flex w-full justify-center">
+          <QuizAttempt quiz={quiz!} />
+        </div>
       </section>
 
       {!isAttemptRunning && (

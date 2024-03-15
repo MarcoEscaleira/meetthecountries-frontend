@@ -12,5 +12,5 @@ export function QuestionTypeChip({ questionType }: QuestionTypeChipProps) {
     [QuestionType.Multi]: "blue",
   }[questionType || QuestionType.Single];
 
-  return <Chip color={color as colors} value={questionType} size='sm' />;
+  return <Chip color={color as colors} value={questionType} size="sm" className="flex items-center justify-center" />;
 }
