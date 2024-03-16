@@ -130,12 +130,12 @@ export function Component() {
 
                   <div className="mb-5 flex flex-wrap gap-3">
                     {type === QuestionType.Single &&
-                      options.map(({ text, correct, chosen }, index) => (
+                      options.map(({ text, correct, chosen }) => (
                         <Button
                           key={text}
                           fullWidth
                           variant={handleOptionVariant(correct, !!chosen)}
-                          color={handleOptionColor(correct, !!chosen, index)}
+                          color={handleOptionColor(correct, !!chosen)}
                           disabled
                         >
                           {text}

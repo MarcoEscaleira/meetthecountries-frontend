@@ -1,9 +1,7 @@
-import { COLOURS } from "@utils/constants";
-
-export const handleOptionColor = (correct: boolean, chosen: boolean, index: number) => {
+export const handleOptionColor = (correct: boolean, chosen: boolean) => {
   if (chosen && !correct) return "red";
   if (correct) return "green";
-  return COLOURS[index];
+  return "blue-gray";
 };
 
 export const handleOptionVariant = (correct: boolean, chosen: boolean) => {

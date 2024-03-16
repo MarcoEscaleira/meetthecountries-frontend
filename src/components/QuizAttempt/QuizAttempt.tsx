@@ -10,7 +10,7 @@ import { QuizAttemptCancelDialog } from "@components/QuizAttemptCancelDialog/Qui
 import { QuestionType, QuizByIdQuery } from "@generated/graphql.ts";
 import { useAttemptStore } from "@state/attemptStore.ts";
 import { useUserStore } from "@state/userStore.ts";
-import { BREAKPOINTS, COLOURS } from "@utils/constants.ts";
+import { BREAKPOINTS } from "@utils/constants.ts";
 
 interface QuizAttemptProps {
   quiz: QuizByIdQuery["quizById"];
@@ -29,6 +29,8 @@ export function QuizAttempt({ quiz }: QuizAttemptProps) {
     submitAttempt,
     resetAttempt,
     setQuestionResponse,
+    goToPreviousQuestion,
+    goToNextQuestion,
   } = useAttemptStore();
 
   useEffect(() => () => resetAttempt(), []);
@@ -60,14 +62,6 @@ export function QuizAttempt({ quiz }: QuizAttemptProps) {
 
     // If the quiz has a time limit, then start the timer hook
     if (quizTimeLimit > 0) start();
-  };
-
-  const handleOptionSelection = (optionName: string) => {
-    setQuestionResponse(optionName);
-
-    if (isLastQuestion) {
-      submitAttempt(quiz.id, navigate);
-    }
   };
 
   if (!isAttemptRunning) {
@@ -124,40 +118,52 @@ export function QuizAttempt({ quiz }: QuizAttemptProps) {
 
         <div className="mt-10 flex flex-wrap gap-5 sm:gap-7">
           {question.type === QuestionType.Single &&
-            question.options.map(({ text }, index) => (
+            question.options.map(({ text, chosen }) => (
               <Button
                 key={text}
                 fullWidth
-                variant="outlined"
-                color={COLOURS[index]}
-                onClick={() => {
-                  handleOptionSelection(text);
-                }}
+                variant={chosen ? "filled" : "outlined"}
+                color="blue-gray"
+                onClick={() => setQuestionResponse(text)}
               >
                 {text}
               </Button>
             ))}
 
           {question.type === QuestionType.Multi &&
-            question.options.map(({ text }, index) => (
+            question.options.map(({ text }) => (
               <Button
                 key={text}
                 fullWidth
                 variant="outlined"
-                color={COLOURS[index]}
-                onClick={() => {
-                  handleOptionSelection(text);
-                }}
+                color="blue-gray"
+                onClick={() => setQuestionResponse(text)}
               >
                 {text}
               </Button>
             ))}
         </div>
         <div className="mt-12 flex w-full justify-between">
-          <Button variant="outlined" color="blue-gray">
+          <Button variant="outlined" color="gray" disabled={currentQuestion === 0} onClick={goToPreviousQuestion}>
             Previous
           </Button>
-          <Button color="blue">Next</Button>
+          {isLastQuestion ? (
+            <Button
+              variant="gradient"
+              color="green"
+              onClick={() => {
+                // TODO: Confirm if all questions were answered and if the user wants to submit the attempt
+                // TODO: Handle attempt submission
+                submitAttempt(quiz.id, navigate);
+              }}
+            >
+              Finish
+            </Button>
+          ) : (
+            <Button color="blue" onClick={goToNextQuestion}>
+              Next
+            </Button>
+          )}
         </div>
       </section>
     </div>

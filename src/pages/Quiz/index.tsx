@@ -53,7 +53,7 @@ export function Component() {
       <section className="container">
         <Accordion open={quizAccordion === 1}>
           <AccordionHeader className="py-3 outline-none" onClick={() => handleQuizAccordion(1)}>
-            <div className="flex w-full items-center justify-between md:justify-start md:gap-3">
+            <div className="flex w-full items-center justify-between">
               <Typography className="font-medium">Quiz information</Typography>
               {role === Roles.Admin && (
                 <Button
