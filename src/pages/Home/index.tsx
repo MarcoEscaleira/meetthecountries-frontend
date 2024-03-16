@@ -29,7 +29,7 @@ export function Component() {
           <Typography variant="h1" className="mb-4 font-semibold text-3xl md:text-4xl">
             Meet the Countries
           </Typography>
-          <Typography className="mb-6 text-center text-base font-light text-black sm:mb-8 sm:text-lg">
+          <Typography variant="lead" className="mb-6 text-center sm:mb-8 sm:text-lg">
             Embark on an exciting journey with us to explore uncharted territories and discover countries like never
             before.
             <Typography className="font-medium mt-3">Are you ready for the adventure?</Typography>

@@ -20,8 +20,8 @@ interface AttemptState {
   submitAttempt: (quizId: string, navigate: NavigateFunction) => void;
   setQuestionResponse: (option: string) => void;
   resetAttempt: () => void;
-  isStartQuizDialogOpen: boolean;
-  toggleStartQuizDialog: () => void;
+  isCancelQuizDialogOpen: boolean;
+  toggleCancelQuizDialog: () => void;
   quizAccordion: number;
   handleQuizAccordion: (value: number) => void;
 }
@@ -34,8 +34,7 @@ export const useAttemptStore = create<AttemptState>()(
       currentQuestion: 0,
       startTime: "",
       startAttempt: (questions, startTime) =>
-        setState(({ toggleStartQuizDialog, handleQuizAccordion }) => {
-          toggleStartQuizDialog();
+        setState(({ handleQuizAccordion }) => {
           handleQuizAccordion(0);
 
           const tempQuestions = [...questions];
@@ -103,9 +102,9 @@ export const useAttemptStore = create<AttemptState>()(
           startTime: "",
           quizAccordion: 1,
         })),
-      isStartQuizDialogOpen: false,
-      toggleStartQuizDialog: () =>
-        setState(({ isStartQuizDialogOpen }) => ({ isStartQuizDialogOpen: !isStartQuizDialogOpen })),
+      isCancelQuizDialogOpen: false,
+      toggleCancelQuizDialog: () =>
+        setState(({ isCancelQuizDialogOpen }) => ({ isCancelQuizDialogOpen: !isCancelQuizDialogOpen })),
       quizAccordion: 1,
       handleQuizAccordion: value =>
         setState(({ quizAccordion }) => ({ quizAccordion: quizAccordion === value ? 0 : value })),

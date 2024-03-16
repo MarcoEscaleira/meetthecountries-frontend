@@ -6,7 +6,7 @@ import { useTimer } from "react-timer-hook";
 import { toast } from "react-toastify";
 import useBreakpoint from "use-breakpoint";
 import { QuestionTypeChip } from "@components/QuestionTypeChip/QuestionTypeChip";
-import { QuizAttemptDialog } from "@components/QuizAttemptDialog/QuizAttemptDialog.tsx";
+import { QuizAttemptCancelDialog } from "@components/QuizAttemptCancelDialog/QuizAttemptCancelDialog";
 import { QuestionType, QuizByIdQuery } from "@generated/graphql.ts";
 import { useAttemptStore } from "@state/attemptStore.ts";
 import { useUserStore } from "@state/userStore.ts";
@@ -24,12 +24,14 @@ export function QuizAttempt({ quiz }: QuizAttemptProps) {
     isAttemptRunning,
     questions,
     currentQuestion,
-    toggleStartQuizDialog,
+    toggleCancelQuizDialog,
     startAttempt,
     submitAttempt,
     resetAttempt,
     setQuestionResponse,
   } = useAttemptStore();
+
+  useEffect(() => () => resetAttempt(), []);
 
   const quizTimeLimit = quiz.timeLimit || 0;
   const expiryTimestamp = new Date();
@@ -51,7 +53,6 @@ export function QuizAttempt({ quiz }: QuizAttemptProps) {
   const handleStartQuiz = () => {
     if (!isLoggedIn) {
       toast.warn("Please login before starting a quiz attempt.");
-      toggleStartQuizDialog();
       return;
     }
 
@@ -71,21 +72,9 @@ export function QuizAttempt({ quiz }: QuizAttemptProps) {
 
   if (!isAttemptRunning) {
     return (
-      <>
-        <Button
-          variant="gradient"
-          className="mt-2 md:mt-6"
-          color="green"
-          fullWidth
-          onClick={() => {
-            toggleStartQuizDialog();
-          }}
-        >
-          Start quiz
-        </Button>
-
-        <QuizAttemptDialog handleStartQuiz={handleStartQuiz} />
-      </>
+      <Button variant="gradient" className="mt-2 md:mt-6" color="green" fullWidth onClick={handleStartQuiz}>
+        Start quiz
+      </Button>
     );
   }
 
@@ -108,20 +97,23 @@ export function QuizAttempt({ quiz }: QuizAttemptProps) {
           </Typography>
         </div>
 
-        <Tooltip content="Cancel this quiz attempt">
-          <Button
-            variant="outlined"
-            color="red"
-            size="sm"
-            className="p-2 sm:p-3"
-            onClick={() => {
-              resetAttempt();
-              toast.success("Quiz attempt cancelled successfully!");
-            }}
-          >
-            {breakpoint === "mobile" ? <X className="size-5" /> : "Cancel"}
-          </Button>
-        </Tooltip>
+        <>
+          <Tooltip content="Cancel this quiz attempt">
+            <Button
+              variant="outlined"
+              color="red"
+              size="sm"
+              className="p-2 sm:p-3"
+              onClick={() => {
+                toggleCancelQuizDialog();
+              }}
+            >
+              {breakpoint === "mobile" ? <X className="size-5" /> : "Cancel"}
+            </Button>
+          </Tooltip>
+
+          <QuizAttemptCancelDialog />
+        </>
       </div>
 
       <section className="w-full">
