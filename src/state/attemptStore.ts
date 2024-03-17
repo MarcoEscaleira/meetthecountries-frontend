@@ -85,23 +85,29 @@ export const useAttemptStore = create<AttemptState>()(
               return {
                 ...question,
                 options: question.options.map(option => {
-                  if (option.text === chosenOption) {
-                    return {
-                      ...option,
-                      chosen: true,
-                    };
-                  }
+                  const chosen = option.text === chosenOption;
                   return {
                     ...option,
-                    chosen: false,
+                    chosen: chosen,
                   };
                 }),
               };
             }
 
             if (isMultipleChoice) {
+              return {
+                ...question,
+                options: question.options.map(option => {
+                  const chosen = option.text === chosenOption;
+                  return {
+                    ...option,
+                    chosen: chosen ? !option.chosen : option.chosen,
+                  };
+                }),
+              };
             }
           }
+
           return question;
         });
 

@@ -23,7 +23,7 @@ export function AttemptHistoryTable({ quizId }: AttemptHistoryTableProps) {
   if (!userId) return null;
 
   return (
-    <div className="flex w-full flex-col">
+    <div className="container flex flex-col">
       <section className="flex items-center">
         <Typography variant="h2" className="text-xl font-medium">
           Attempt History

@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import useBreakpoint from "use-breakpoint";
 import { QuestionTypeChip } from "@components/QuestionTypeChip/QuestionTypeChip";
 import { QuizAttemptCancelDialog } from "@components/QuizAttemptCancelDialog/QuizAttemptCancelDialog";
-import { QuestionType, QuizByIdQuery } from "@generated/graphql.ts";
+import { QuizByIdQuery } from "@generated/graphql.ts";
 import { useAttemptStore } from "@state/attemptStore.ts";
 import { useUserStore } from "@state/userStore.ts";
 import { BREAKPOINTS } from "@utils/constants.ts";
@@ -117,31 +117,18 @@ export function QuizAttempt({ quiz }: QuizAttemptProps) {
         </Typography>
 
         <div className="mt-10 flex flex-wrap gap-5 sm:gap-7">
-          {question.type === QuestionType.Single &&
-            question.options.map(({ text, chosen }) => (
-              <Button
-                key={text}
-                fullWidth
-                variant={chosen ? "filled" : "outlined"}
-                color="blue-gray"
-                onClick={() => setQuestionResponse(text)}
-              >
-                {text}
-              </Button>
-            ))}
-
-          {question.type === QuestionType.Multi &&
-            question.options.map(({ text }) => (
-              <Button
-                key={text}
-                fullWidth
-                variant="outlined"
-                color="blue-gray"
-                onClick={() => setQuestionResponse(text)}
-              >
-                {text}
-              </Button>
-            ))}
+          {question.options.map(({ text, chosen }) => (
+            <Button
+              key={text}
+              fullWidth
+              variant={chosen ? "filled" : "outlined"}
+              color="blue-gray"
+              className="outline-none focus:ring-0"
+              onClick={() => setQuestionResponse(text)}
+            >
+              {text}
+            </Button>
+          ))}
         </div>
         <div className="mt-12 flex w-full justify-between">
           <Button variant="outlined" color="gray" disabled={currentQuestion === 0} onClick={goToPreviousQuestion}>

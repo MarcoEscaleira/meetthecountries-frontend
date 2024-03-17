@@ -111,8 +111,8 @@ export function Component() {
       </section>
 
       {!isAttemptRunning && (
-        <div className="mt-6 block w-full md:hidden">
-          <hr className="border-secondaryShades.5 mb-4 w-full" />
+        <div className="container mt-6 flex flex-col md:hidden">
+          <hr className="border-secondaryShades.5 mb-4 flex w-full" />
           <AttemptHistoryTable quizId={quiz?.id || ""} />
         </div>
       )}
