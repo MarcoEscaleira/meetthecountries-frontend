@@ -1,12 +1,12 @@
 import { useEffect } from "react";
 import { Button, Tooltip, Typography } from "@material-tailwind/react";
 import { X, Timer } from "lucide-react";
-import { useNavigate } from "react-router-dom";
 import { useTimer } from "react-timer-hook";
 import { toast } from "react-toastify";
 import useBreakpoint from "use-breakpoint";
 import { QuestionTypeChip } from "@components/QuestionTypeChip/QuestionTypeChip";
 import { QuizAttemptCancelDialog } from "@components/QuizAttemptCancelDialog/QuizAttemptCancelDialog";
+import { QuizAttemptSubmitDialog } from "@components/QuizAttemptSubmitDialog/QuizAttemptSubmitDialog";
 import { QuizByIdQuery } from "@generated/graphql.ts";
 import { useAttemptStore } from "@state/attemptStore.ts";
 import { useUserStore } from "@state/userStore.ts";
@@ -17,7 +17,6 @@ interface QuizAttemptProps {
 }
 
 export function QuizAttempt({ quiz }: QuizAttemptProps) {
-  const navigate = useNavigate();
   const { breakpoint } = useBreakpoint(BREAKPOINTS);
   const { isLoggedIn } = useUserStore();
   const {
@@ -25,8 +24,8 @@ export function QuizAttempt({ quiz }: QuizAttemptProps) {
     questions,
     currentQuestion,
     toggleCancelQuizDialog,
+    toggleSubmitQuizDialog,
     startAttempt,
-    submitAttempt,
     resetAttempt,
     setQuestionResponse,
     goToPreviousQuestion,
@@ -135,17 +134,18 @@ export function QuizAttempt({ quiz }: QuizAttemptProps) {
             Previous
           </Button>
           {isLastQuestion ? (
-            <Button
-              variant="gradient"
-              color="green"
-              onClick={() => {
-                // TODO: Confirm if all questions were answered and if the user wants to submit the attempt
-                // TODO: Handle attempt submission
-                submitAttempt(quiz.id, navigate);
-              }}
-            >
-              Finish
-            </Button>
+            <>
+              <Button
+                variant="gradient"
+                color="green"
+                onClick={() => {
+                  toggleSubmitQuizDialog();
+                }}
+              >
+                Finish
+              </Button>
+              <QuizAttemptSubmitDialog quizId={quiz.id} />
+            </>
           ) : (
             <Button color="blue" onClick={goToNextQuestion}>
               Next

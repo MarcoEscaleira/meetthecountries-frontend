@@ -22,6 +22,8 @@ interface AttemptState {
   resetAttempt: () => void;
   isCancelQuizDialogOpen: boolean;
   toggleCancelQuizDialog: () => void;
+  isSubmitQuizDialogOpen: boolean;
+  toggleSubmitQuizDialog: () => void;
   quizAccordion: number;
   handleQuizAccordion: (value: number) => void;
   goToPreviousQuestion: () => void;
@@ -36,6 +38,7 @@ export const useAttemptStore = create<AttemptState>()(
       currentQuestion: 0,
       startTime: "",
       isCancelQuizDialogOpen: false,
+      isSubmitQuizDialogOpen: false,
       quizAccordion: 1,
 
       startAttempt: (questions, startTime) =>
@@ -126,6 +129,9 @@ export const useAttemptStore = create<AttemptState>()(
 
       toggleCancelQuizDialog: () =>
         setState(({ isCancelQuizDialogOpen }) => ({ isCancelQuizDialogOpen: !isCancelQuizDialogOpen })),
+
+      toggleSubmitQuizDialog: () =>
+        setState(({ isSubmitQuizDialogOpen }) => ({ isSubmitQuizDialogOpen: !isSubmitQuizDialogOpen })),
 
       handleQuizAccordion: value =>
         setState(({ quizAccordion }) => ({ quizAccordion: quizAccordion === value ? 0 : value })),
