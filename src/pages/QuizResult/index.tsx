@@ -88,7 +88,7 @@ export function Component() {
             Go back
           </Button>
         </div>
-        <section className="flex w-full flex-grow flex-col gap-4 md:w-3/5">
+        <section className="flex w-full flex-grow flex-col gap-4">
           <Typography variant="h2" className="mt-8 flex items-center text-xl md:text-3xl">
             <img
               src={quizCountryDetails?.flags.svg}
@@ -111,14 +111,14 @@ export function Component() {
             Review your answers
           </Typography>
 
-          <div className="flex flex-col">
+          <div className="flex w-full flex-wrap gap-8">
             {attempt?.questions?.map(({ question, options, type }) => (
-              <>
-                <Typography className="mb-2 text-lg font-medium md:text-xl flex items-center gap-2">
+              <div key={question} className="flex w-[350px] md:w-[400px] flex-col">
+                <Typography className="mb-2 flex w-full items-center gap-2 text-lg font-medium md:text-xl">
                   <QuestionTypeChip questionType={type} /> {question}
                 </Typography>
 
-                <div className="mb-5 flex flex-wrap gap-3">
+                <div className="mb-5 flex w-full flex-wrap gap-3">
                   {options.map(({ text, correct, chosen }) => (
                     <Button
                       key={text}
@@ -131,7 +131,7 @@ export function Component() {
                     </Button>
                   ))}
                 </div>
-              </>
+              </div>
             ))}
           </div>
         </section>
