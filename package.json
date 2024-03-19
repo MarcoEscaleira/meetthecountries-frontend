@@ -12,7 +12,11 @@
     "lint:eslint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0 --fix",
     "lint:ts": "tsc --noEmit",
     "preview": "vite preview",
-    "compile:gql": "graphql-codegen"
+    "compile:gql": "graphql-codegen",
+    "e2e:local": "cypress run --config-file ./cypress.config.local.ts",
+    "e2e:start:local": "cypress open --config-file ./cypress.config.local.ts",
+    "e2e:prod": "cypress run --config-file ./cypress.config.prod.ts",
+    "e2e:start:prod": "cypress open --config-file ./cypress.config.prod.ts"
   },
   "dependencies": {
     "@apollo/client": "^3.9.6",
@@ -42,11 +46,13 @@
     "zustand": "^4.5.2"
   },
   "devDependencies": {
+    "@badeball/cypress-cucumber-preprocessor": "^20.0.2",
     "@graphql-codegen/cli": "^5.0.2",
     "@graphql-codegen/client-preset": "^4.2.4",
     "@graphql-typed-document-node/core": "^3.2.0",
     "@hookform/devtools": "^4.3.1",
     "@redux-devtools/extension": "^3.3.0",
+    "@testing-library/cypress": "^10.0.1",
     "@types/mapbox-gl": "2.7.20",
     "@types/node": "20.9.2",
     "@types/react": "18.2.19",
@@ -58,6 +64,7 @@
     "@typescript-eslint/parser": "^6.21.0",
     "@vitejs/plugin-react": "^4.2.1",
     "autoprefixer": "^10.4.18",
+    "cypress": "^13.7.0",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-import-resolver-typescript": "^3.6.1",
