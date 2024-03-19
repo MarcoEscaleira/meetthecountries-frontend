@@ -120,7 +120,7 @@ export function QuizComments() {
                     </Popover>
                   )}
                 </div>
-                <Typography>{text}</Typography>
+                <Typography className="whitespace-pre-line">{text}</Typography>
               </div>
             ))
           )}
