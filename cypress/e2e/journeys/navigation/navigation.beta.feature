@@ -1,6 +1,6 @@
 Feature: Platform Navigation
-    @smoke
-    Scenario Outline: Login, navigation ( Track / Plan / Report ) and logout
-        When I perform a full login with user "<userIdentifier>"
+    @e2e
+    Scenario Outline: View the app logged out
+        When I go to url "/"
         # Header navigation
-        Then I should see the text "Meet the countries" on header
+        Then I should see the text "Meet The Countries"

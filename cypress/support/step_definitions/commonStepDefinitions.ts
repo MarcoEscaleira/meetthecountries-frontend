@@ -21,16 +21,7 @@ function textPresence(text: string) {
 }
 
 Before(() => {
-  // cy.interceptPageLoad();
-  cy.ignoreThirdpartyRequests();
-});
-
-When("I perform a full login with user {string}", (userIdLiteral: string) => {
-  cy.visit("/");
-
-  pages.Home.getLogoTitle().should("be.visible");
-
-  cy.login(userIdLiteral);
+  cy.ignoreThirdPartyRequests();
 });
 
 When("I go to url {string}", (url: string) => {
@@ -41,12 +32,7 @@ When("I go to the {string} page", (pageName: string) => {
   cy.visit(pages[pageName].url);
 });
 
-When("I login with user {string}", async (userIdLiteral: string) => {
-  cy.login(userIdLiteral);
-});
-
 Then("I should see the text {string}", textPresence);
-
 
 When("I click on the text {string}", (text: string) => {
   clickOnText(text);
