@@ -1,5 +1,4 @@
-import { useEffect } from "react";
-import { useLazyQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { List, Typography } from "@material-tailwind/react";
 import { Loader2 } from "lucide-react";
 import { AttemptRow } from "@components/AttemptRow/AttemptRow";
@@ -14,11 +13,10 @@ export function AttemptHistoryTable({ quizId }: AttemptHistoryTableProps) {
   const {
     user: { userId },
   } = useUserStore();
-  const [fetchQuizAttempts, { data, loading }] = useLazyQuery(GET_QUIZ_ATTEMPTS, { fetchPolicy: "network-only" });
-
-  useEffect(() => {
-    if (quizId && userId) fetchQuizAttempts({ variables: { quizId, userId } });
-  }, [quizId, userId]);
+  const { data, loading } = useQuery(GET_QUIZ_ATTEMPTS, {
+    fetchPolicy: "network-only",
+    variables: { quizId, userId },
+  });
 
   if (!userId) return null;
 

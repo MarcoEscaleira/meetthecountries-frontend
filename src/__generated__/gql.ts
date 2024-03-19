@@ -17,13 +17,16 @@ const documents = {
     "\n  query QuizAttempt($attemptId: String!) {\n    attemptById(attemptId: $attemptId) {\n      id\n      correctOptions\n      percentage\n      minutes\n      seconds\n      startTime\n      endTime\n      rating\n      questions {\n        question\n        type\n        options {\n          text\n          correct\n          chosen\n        }\n      }\n      user {\n        firstName\n        lastName\n        country\n      }\n      quiz {\n        title\n        country\n        creator {\n          firstName\n          lastName\n          country\n        }\n      }\n    }\n  }\n": types.QuizAttemptDocument,
     "\n  mutation CancelQuiz($quizId: String!) {\n    cancelQuiz(quizId: $quizId)\n  }\n": types.CancelQuizDocument,
     "\n  query CountryQuizzes($country: String!) {\n    quizzesByCountry(country: $country) {\n      id\n      title\n      description\n      difficulty\n      timeLimit\n      image\n      tags\n      questions {\n        question\n        type\n      }\n      creator {\n        lastName\n      }\n    }\n  }\n": types.CountryQuizzesDocument,
+    "\n  mutation CreateQuizComments($comment: CommentAddInput!) {\n    addComment(comment: $comment)\n  }\n": types.CreateQuizCommentsDocument,
     "\n  mutation CreateQuiz($quiz: QuizAddInput!) {\n    createQuiz(quiz: $quiz) {\n      id\n    }\n  }\n": types.CreateQuizDocument,
     "\n  mutation DeleteAttempt($attemptId: String!) {\n    deleteAttempt(attemptId: $attemptId)\n  }\n": types.DeleteAttemptDocument,
+    "\n  mutation DeleteQuizComments($commentId: String!) {\n    deleteComment(commentId: $commentId)\n  }\n": types.DeleteQuizCommentsDocument,
     "\n  query QuizRating($quizId: String!) {\n    quizRating(quizId: $quizId)\n  }\n": types.QuizRatingDocument,
     "\n    mutation LoginUser($input: LoginInput!) {\n        loginUser(input: $input) {\n            access_token\n        }\n    }\n": types.LoginUserDocument,
     "\n    query LogoutQuery {\n        logoutUser\n    }\n": types.LogoutQueryDocument,
     "\n  query QuizAttempts($quizId: String!, $userId: String) {\n    attempts(quizId: $quizId, userId: $userId) {\n      id\n      correctOptions\n      percentage\n      minutes\n      seconds\n      startTime\n      endTime\n      rating\n      quiz {\n        questions {\n          question\n        }\n      }\n      user {\n        id\n        firstName\n      }\n    }\n  }\n": types.QuizAttemptsDocument,
     "\n  query QuizById($quizId: String!) {\n    quizById(quizId: $quizId) {\n      id\n      title\n      description\n      difficulty\n      timeLimit\n      image\n      tags\n      questions {\n        question\n        type\n        options {\n          correct\n          text\n          chosen\n        }\n      }\n      country\n      creator {\n        lastName\n      }\n      lastEditor {\n        lastName\n      }\n      createdAt\n      updatedAt\n    }\n  }\n": types.QuizByIdDocument,
+    "\n  query QuizComments($quizId: String!) {\n    quizComments(quizId: $quizId) {\n      id\n      text\n      createdAt\n      user {\n        id\n        firstName\n        lastName\n      }\n    }\n  }\n": types.QuizCommentsDocument,
     "\n  query Quizzes($country: String, $status: QuizStatus) {\n    quizList(country: $country, status: $status) {\n      id\n      title\n      difficulty\n      timeLimit\n      tags\n      status\n      country\n      creator {\n        firstName\n        lastName\n      }\n      lastEditor {\n        firstName\n        lastName\n      }\n      createdAt\n      updatedAt\n    }\n  }\n": types.QuizzesDocument,
     "\n  mutation SignupUser($user: SignUpInput!) {\n    signupUser(user: $user) {\n      id\n    }\n  }\n": types.SignupUserDocument,
     "\n  mutation SubmitAttempt($attempt: AttemptAddInput!) {\n    addAttempt(attempt: $attempt) {\n      id\n    }\n  }\n": types.SubmitAttemptDocument,
@@ -67,11 +70,19 @@ export function gql(source: "\n  query CountryQuizzes($country: String!) {\n    
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
+export function gql(source: "\n  mutation CreateQuizComments($comment: CommentAddInput!) {\n    addComment(comment: $comment)\n  }\n"): (typeof documents)["\n  mutation CreateQuizComments($comment: CommentAddInput!) {\n    addComment(comment: $comment)\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
 export function gql(source: "\n  mutation CreateQuiz($quiz: QuizAddInput!) {\n    createQuiz(quiz: $quiz) {\n      id\n    }\n  }\n"): (typeof documents)["\n  mutation CreateQuiz($quiz: QuizAddInput!) {\n    createQuiz(quiz: $quiz) {\n      id\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n  mutation DeleteAttempt($attemptId: String!) {\n    deleteAttempt(attemptId: $attemptId)\n  }\n"): (typeof documents)["\n  mutation DeleteAttempt($attemptId: String!) {\n    deleteAttempt(attemptId: $attemptId)\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  mutation DeleteQuizComments($commentId: String!) {\n    deleteComment(commentId: $commentId)\n  }\n"): (typeof documents)["\n  mutation DeleteQuizComments($commentId: String!) {\n    deleteComment(commentId: $commentId)\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -92,6 +103,10 @@ export function gql(source: "\n  query QuizAttempts($quizId: String!, $userId: S
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n  query QuizById($quizId: String!) {\n    quizById(quizId: $quizId) {\n      id\n      title\n      description\n      difficulty\n      timeLimit\n      image\n      tags\n      questions {\n        question\n        type\n        options {\n          correct\n          text\n          chosen\n        }\n      }\n      country\n      creator {\n        lastName\n      }\n      lastEditor {\n        lastName\n      }\n      createdAt\n      updatedAt\n    }\n  }\n"): (typeof documents)["\n  query QuizById($quizId: String!) {\n    quizById(quizId: $quizId) {\n      id\n      title\n      description\n      difficulty\n      timeLimit\n      image\n      tags\n      questions {\n        question\n        type\n        options {\n          correct\n          text\n          chosen\n        }\n      }\n      country\n      creator {\n        lastName\n      }\n      lastEditor {\n        lastName\n      }\n      createdAt\n      updatedAt\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  query QuizComments($quizId: String!) {\n    quizComments(quizId: $quizId) {\n      id\n      text\n      createdAt\n      user {\n        id\n        firstName\n        lastName\n      }\n    }\n  }\n"): (typeof documents)["\n  query QuizComments($quizId: String!) {\n    quizComments(quizId: $quizId) {\n      id\n      text\n      createdAt\n      user {\n        id\n        firstName\n        lastName\n      }\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

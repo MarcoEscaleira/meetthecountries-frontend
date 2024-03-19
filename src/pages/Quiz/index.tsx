@@ -13,6 +13,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { AttemptHistoryTable } from "@components/AttemptHistoryTable/AttemptHistoryTable.tsx";
 import { DifficultyChip } from "@components/DifficultyChip/DifficultyChip.tsx";
 import { QuizAttempt } from "@components/QuizAttempt/QuizAttempt.tsx";
+import { QuizComments } from "@components/QuizComments/QuizComments";
 import { QuizRating } from "@components/QuizRating/QuizRating.tsx";
 import { TimeLimitChip } from "@components/TimeLimitChip/TimeLimitChip.tsx";
 import { Roles } from "@generated/graphql.ts";
@@ -116,6 +117,10 @@ export function Component() {
           <AttemptHistoryTable quizId={quiz?.id || ""} />
         </div>
       )}
+
+      <div className="container mt-6 flex w-full justify-center">
+        <QuizComments />
+      </div>
     </div>
   );
 }
