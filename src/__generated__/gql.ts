@@ -31,6 +31,7 @@ const documents = {
     "\n  mutation SignupUser($user: SignUpInput!) {\n    signupUser(user: $user) {\n      id\n    }\n  }\n": types.SignupUserDocument,
     "\n  mutation SubmitAttempt($attempt: AttemptAddInput!) {\n    addAttempt(attempt: $attempt) {\n      id\n    }\n  }\n": types.SubmitAttemptDocument,
     "\n    mutation SubmitAttemptRating($attemptId: String!, $rating: Int!) {\n        addAttemptRating(attemptId: $attemptId, rating: $rating)\n    }\n": types.SubmitAttemptRatingDocument,
+    "\n  mutation UpdateQuizComments($commentId: String!, $text: String!) {\n    editComment(commentId: $commentId, text: $text)\n  }\n": types.UpdateQuizCommentsDocument,
     "\n  mutation UpdateQuiz($quizId: String!, $quiz: QuizAddInput!) {\n    updateQuiz(quizId: $quizId, quiz: $quiz) {\n      id\n    }\n  }\n": types.UpdateQuizDocument,
     "\n  mutation UpdateUser($userId: String!, $user: UserUpdateInput!) {\n    updateUser(userId: $userId, user: $user) {\n      id\n    }\n  }\n": types.UpdateUserDocument,
     "\n  query UserAttempts($userId: String) {\n    attempts(userId: $userId) {\n      id\n      quiz {\n        id\n        country\n      }\n    }\n  }\n": types.UserAttemptsDocument,
@@ -123,6 +124,10 @@ export function gql(source: "\n  mutation SubmitAttempt($attempt: AttemptAddInpu
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n    mutation SubmitAttemptRating($attemptId: String!, $rating: Int!) {\n        addAttemptRating(attemptId: $attemptId, rating: $rating)\n    }\n"): (typeof documents)["\n    mutation SubmitAttemptRating($attemptId: String!, $rating: Int!) {\n        addAttemptRating(attemptId: $attemptId, rating: $rating)\n    }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  mutation UpdateQuizComments($commentId: String!, $text: String!) {\n    editComment(commentId: $commentId, text: $text)\n  }\n"): (typeof documents)["\n  mutation UpdateQuizComments($commentId: String!, $text: String!) {\n    editComment(commentId: $commentId, text: $text)\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
