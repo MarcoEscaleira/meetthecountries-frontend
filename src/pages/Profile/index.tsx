@@ -13,6 +13,7 @@ import { useUserStore } from "@state/userStore.ts";
 import { DATE_TIME, DATE_TIME_READ } from "@utils/constants.ts";
 import { UPDATE_USER } from "@utils/queries/UpdateUser";
 import { DownloadAttempts } from "./DownloadAttempts";
+import { UpdatePasswordModal } from "./UpdatePasswordModal";
 
 const formSchema = z.object({
   firstName: z.string().min(1, { message: "Enter a first name." }),
@@ -138,9 +139,13 @@ export function Component() {
         </form>
       </FormProvider>
       {!isEditing && (
-        <Button type="button" fullWidth variant="outlined" onClick={() => setIsEditing(true)} className="my-4 w-80">
-          Edit profile
-        </Button>
+        <div className="my-4 flex w-80 flex-col gap-4">
+          <Button type="button" variant="outlined" onClick={() => setIsEditing(true)}>
+            Edit profile
+          </Button>
+
+          <UpdatePasswordModal />
+        </div>
       )}
       <UserRoleChip role={role} />
       <Typography className="pt-6 text-center" variant="small">
