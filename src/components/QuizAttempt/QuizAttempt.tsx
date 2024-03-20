@@ -115,6 +115,12 @@ export function QuizAttempt({ quiz }: QuizAttemptProps) {
           {question.question}
         </Typography>
 
+        {question.image && (
+          <div className="mt-6 flex w-full justify-center">
+            <img src={question.image} alt="question figure" className="size-[300px]" />
+          </div>
+        )}
+
         <div className="mt-10 flex flex-wrap gap-5 sm:gap-7">
           {question.options.map(({ text, chosen }) => (
             <Button

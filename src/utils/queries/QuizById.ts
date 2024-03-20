@@ -13,6 +13,7 @@ export const GET_QUIZ_BY_ID = gql(/* GraphQL */ `
       questions {
         question
         type
+        image
         options {
           correct
           text

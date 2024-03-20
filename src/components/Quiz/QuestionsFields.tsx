@@ -56,6 +56,15 @@ export function QuestionFields() {
             />
           </div>
 
+          <div className="mb-2">
+            <FormInput
+              name={`questions.${questionIndex}.image`}
+              size="md"
+              label="Image"
+              fieldError={errors.questions?.[questionIndex]?.image}
+            />
+          </div>
+
           <Select
             label="Type"
             value={getValues(`questions.${questionIndex}.type`)}

@@ -17,6 +17,7 @@ export const quizFormSchema = z
             correct: z.boolean(),
           })
         ),
+        image: z.string().optional(),
       })
     ),
     difficulty: z.nativeEnum(Difficulty),
