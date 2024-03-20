@@ -86,7 +86,7 @@ export const MapChart: FC = () => {
                           geography={geo}
                           data-tooltip-id="country-tooltip"
                           onClick={handleOnCountryClick}
-                          className={`${isCountrySelected ? "fill-blue-400" : countryColor} cursor-pointer outline-none hover:fill-blue-300`}
+                          className={`${isCountrySelected ? "fill-purple-300" : countryColor} cursor-pointer outline-none hover:fill-purple-200`}
                         />
                       </Tooltip>
                       <Marker key={`name-${geo.rsmKey}`} coordinates={provinceCenter} onClick={handleOnCountryClick}>
@@ -144,6 +144,14 @@ export const MapChart: FC = () => {
             <span className="size-5 rounded-full bg-blue-gray-200" />
             <Typography variant="small" className="font-medium">
               None
+            </Typography>
+          </div>
+        </Tooltip>
+        <Tooltip content="Current selected country">
+          <div className="flex gap-2">
+            <span className="size-5 rounded-full bg-purple-300" />
+            <Typography variant="small" className="font-medium">
+              Selected
             </Typography>
           </div>
         </Tooltip>
