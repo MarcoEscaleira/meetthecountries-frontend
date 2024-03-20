@@ -12,6 +12,7 @@ import { UserRoleChip } from "@components/UserRoleChip/UserRoleChip.tsx";
 import { useUserStore } from "@state/userStore.ts";
 import { DATE_TIME, DATE_TIME_READ } from "@utils/constants.ts";
 import { UPDATE_USER } from "@utils/queries/UpdateUser";
+import { DownloadAttempts } from "./DownloadAttempts";
 
 const formSchema = z.object({
   firstName: z.string().min(1, { message: "Enter a first name." }),
@@ -148,6 +149,8 @@ export function Component() {
         &nbsp;and last updated at&nbsp;
         <time dateTime={format(updatedAt, DATE_TIME)}>{format(updatedAt, DATE_TIME_READ)}</time>
       </Typography>
+
+      <DownloadAttempts />
     </div>
   );
 }

@@ -13,6 +13,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
+    "\n  query AllUserAttempts($userId: String) {\n    attempts(userId: $userId) {\n      id\n      correctOptions\n      percentage\n      minutes\n      seconds\n      startTime\n      endTime\n      rating\n      quiz {\n        title\n        timeLimit\n        questions {\n          question\n        }\n      }\n    }\n  }\n": types.AllUserAttemptsDocument,
     "\n  mutation ApproveQuiz($quizId: String!) {\n    approveQuiz(quizId: $quizId)\n  }\n": types.ApproveQuizDocument,
     "\n  query QuizAttempt($attemptId: String!) {\n    attemptById(attemptId: $attemptId) {\n      id\n      correctOptions\n      percentage\n      minutes\n      seconds\n      startTime\n      endTime\n      rating\n      questions {\n        question\n        type\n        options {\n          text\n          correct\n          chosen\n        }\n      }\n      user {\n        firstName\n        lastName\n        country\n      }\n      quiz {\n        title\n        country\n        creator {\n          firstName\n          lastName\n          country\n        }\n      }\n    }\n  }\n": types.QuizAttemptDocument,
     "\n  mutation CancelQuiz($quizId: String!) {\n    cancelQuiz(quizId: $quizId)\n  }\n": types.CancelQuizDocument,
@@ -52,6 +53,10 @@ const documents = {
  */
 export function gql(source: string): unknown;
 
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  query AllUserAttempts($userId: String) {\n    attempts(userId: $userId) {\n      id\n      correctOptions\n      percentage\n      minutes\n      seconds\n      startTime\n      endTime\n      rating\n      quiz {\n        title\n        timeLimit\n        questions {\n          question\n        }\n      }\n    }\n  }\n"): (typeof documents)["\n  query AllUserAttempts($userId: String) {\n    attempts(userId: $userId) {\n      id\n      correctOptions\n      percentage\n      minutes\n      seconds\n      startTime\n      endTime\n      rating\n      quiz {\n        title\n        timeLimit\n        questions {\n          question\n        }\n      }\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
