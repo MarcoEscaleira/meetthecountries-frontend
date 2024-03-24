@@ -6,7 +6,7 @@ import { useSearchParams } from "react-router-dom";
 import { ZoomableGroup, ComposableMap, Geographies, Geography, Marker } from "react-simple-maps";
 import useBreakpoint from "use-breakpoint";
 import { BREAKPOINTS } from "@utils/constants.ts";
-import { useCountriesColors } from "@utils/hooks/useCountriesColors.ts";
+import { useCountryInformation } from "@utils/hooks/useCountryInformation";
 
 interface Position {
   coordinates: Array<number>;
@@ -18,7 +18,7 @@ export const MapChart: FC = () => {
   const [position, setPosition] = useState<Position>({ coordinates: [5, 46], zoom: 1 });
   const { breakpoint } = useBreakpoint(BREAKPOINTS);
 
-  const mappedCountries = useCountriesColors();
+  const { countriesPassedBy, countryColours } = useCountryInformation();
 
   function handleZoomIn() {
     if (position.zoom >= 10) return;
@@ -60,8 +60,8 @@ export const MapChart: FC = () => {
               {({ geographies }) =>
                 geographies.map(geo => {
                   const provinceCenter = geoCentroid(geo);
-                  const isCountrySelected = searchParams.get("country") === geo.properties.name;
-                  const countryColor = mappedCountries[geo.properties.name] || "fill-blue-gray-200";
+                  // const isCountrySelected = searchParams.get("country") === geo.properties.name;
+                  const countryColor = countryColours[geo.properties.name] || "fill-blue-gray-200";
 
                   const handleOnCountryClick = (event: React.MouseEvent<SVGPathElement, MouseEvent>) => {
                     event.stopPropagation();
@@ -86,7 +86,7 @@ export const MapChart: FC = () => {
                           geography={geo}
                           data-tooltip-id="country-tooltip"
                           onClick={handleOnCountryClick}
-                          className={`${isCountrySelected ? "fill-purple-300" : countryColor} cursor-pointer outline-none hover:fill-purple-200`}
+                          className={`${countryColor} cursor-pointer outline-none hover:fill-blue-200`}
                         />
                       </Tooltip>
                       <Marker key={`name-${geo.rsmKey}`} coordinates={provinceCenter} onClick={handleOnCountryClick}>
@@ -122,10 +122,10 @@ export const MapChart: FC = () => {
         </Tooltip>
       </div>
 
-      <div className="absolute -bottom-7 left-2 mt-3 flex items-center gap-3 sm:gap-6 md:right-4 ">
+      <div className="absolute -bottom-7 left-0 flex items-center gap-3 sm:gap-6 md:left-4 ">
         <Tooltip content="Completed all quizzes">
           <div className="flex gap-2">
-            <span className="size-5 rounded-full bg-green-200" />
+            <span className="size-5 rounded-full bg-green-400" />
             <Typography variant="small" className="font-medium">
               Completed
             </Typography>
@@ -133,7 +133,7 @@ export const MapChart: FC = () => {
         </Tooltip>
         <Tooltip content="Completed some quizzes">
           <div className="flex gap-2">
-            <span className="size-5 rounded-full bg-blue-200" />
+            <span className="size-5 rounded-full bg-yellow-200" />
             <Typography variant="small" className="font-medium">
               In Progress
             </Typography>
@@ -147,11 +147,13 @@ export const MapChart: FC = () => {
             </Typography>
           </div>
         </Tooltip>
+      </div>
+
+      <div className="absolute -bottom-14 left-0 flex items-center md:left-4">
         <Tooltip content="Current selected country">
           <div className="flex gap-2">
-            <span className="size-5 rounded-full bg-purple-300" />
             <Typography variant="small" className="font-medium">
-              Selected
+              {countriesPassedBy} countries completed out of 202
             </Typography>
           </div>
         </Tooltip>

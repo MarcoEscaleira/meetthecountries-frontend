@@ -8,12 +8,28 @@ interface CountryColors {
   [country: string]: string;
 }
 
-export const useCountriesColors = (): CountryColors => {
+interface UseCountryInformation {
+  countryColours: CountryColors;
+  countriesPassedBy: number;
+}
+
+export const useCountryInformation = (): UseCountryInformation => {
   const {
     user: { userId },
   } = useUserStore();
   const { data: quizzesData } = useQuery(GET_QUIZZES);
   const { data: attemptsData } = useQuery(GET_USER_ATTEMPTS, { variables: { userId }, fetchPolicy: "network-only" });
+
+  const countriesPassedBy = useMemo(() => {
+    const list = quizzesData?.quizList?.reduce<{ [country: string]: string[] }>((acc, { id, country }) => {
+      return {
+        ...acc,
+        [country]: acc[country]?.length > 0 ? [...acc[country], id] : [id],
+      };
+    }, {});
+
+    return Object.keys(list || {}).length;
+  }, [quizzesData?.quizList]);
 
   const countryColours = useMemo(() => {
     const quizzes = quizzesData?.quizList;
@@ -48,12 +64,12 @@ export const useCountriesColors = (): CountryColors => {
         let color = "fill-blue-gray-200";
 
         if (totalCountryQuizzes === quizzesAttempted && quizzesAttempted !== 0) {
-          color = "fill-green-200";
+          color = "fill-green-400";
         }
 
         // User only did some of the country quizzes
         if (quizzesAttempted > 0 && quizzesAttempted < totalCountryQuizzes) {
-          color = "fill-blue-200";
+          color = "fill-yellow-200";
         }
 
         return {
@@ -66,5 +82,8 @@ export const useCountriesColors = (): CountryColors => {
     return {};
   }, [quizzesData?.quizList, attemptsData?.attempts]);
 
-  return countryColours;
+  return {
+    countryColours,
+    countriesPassedBy,
+  };
 };
