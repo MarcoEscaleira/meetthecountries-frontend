@@ -3,8 +3,8 @@ import { format } from "date-fns";
 
 export function Footer() {
   return (
-    <footer className="flex w-full items-center justify-center gap-4 bg-white p-4 mt-6">
-      <img src="/images/mtc-logo.svg" alt="Planet Earth" className="h-[34px] w-[38px] md:h-[44px] md:w-[48px]" />
+    <footer className="mt-6 flex w-full items-center justify-center gap-4 bg-white p-4">
+      <img src="/images/planet-earth.svg" alt="Planet Earth" className="h-[34px] w-[38px] md:h-[44px] md:w-[48px]" />
       <Typography color="gray" className="font-medium">
         © {format(new Date(), "yyyy")} Meet The Countries
       </Typography>

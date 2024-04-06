@@ -18,21 +18,18 @@ export function Component() {
         style={{ width: "100%", height: "100%", position: "relative" }}
         mapStyle="mapbox://styles/marcoescaleiradmu/clp7mzxrf01q701qycptw1thq"
       >
-        <section className="absolute left-1/2 top-1/2 flex w-80 -translate-x-1/2 -translate-y-1/2 transform flex-col items-center justify-center rounded-2xl bg-gray-100 bg-opacity-90 p-3 sm:w-[450px] md:w-[600px] sm:p-8">
+        <section className="absolute left-1/2 top-1/2 flex w-80 -translate-x-1/2 -translate-y-1/2 transform flex-col items-center justify-center rounded-2xl bg-gray-100 bg-opacity-90 p-3 sm:w-[450px] sm:p-8 md:w-[600px]">
           <img
-            src="/images/planet-earth.svg"
+            src="/images/mtc-logo.svg"
             width={180}
             height={180}
-            alt="Planet Earth"
-            className="mb-6 h-32 w-32 sm:mb-8 sm:h-44 sm:w-44"
+            alt="Planet Earth MTC"
+            className="mb-6 size-32 sm:mb-8 sm:size-44"
           />
-          <Typography variant="h1" className="mb-4 font-semibold text-3xl md:text-4xl">
-            Meet the Countries
-          </Typography>
-          <Typography variant="lead" className="mb-6 text-center sm:mb-8 sm:text-lg">
+          <Typography variant="lead" className="text-sm mb-6 text-center sm:mb-8 sm:text-lg">
             Embark on an exciting journey with us to explore uncharted territories and discover countries like never
             before.
-            <Typography className="font-medium mt-3">Are you ready for the adventure?</Typography>
+            <Typography className="mt-3 font-medium">Are you ready for the adventure?</Typography>
           </Typography>
           <div className="flex items-center justify-center">
             <Link
