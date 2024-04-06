@@ -12,7 +12,6 @@ import { apolloClient } from "@utils/apolloSetup.ts";
 import "./global.scss";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  // @ts-expect-error: due to a temporary update on the @types/react
   <React.StrictMode>
     <ApolloProvider client={apolloClient}>
       <ThemeProvider>

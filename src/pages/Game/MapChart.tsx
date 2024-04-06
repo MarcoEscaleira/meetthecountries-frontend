@@ -55,7 +55,6 @@ export const MapChart: FC = () => {
         >
           {/* @ts-expect-error: due to a temporary update on the @types/react */}
           <ZoomableGroup zoom={position.zoom} center={position.coordinates} onMoveEnd={handleMoveEnd}>
-            {/* @ts-expect-error: due to a temporary update on the @types/react */}
             <Geographies geography="/features.json">
               {({ geographies }) =>
                 geographies.map(geo => {
@@ -90,7 +89,6 @@ export const MapChart: FC = () => {
                         />
                       </Tooltip>
                       <Marker key={`name-${geo.rsmKey}`} coordinates={provinceCenter} onClick={handleOnCountryClick}>
-                        {/* @ts-expect-error: text not found in svg */}
                         <text
                           textAnchor="middle"
                           fill="black"

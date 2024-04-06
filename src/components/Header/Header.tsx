@@ -39,10 +39,10 @@ export function Header() {
                 <Typography className="flex font-medium">
                   <Typography as="span">Hello,</Typography>&nbsp;{user.firstName}
                 </Typography>
-                <CircleUserRound className="h-7 w-7 md:h-8 md:w-8" />
+                <CircleUserRound className="size-7 md:size-8" />
               </div>
             )}
-            <IconButton onClick={toggleDrawer} aria-label="Menu">
+            <IconButton onClick={toggleDrawer} aria-label="Menu" data-cy="menu-toggle">
               {isDrawerOpen ? <X className="stroke-2" /> : <Menu className="stroke-2" />}
             </IconButton>
           </div>

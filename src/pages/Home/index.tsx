@@ -38,6 +38,7 @@ export function Component() {
             <Link
               to="/game"
               className="group inline-flex items-center justify-center rounded-lg bg-gradient-to-br from-green-400 to-blue-600 p-0.5 text-sm font-medium text-gray-900 shadow-md hover:text-white focus:outline-none focus:ring-4 focus:ring-green-200 group-hover:from-green-400 group-hover:to-blue-600"
+              data-cy="get-started"
             >
               <span className="rounded-md bg-white px-5 py-2.5 transition-all duration-75 ease-in group-hover:bg-opacity-0">
                 Get started 🚀

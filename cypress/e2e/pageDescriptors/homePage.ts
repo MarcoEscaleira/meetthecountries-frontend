@@ -1,6 +1,5 @@
-export const pageDescriptor = {
-  url: "/track",
-  getTrackLink: () => cy.get("a[href='/track']"),
-  getTitle: () => cy.get("[data-cy='page-header-title']"),
-  getLogoTitle: () => cy.get("h1"),
+export const homePageDescriptor = {
+  url: "/",
+  getStartedBtn: () => cy.get("[data-cy='get-started']"),
+  menuBtn: () => cy.get("[data-cy='menu-toggle']"),
 };
