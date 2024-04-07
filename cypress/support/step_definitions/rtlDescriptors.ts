@@ -8,7 +8,3 @@ export function findByText(text: string) {
 export function clickOnText(text: string) {
   return cy.findAllByText(new RegExp(text)).click();
 }
-
-export function textPresence(text: string) {
-  findByText(text);
-}

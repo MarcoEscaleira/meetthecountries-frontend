@@ -1,10 +1,11 @@
 import { useMutation } from "@apollo/client";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, Input, Typography } from "@material-tailwind/react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { Button, Typography } from "@material-tailwind/react";
+import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { Link, useRevalidator } from "react-router-dom";
 import { toast } from "react-toastify";
 import { z } from "zod";
+import { FormInput } from "@components/Form";
 import {
   LOGIN_USER,
   GET_USER_ATTEMPTS,
@@ -15,24 +16,24 @@ import {
 } from "@utils/queries";
 
 const formSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(1),
+  email: z.string().email("Invalid email address."),
+  password: z.string().min(1, "Password is required."),
 });
 
 export function LoginForm({ toggleDrawer }: { toggleDrawer: () => void }) {
   const revalidator = useRevalidator();
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: "",
       password: "",
     },
   });
+  const {
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = form;
 
   const [loginMutation, { loading: isLoadingLogin, error: mutationError }] = useMutation(LOGIN_USER, {
     onCompleted: async ({ loginUser }) => {
@@ -67,45 +68,45 @@ export function LoginForm({ toggleDrawer }: { toggleDrawer: () => void }) {
         </Typography>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-3 py-4">
-        <Input
-          {...register("email")}
-          name="email"
-          size="lg"
-          label="Email address"
-          placeholder="name@mail.com"
-          error={!!errors.email}
-        />
+      <FormProvider {...form}>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-3 py-4">
+          <FormInput
+            name="email"
+            size="lg"
+            label="Email address"
+            placeholder="name@mail.com"
+            fieldError={errors.email}
+          />
 
-        <Input
-          {...register("password")}
-          name="password"
-          size="lg"
-          type="password"
-          label="Password"
-          placeholder="*******"
-          error={!!errors.password}
-        />
+          <FormInput
+            name="password"
+            size="lg"
+            type="password"
+            label="Password"
+            placeholder="*******"
+            fieldError={errors.password}
+          />
 
-        {mutationError?.message && (
-          <Typography variant="small" color="red">
-            {mutationError.message}
-          </Typography>
-        )}
+          {mutationError?.message && (
+            <Typography variant="small" color="red">
+              {mutationError.message}
+            </Typography>
+          )}
 
-        <Button type="submit" fullWidth disabled={isLoadingLogin} loading={isLoadingLogin}>
-          Login to your account
-        </Button>
+          <Button type="submit" fullWidth disabled={isLoadingLogin} loading={isLoadingLogin}>
+            Login to your account
+          </Button>
 
-        <div className="flex items-center">
-          <Typography>Not registered?</Typography>&nbsp;
-          <Link to="/register" onClick={toggleDrawer} className="text-blue-700 hover:underline">
-            <Button size="sm" variant="text">
-              Create an account
-            </Button>
-          </Link>
-        </div>
-      </form>
+          <div className="flex items-center">
+            <Typography>Not registered?</Typography>&nbsp;
+            <Link to="/register" onClick={toggleDrawer} className="text-blue-700 hover:underline">
+              <Button size="sm" variant="text">
+                Create an account
+              </Button>
+            </Link>
+          </div>
+        </form>
+      </FormProvider>
     </div>
   );
 }
