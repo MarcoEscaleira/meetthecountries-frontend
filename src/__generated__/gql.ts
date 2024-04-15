@@ -28,6 +28,7 @@ const documents = {
     "\n  query QuizAttempts($quizId: String!, $userId: String) {\n    attempts(quizId: $quizId, userId: $userId) {\n      id\n      correctOptions\n      percentage\n      minutes\n      seconds\n      startTime\n      endTime\n      rating\n      quiz {\n        questions {\n          question\n        }\n      }\n      user {\n        id\n        firstName\n      }\n    }\n  }\n": types.QuizAttemptsDocument,
     "\n  query QuizById($quizId: String!) {\n    quizById(quizId: $quizId) {\n      id\n      title\n      description\n      difficulty\n      timeLimit\n      image\n      tags\n      questions {\n        question\n        type\n        image\n        options {\n          correct\n          text\n          chosen\n        }\n      }\n      country\n      creator {\n        lastName\n      }\n      lastEditor {\n        lastName\n      }\n      createdAt\n      updatedAt\n    }\n  }\n": types.QuizByIdDocument,
     "\n  query QuizComments($quizId: String!) {\n    quizComments(quizId: $quizId) {\n      id\n      text\n      createdAt\n      user {\n        id\n        firstName\n        lastName\n      }\n    }\n  }\n": types.QuizCommentsDocument,
+    "\n  query QuizOfTheDay {\n    quizOfTheDay {\n      id\n    }\n  }\n": types.QuizOfTheDayDocument,
     "\n  query Quizzes($country: String, $status: QuizStatus) {\n    quizList(country: $country, status: $status) {\n      id\n      title\n      difficulty\n      timeLimit\n      tags\n      status\n      country\n      creator {\n        firstName\n        lastName\n      }\n      lastEditor {\n        firstName\n        lastName\n      }\n      createdAt\n      updatedAt\n    }\n  }\n": types.QuizzesDocument,
     "\n  mutation SignupUser($user: SignUpInput!) {\n    signupUser(user: $user) {\n      id\n    }\n  }\n": types.SignupUserDocument,
     "\n  mutation SubmitAttempt($attempt: AttemptAddInput!) {\n    addAttempt(attempt: $attempt) {\n      id\n    }\n  }\n": types.SubmitAttemptDocument,
@@ -114,6 +115,10 @@ export function gql(source: "\n  query QuizById($quizId: String!) {\n    quizByI
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n  query QuizComments($quizId: String!) {\n    quizComments(quizId: $quizId) {\n      id\n      text\n      createdAt\n      user {\n        id\n        firstName\n        lastName\n      }\n    }\n  }\n"): (typeof documents)["\n  query QuizComments($quizId: String!) {\n    quizComments(quizId: $quizId) {\n      id\n      text\n      createdAt\n      user {\n        id\n        firstName\n        lastName\n      }\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  query QuizOfTheDay {\n    quizOfTheDay {\n      id\n    }\n  }\n"): (typeof documents)["\n  query QuizOfTheDay {\n    quizOfTheDay {\n      id\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

@@ -7,8 +7,10 @@ import {
   Button,
   Chip,
   Spinner,
+  Tooltip,
   Typography,
 } from "@material-tailwind/react";
+import { Calendar } from "lucide-react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { AttemptHistoryTable } from "@components/AttemptHistoryTable/AttemptHistoryTable.tsx";
 import { DifficultyChip } from "@components/DifficultyChip/DifficultyChip.tsx";
@@ -21,6 +23,7 @@ import { useAttemptStore } from "@state/attemptStore.ts";
 import { useUserStore } from "@state/userStore.ts";
 import { useCountryDetails } from "@utils/hooks/useCountryDetails.ts";
 import { GET_QUIZ_BY_ID } from "@utils/queries/QuizById.ts";
+import { QUIZ_OF_THE_DAY } from "@utils/queries/QuizOfTheDay.ts";
 
 export function Component() {
   const navigate = useNavigate();
@@ -29,6 +32,9 @@ export function Component() {
     user: { role },
   } = useUserStore();
   const { isAttemptRunning, quizAccordion, handleQuizAccordion } = useAttemptStore();
+
+  const { data: quizOfDay } = useQuery(QUIZ_OF_THE_DAY);
+  const quizOfTheDayId = quizOfDay?.quizOfTheDay?.id;
 
   const { data, loading, error } = useQuery(GET_QUIZ_BY_ID, { variables: { quizId: quizId || "" } });
   const quiz = data?.quizById;
@@ -41,6 +47,13 @@ export function Component() {
         <Spinner className="h-16 w-16" />
       </div>
     );
+
+  const renderQuizOfDay =
+    quiz?.id === quizOfTheDayId ? (
+      <Tooltip content='This is the quiz of the day'>
+        <Calendar className="mr-2 stroke-blue-500 size-7" />
+      </Tooltip>
+    ) : null;
 
   return (
     <div className="flex h-full w-full flex-col items-center px-4 pb-4 pt-16 md:px-12 md:pt-24">
@@ -72,8 +85,8 @@ export function Component() {
           </AccordionHeader>
           <AccordionBody className="flex gap-3">
             <section className="flex-grow">
-              <Typography variant="h1" className="mb-3 text-xl font-medium md:text-2xl">
-                {quiz?.title}
+              <Typography variant="h1" className="mb-3 flex items-center text-xl font-medium md:text-2xl">
+                {renderQuizOfDay} {quiz?.title}
               </Typography>
               <Typography className="font-normal">{quiz?.description}</Typography>
 

@@ -1,28 +1,42 @@
 import { useState } from "react";
-import { useLazyQuery } from "@apollo/client";
-import { Drawer, IconButton, List, ListItem, ListItemPrefix, Tooltip, Typography } from "@material-tailwind/react";
-import { Menu, Home, Play, FileQuestion, X, CircleUserRound, Power, LibraryBig } from "lucide-react";
-import { Link, useLocation } from "react-router-dom";
+import { useLazyQuery, useQuery } from "@apollo/client";
+import {
+  Button,
+  Drawer,
+  IconButton,
+  List,
+  ListItem,
+  ListItemPrefix,
+  Tooltip,
+  Typography,
+} from "@material-tailwind/react";
+import { format } from "date-fns";
+import { Menu, Home, Play, FileQuestion, X, CircleUserRound, Power, LibraryBig, ChevronRight } from "lucide-react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import useBreakpoint from "use-breakpoint";
 import { LoginForm } from "@components/Login/LoginForm.tsx";
 import { useUserStore } from "@state/userStore.ts";
 import { BREAKPOINTS } from "@utils/constants.ts";
 import { LOGOUT_USER } from "@utils/queries/Logout.ts";
+import { QUIZ_OF_THE_DAY } from "@utils/queries/QuizOfTheDay.ts";
 
 export function Header() {
   // const { notifications, clear, markAllAsRead, markAsRead, add, update, remove, find, sort, unreadCount } =
   //   useNotificationCenter();
   const location = useLocation();
+  const navigate = useNavigate();
   const { breakpoint } = useBreakpoint(BREAKPOINTS);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const { user, isLoggedIn, isAdmin, resetUser } = useUserStore();
 
+  const { data: quizOfDay, loading: isLoadingQuizOfDay } = useQuery(QUIZ_OF_THE_DAY);
   const [makeLogout, { client }] = useLazyQuery(LOGOUT_USER);
 
   const toggleDrawer = () => setIsDrawerOpen(!isDrawerOpen);
 
   const isHome = location.pathname === "/";
+  const todayDate = format(new Date(), "dd/MM");
 
   return (
     <>
@@ -53,7 +67,7 @@ export function Header() {
 
       <Drawer
         open={isDrawerOpen}
-        size={360}
+        size={breakpoint === "mobile" ? 360 : 420}
         onClose={toggleDrawer}
         placement={breakpoint === "mobile" ? "left" : "right"}
         className="p-4"
@@ -67,10 +81,10 @@ export function Header() {
         <div className="flex flex-col items-center">
           <div className="flex w-full items-center space-x-5 border-b pb-4">
             <Link to="/">
-              <img src="/images/mtc-logo.svg" width={58} height={54} alt="Planet Earth" className="" />
+              <img src="/images/planet-earth.svg" width={58} height={54} alt="Planet Earth" className="" />
             </Link>
             <div className="flex flex-col ">
-              <Typography variant="h3" color="blue-gray">
+              <Typography variant="h3" color="blue-gray" className="font-medium">
                 Hello {user.firstName || "explorer"}!
               </Typography>
               {!isLoggedIn && <Typography color="blue-gray">Get started and login to your account</Typography>}
@@ -141,6 +155,24 @@ export function Header() {
           </List>
 
           {!isLoggedIn && <LoginForm toggleDrawer={toggleDrawer} />}
+
+          {!isLoadingQuizOfDay && quizOfDay && (
+            <section className="mt-4 w-full border-t pt-2">
+              <Button
+                variant="text"
+                className="flex w-full items-center justify-between"
+                onClick={() => {
+                  navigate(`/game/quiz/${quizOfDay?.quizOfTheDay.id}`);
+                  toggleDrawer();
+                }}
+              >
+                <Typography variant="h4" color="blue-gray" className="text-xl font-medium">
+                  Quiz of the day ({todayDate})
+                </Typography>
+                <ChevronRight />
+              </Button>
+            </section>
+          )}
         </div>
       </Drawer>
     </>
