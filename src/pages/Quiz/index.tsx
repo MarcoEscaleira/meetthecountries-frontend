@@ -50,8 +50,8 @@ export function Component() {
 
   const renderQuizOfDay =
     quiz?.id === quizOfTheDayId ? (
-      <Tooltip content='This is the quiz of the day'>
-        <Calendar className="mr-2 stroke-blue-500 size-7" />
+      <Tooltip content="This is the quiz of the day">
+        <Calendar className="mr-2 size-7 stroke-blue-500" />
       </Tooltip>
     ) : null;
 
@@ -131,9 +131,11 @@ export function Component() {
         </div>
       )}
 
-      <div className="container mt-6 flex w-full justify-center">
-        <QuizComments />
-      </div>
+      {!isAttemptRunning && (
+        <div className="container mt-6 flex w-full justify-center">
+          <QuizComments />
+        </div>
+      )}
     </div>
   );
 }
