@@ -10,8 +10,9 @@ import {
   Tooltip,
   Typography,
 } from "@material-tailwind/react";
+import useDetectScroll, { Axis } from "@smakss/react-scroll-direction";
 import { format } from "date-fns";
-import { Menu, Home, Play, FileQuestion, X, CircleUserRound, Power, LibraryBig, ChevronRight } from "lucide-react";
+import { ChevronRight, CircleUserRound, FileQuestion, Home, LibraryBig, Menu, Play, Power, X } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import useBreakpoint from "use-breakpoint";
@@ -24,6 +25,9 @@ import { QUIZ_OF_THE_DAY } from "@utils/queries/QuizOfTheDay.ts";
 export function Header() {
   // const { notifications, clear, markAllAsRead, markAsRead, add, update, remove, find, sort, unreadCount } =
   //   useNotificationCenter();
+  const {
+    scrollPosition: { top },
+  } = useDetectScroll({ axis: Axis.Y });
   const location = useLocation();
   const navigate = useNavigate();
   const { breakpoint } = useBreakpoint(BREAKPOINTS);
@@ -41,7 +45,7 @@ export function Header() {
   return (
     <>
       <header
-        className={`fixed left-0 top-0 z-10 w-full px-2 py-2 sm:px-6 sm:py-4 md:px-4 ${isHome ? "bg-transparent" : "bg-white"}`}
+        className={`fixed left-0 top-0 z-10 w-full px-2 py-2 sm:px-6 sm:py-4 md:px-4 ${isHome ? "bg-transparent" : "bg-white"} ${top > 5 ? "shadow" : ""}`}
       >
         <div className="flex items-center justify-between">
           <Tooltip content="Home">
