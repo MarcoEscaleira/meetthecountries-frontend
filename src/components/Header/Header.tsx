@@ -87,7 +87,7 @@ export function Header() {
             <Link to="/">
               <img src="/images/planet-earth.svg" width={58} height={54} alt="Planet Earth" className="" />
             </Link>
-            <div className="flex flex-col ">
+            <div className="flex flex-col">
               <Typography variant="h3" color="blue-gray" className="font-medium">
                 Hello {user.firstName || "explorer"}!
               </Typography>

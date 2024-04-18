@@ -116,6 +116,7 @@ export function Component() {
             }
             error={!!errors.country}
             disabled={!isEditing}
+            data-cy='select-country'
           >
             {orderedCountries().map(({ name, flags }: { name: string; flags: { svg: string } }) => (
               <Option key={name} value={name} className="flex items-center gap-2">

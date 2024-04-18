@@ -84,11 +84,23 @@ export function RegisterForm() {
   return (
     <FormProvider {...form}>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 py-4">
-        <FormInput name="email" type="email" label="Email address" placeholder="name@mail.com" />
+        <FormInput
+          name="email"
+          type="email"
+          label="Email address"
+          placeholder="name@mail.com"
+          dataCy="input-register-email"
+        />
 
         <div>
           <div className="flex flex-col space-y-2 md:flex-row md:space-x-4 md:space-y-0">
-            <FormInput name="password" type="password" label="Password" placeholder="*******" />
+            <FormInput
+              name="password"
+              type="password"
+              label="Password"
+              placeholder="*******"
+              dataCy="input-register-password"
+            />
             <FormInput name="passwordConfirm" type="password" label="Password confirmation" placeholder="*******" />
           </div>
 
@@ -143,7 +155,7 @@ export function RegisterForm() {
         )}
 
         <Button type="submit" fullWidth disabled={isLoadingRegister} loading={isLoadingRegister}>
-          Create
+          Register
         </Button>
       </form>
     </FormProvider>

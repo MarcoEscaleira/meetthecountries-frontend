@@ -24,6 +24,7 @@ export const DatePicker: FC<DatePickerProps> = ({ name, label, error, disabledIn
           {...register(name)}
           label={label}
           value={date ? format(date, "dd MMM yyyy") : ""}
+          data-cy={`date-${name}`}
           error={error}
           disabled={disabledInput}
         />

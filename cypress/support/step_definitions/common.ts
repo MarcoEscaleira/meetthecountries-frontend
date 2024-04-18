@@ -1,9 +1,9 @@
 import { Then, When, Given, Before } from "@badeball/cypress-cucumber-preprocessor";
 import { clickOnText, findByText } from "./rtlDescriptors";
-import { homePageDescriptor } from "../../e2e/pageDescriptors";
 
 const pages = {
-  Home: homePageDescriptor,
+  Home: "/",
+  Register: "/register",
 };
 
 Before(() => {
@@ -11,7 +11,7 @@ Before(() => {
 });
 
 Given("I navigate to the {string} page", (pageName: string) => {
-  cy.visit(pages[pageName].url);
+  cy.visit(pages[pageName]);
 });
 
 When("I go to url {string}", (url: string) => {
