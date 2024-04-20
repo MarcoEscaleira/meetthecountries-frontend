@@ -48,7 +48,7 @@ export const CountryQuizCard = ({ id, image, title, description, difficulty, tim
         </div>
       </CardBody>
       <CardFooter className="px-6 pb-4 pt-0">
-        <Button size="md" color="blue" fullWidth={true} onClick={() => navigate(`/game/quiz/${id}`)}>
+        <Button size="md" color="black" fullWidth={true} onClick={() => navigate(`/game/quiz/${id}`)}>
           Go to quiz
         </Button>
       </CardFooter>

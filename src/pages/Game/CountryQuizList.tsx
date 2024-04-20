@@ -45,7 +45,7 @@ export const CountryQuizList = ({ quizList, isLoadingCountryQuizList }: CountryQ
 
         {isLoggedIn && (
           <Tooltip content="Create a quiz">
-            <Button variant="outlined" color="green" size="md" onClick={goToQuizForm} className="p-3">
+            <Button variant="outlined" color="black" size="md" onClick={goToQuizForm} className="p-3">
               <Plus />
             </Button>
           </Tooltip>

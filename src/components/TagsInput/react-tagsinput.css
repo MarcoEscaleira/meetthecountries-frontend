@@ -13,7 +13,7 @@
 
 .react-tagsinput-tag {
   background-color: rgb(51 65 85);
-  border-radius: 2px;
+  border-radius: 6px;
   border: 1px solid rgb(33 33 33 / 1);
   color: #fff;
   display: inline-block;

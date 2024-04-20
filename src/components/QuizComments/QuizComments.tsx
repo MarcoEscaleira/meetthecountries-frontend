@@ -61,7 +61,7 @@ export function QuizComments() {
           <form onSubmit={handleSubmit(onSubmit)}>
             <Textarea {...register("text")} size="lg" label="Comment" error={!!errors.text} />
             <Button
-              color="blue"
+              color="green"
               type="submit"
               loading={loadingCreateComment}
               disabled={loadingCreateComment || !form.formState.isDirty}
