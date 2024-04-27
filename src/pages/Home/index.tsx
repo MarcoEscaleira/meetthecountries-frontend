@@ -35,7 +35,7 @@ export function Component() {
             before.
             <Typography className="mt-3 font-medium">Are you ready for the adventure?</Typography>
           </Typography>
-          <div className="flex items-center justify-center">
+          <div className="flex items-center justify-center animate-bounce">
             <Link
               to="/game"
               className="group inline-flex items-center justify-center rounded-lg bg-gradient-to-br from-green-400 to-blue-600 p-0.5 text-sm font-medium text-gray-900 shadow-md hover:text-white focus:outline-none focus:ring-4 focus:ring-green-200 group-hover:from-green-400 group-hover:to-blue-600"
