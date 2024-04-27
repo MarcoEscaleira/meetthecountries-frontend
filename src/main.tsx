@@ -19,7 +19,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         <RouterProvider
           router={router}
           fallbackElement={
-            <div className="flex h-full w-full items-center justify-center">
+            <div className="flex h-screen w-full items-center justify-center">
               <Loader2 size={100} className="animate-spin" />
             </div>
           }
