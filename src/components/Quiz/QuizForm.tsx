@@ -80,7 +80,7 @@ export function QuizForm() {
     onCompleted: async () => {
       toast.success("Quiz updated successfully!");
     },
-    refetchQueries: [GET_QUIZ_BY_ID],
+    refetchQueries: [GET_QUIZZES, GET_COUNTRY_QUIZZES, GET_QUIZ_BY_ID],
   });
 
   const onSubmit: SubmitHandler<z.infer<typeof quizFormSchema>> = async (values, event) => {

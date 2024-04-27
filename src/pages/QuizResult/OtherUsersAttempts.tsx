@@ -30,8 +30,6 @@ export const OtherUsersAttempts = () => {
       {hasQuizAttempts && (
         <List className="flex flex-col p-0">
           {quizAttempts?.attempts.map(({ id, percentage, minutes, seconds, user }, index) => {
-            console.log("user", user.id, userId);
-            
             if (user.id === userId) return null;
 
             return (
