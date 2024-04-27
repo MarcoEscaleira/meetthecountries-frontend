@@ -128,7 +128,7 @@ export function QuizAttempt({ quiz }: QuizAttemptProps) {
               fullWidth
               variant={chosen ? "filled" : "outlined"}
               color="blue-gray"
-              className="outline-none focus:ring-0"
+              className="outline-none transition-all active:scale-95 h-11"
               onClick={() => setQuestionResponse(text)}
             >
               {text}
