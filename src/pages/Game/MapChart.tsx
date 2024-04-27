@@ -5,7 +5,6 @@ import { Minus, Plus } from "lucide-react";
 import { useSearchParams } from "react-router-dom";
 import { ZoomableGroup, ComposableMap, Geographies, Geography, Marker } from "react-simple-maps";
 import useBreakpoint from "use-breakpoint";
-import { useUserStore } from "@state/userStore.ts";
 import { BREAKPOINTS } from "@utils/constants.ts";
 import { useCountryInformation } from "@utils/hooks/useCountryInformation";
 
@@ -15,12 +14,11 @@ interface Position {
 }
 
 export const MapChart: FC = () => {
-  const { isLoggedIn } = useUserStore();
   const [searchParams, setSearchParams] = useSearchParams();
   const [position, setPosition] = useState<Position>({ coordinates: [5, 46], zoom: 1 });
   const { breakpoint } = useBreakpoint(BREAKPOINTS);
 
-  const { countriesPassedBy, countryColours } = useCountryInformation();
+  const { countryColours } = useCountryInformation();
 
   function handleZoomIn() {
     if (position.zoom >= 10) return;
@@ -148,18 +146,6 @@ export const MapChart: FC = () => {
           </div>
         </Tooltip>
       </div>
-
-      {isLoggedIn && (
-        <div className="absolute -bottom-14 left-0 flex items-center md:left-4">
-          <Tooltip content="Current selected country">
-            <div className="flex gap-2">
-              <Typography variant="small" className="font-medium">
-                {countriesPassedBy} countries completed out of 202
-              </Typography>
-            </div>
-          </Tooltip>
-        </div>
-      )}
     </div>
   );
 };

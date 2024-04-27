@@ -21,6 +21,7 @@ import { useUserStore } from "@state/userStore.ts";
 import { BREAKPOINTS } from "@utils/constants.ts";
 import { LOGOUT_USER } from "@utils/queries/Logout.ts";
 import { QUIZ_OF_THE_DAY } from "@utils/queries/QuizOfTheDay.ts";
+import { useCountryInformation } from "@utils/hooks/useCountryInformation.ts";
 
 export function Header() {
   // const { notifications, clear, markAllAsRead, markAsRead, add, update, remove, find, sort, unreadCount } =
@@ -42,17 +43,30 @@ export function Header() {
   const isHome = location.pathname === "/";
   const todayDate = format(new Date(), "dd/MM");
 
+  const { countriesPassedBy } = useCountryInformation();
+
   return (
     <>
       <header
-        className={`fixed left-0 top-0 z-10 w-full px-2 py-2 sm:px-6 sm:py-4 md:px-4 ${isHome ? "bg-transparent" : "bg-white"} ${top > 5 && !isHome ? "shadow" : ""}`}
+        className={`fixed left-0 top-0 z-10 w-full px-2 py-2 transition-all sm:px-6 sm:py-4 md:px-4 ${isHome ? "bg-transparent" : "bg-white"} ${top > 5 && !isHome ? "shadow sm:py-2" : ""}`}
       >
         <div className="flex items-center justify-between">
-          <Tooltip content="Home">
+          <div className="flex items-center gap-2 sm:gap-4">
             <Link to="/">
-              <img src="/images/planet-earth.svg" alt="Planet Earth" className="size-[44px] md:size-[54px]" />
+              <img
+                src="/images/planet-earth.svg"
+                alt="Planet Earth"
+                className="size-[44px] transition-all hover:scale-105 active:scale-95 md:size-[54px]"
+              />
             </Link>
-          </Tooltip>
+            {isLoggedIn && countriesPassedBy > 0 && (
+              <Tooltip content={`${countriesPassedBy} countries completed out of 202`}>
+                <Typography variant="small" className="font-medium">
+                  {countriesPassedBy} out of 202 {breakpoint !== "mobile" ? "countries" : ""}
+                </Typography>
+              </Tooltip>
+            )}
+          </div>
           <div className="flex h-full items-center gap-3">
             {isLoggedIn && (
               <div className="flex items-center gap-2">

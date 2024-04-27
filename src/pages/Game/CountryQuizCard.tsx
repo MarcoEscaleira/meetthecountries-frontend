@@ -20,7 +20,7 @@ export const CountryQuizCard = ({ id, image, title, description, difficulty, tim
 
   return (
     <Card
-      className="w-full max-w-[20rem] border border-gray-200 shadow-lg"
+      className="w-full max-w-[20rem] cursor-pointer border border-gray-200 shadow-lg transition-all hover:border hover:border-blue-500 active:scale-95"
       onClick={() => navigate(`/game/quiz/${id}`)}
     >
       <CardHeader floated={false} color="blue-gray" className="flex items-center justify-center pt-3">
