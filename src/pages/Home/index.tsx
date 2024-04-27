@@ -2,8 +2,12 @@ import { Typography } from "@material-tailwind/react";
 import { Map, MapProvider } from "react-map-gl";
 import { Link } from "react-router-dom";
 import "mapbox-gl/dist/mapbox-gl.css";
+import useBreakpoint from "use-breakpoint";
+import { BREAKPOINTS } from "@utils/constants.ts";
 
 export function Component() {
+  const { breakpoint } = useBreakpoint(BREAKPOINTS);
+
   return (
     <MapProvider>
       <Map
@@ -13,9 +17,9 @@ export function Component() {
         initialViewState={{
           longitude: 5,
           latitude: 46,
-          zoom: 3,
+          zoom: breakpoint === "mobile" ? 1.8 : 2.5,
         }}
-        style={{ width: "100%", height: "100%", position: "relative" }}
+        style={{ width: "100%", height: "100vh", position: "relative" }}
         mapStyle="mapbox://styles/marcoescaleiradmu/clp7mzxrf01q701qycptw1thq"
       >
         <section className="absolute left-1/2 top-1/2 flex w-80 -translate-x-1/2 -translate-y-1/2 transform flex-col items-center justify-center rounded-2xl bg-gray-100 bg-opacity-90 p-3 sm:w-[450px] sm:p-8 md:w-[600px]">
@@ -26,7 +30,7 @@ export function Component() {
             alt="Planet Earth MTC"
             className="mb-6 size-32 sm:mb-8 sm:size-44"
           />
-          <Typography variant="lead" className="text-sm mb-6 text-center sm:mb-8 sm:text-lg">
+          <Typography variant="lead" className="mb-6 text-center text-sm sm:mb-8 sm:text-lg">
             Embark on an exciting journey with us to explore uncharted territories and discover countries like never
             before.
             <Typography className="mt-3 font-medium">Are you ready for the adventure?</Typography>

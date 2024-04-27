@@ -16,7 +16,7 @@ export function Layout() {
   return (
     <>
       <Header />
-      <main className="relative flex w-full flex-grow flex-col items-center">
+      <main className="relative flex w-full min-h-full flex-grow flex-col items-center">
         <Outlet />
       </main>
       {location && location.pathname !== "/" && <Footer />}
