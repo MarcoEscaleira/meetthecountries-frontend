@@ -15,6 +15,17 @@ export function Component() {
 
       <Accordion open={open === 1}>
         <AccordionHeader onClick={() => handleOpen(1)} className="outline-none">
+          The idea behind MTC?
+        </AccordionHeader>
+        <AccordionBody>
+          <Typography>
+            MTC provides users to meet new countries by engaging in intriguing and informational quizzes that allow to
+            expand knowledge about a desired country.
+          </Typography>
+        </AccordionBody>
+      </Accordion>
+      <Accordion open={open === 2}>
+        <AccordionHeader onClick={() => handleOpen(2)} className="outline-none">
           Personal motivations
         </AccordionHeader>
         <AccordionBody>
@@ -26,17 +37,6 @@ export function Component() {
             countries the main idea was to apply several latest web technologies that combined can form a
             well-structured production application. It’s the core of any app, without a solid foundation and proper
             roots it can become a failed project.
-          </Typography>
-        </AccordionBody>
-      </Accordion>
-      <Accordion open={open === 2}>
-        <AccordionHeader onClick={() => handleOpen(2)} className="outline-none">
-          The idea behind MTC?
-        </AccordionHeader>
-        <AccordionBody>
-          <Typography>
-            MTC provides users to meet new countries by engaging in intriguing and informational quizzes that allow to
-            expand knowledge about a desired country.
           </Typography>
         </AccordionBody>
       </Accordion>

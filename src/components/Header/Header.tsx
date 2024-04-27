@@ -41,6 +41,7 @@ export function Header() {
   const toggleDrawer = () => setIsDrawerOpen(!isDrawerOpen);
 
   const isHome = location.pathname === "/";
+  const isGame = location.pathname.includes("game");
   const todayDate = format(new Date(), "dd/MM");
 
   const { countriesPassedBy } = useCountryInformation();
@@ -59,7 +60,7 @@ export function Header() {
                 className="size-[44px] transition-all hover:scale-105 active:scale-95 md:size-[54px]"
               />
             </Link>
-            {isLoggedIn && countriesPassedBy > 0 && (
+            {isLoggedIn && isGame && countriesPassedBy > 0 && (
               <Tooltip content={`${countriesPassedBy} countries completed out of 202`}>
                 <Typography variant="small" className="font-medium">
                   {countriesPassedBy} out of 202 {breakpoint !== "mobile" ? "countries" : ""}
