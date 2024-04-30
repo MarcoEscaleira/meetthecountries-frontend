@@ -11,7 +11,9 @@ import {
 } from "@material-tailwind/react";
 import { Check } from "lucide-react";
 import { toast } from "react-toastify";
+import { GET_COUNTRY_QUIZZES, GET_QUIZ_ATTEMPTS, GET_QUIZ_RATING } from "@utils/queries";
 import { APPROVE_QUIZ } from "@utils/queries/ApproveQuiz.ts";
+import { GET_QUIZ_COMMENTS } from "@utils/queries/QuizComments.ts";
 import { GET_QUIZZES } from "@utils/queries/Quizzes.ts";
 
 export function ApproveQuiz({ quizId }: { quizId: string }) {
@@ -24,7 +26,6 @@ export function ApproveQuiz({ quizId }: { quizId: string }) {
       toggleDialog();
       toast.success("Quiz approved successfully!");
     },
-    refetchQueries: [GET_QUIZZES],
   });
 
   return (
@@ -47,7 +48,17 @@ export function ApproveQuiz({ quizId }: { quizId: string }) {
             color="green"
             loading={isLoadingQuizApproval}
             disabled={isLoadingQuizApproval}
-            onClick={() => quizApprovalMutation()}
+            onClick={() =>
+              quizApprovalMutation({
+                refetchQueries: [
+                  GET_QUIZZES,
+                  GET_COUNTRY_QUIZZES,
+                  GET_QUIZ_ATTEMPTS,
+                  GET_QUIZ_RATING,
+                  GET_QUIZ_COMMENTS,
+                ],
+              })
+            }
           >
             Approve
           </Button>

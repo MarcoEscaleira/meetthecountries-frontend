@@ -24,7 +24,7 @@ export function AttemptRating({ attemptId, rating }: QuizRatingProps) {
         readonly={Boolean(rating)}
         onChange={value => {
           if (!rating) {
-            submitRating({ variables: { attemptId, rating: value } });
+            submitRating({ variables: { attemptId, rating: value }, refetchQueries: [GET_QUIZ_RATING] });
           }
         }}
       />

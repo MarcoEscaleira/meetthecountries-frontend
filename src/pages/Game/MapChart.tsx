@@ -74,6 +74,12 @@ export const MapChart: FC = () => {
                       setSearchParams({
                         country,
                       });
+
+                      window &&
+                        window.scrollTo({
+                          top: 200,
+                          behavior: "smooth",
+                        });
                     }
                   };
 

@@ -33,7 +33,10 @@ export const CountryQuizList = ({ quizList, isLoadingCountryQuizList }: CountryQ
   const goToQuizForm = () => navigate(`/game/quiz/add?country=${countryDetails.name}`);
 
   const headerContent = (
-    <div className="mb-4 mt-20 flex w-full items-center justify-between gap-3 border-b-2 pb-4 sm:justify-center sm:gap-14 md:mt-10 md:px-0 md:pb-6">
+    <div
+      className="mb-4 mt-20 flex w-full items-center justify-between gap-3 border-b-2 pb-4 sm:justify-center sm:gap-14 md:mt-10 md:px-0 md:pb-6"
+      id="country-container"
+    >
       <Typography variant="h2" className="flex items-center gap-2 text-2xl">
         <img src={countryDetails.flags.svg} alt={countryDetails.name} className="h-5 w-5 rounded-full object-cover" />
 
