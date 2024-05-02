@@ -44,7 +44,7 @@ export function Header() {
   const isGame = location.pathname.includes("game");
   const todayDate = format(new Date(), "dd/MM");
 
-  const { countriesPassedBy } = useCountryInformation();
+  const { countriesCompleted } = useCountryInformation();
 
   return (
     <>
@@ -60,10 +60,10 @@ export function Header() {
                 className="size-[44px] transition-all hover:scale-105 active:scale-95 md:size-[54px]"
               />
             </Link>
-            {isLoggedIn && isGame && countriesPassedBy > 0 && (
-              <Tooltip content={`${countriesPassedBy} countries completed out of 202`}>
+            {isLoggedIn && isGame && countriesCompleted > 0 && (
+              <Tooltip content={`${countriesCompleted} countries completed out of 202`}>
                 <Typography variant="small" className="font-medium">
-                  {countriesPassedBy} out of 202 {breakpoint !== "mobile" ? "countries" : ""}
+                  {countriesCompleted} out of 202 {breakpoint !== "mobile" ? "countries" : ""}
                 </Typography>
               </Tooltip>
             )}

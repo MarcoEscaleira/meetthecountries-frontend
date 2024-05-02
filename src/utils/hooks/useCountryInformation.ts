@@ -10,7 +10,7 @@ interface CountryColors {
 
 interface UseCountryInformation {
   countryColours: CountryColors;
-  countriesPassedBy: number;
+  countriesCompleted: number;
 }
 
 export const useCountryInformation = (): UseCountryInformation => {
@@ -19,17 +19,6 @@ export const useCountryInformation = (): UseCountryInformation => {
   } = useUserStore();
   const { data: quizzesData } = useQuery(GET_QUIZZES);
   const { data: attemptsData } = useQuery(GET_USER_ATTEMPTS, { variables: { userId }, fetchPolicy: "network-only" });
-
-  const countriesPassedBy = useMemo(() => {
-    const list = quizzesData?.quizList?.reduce<{ [country: string]: string[] }>((acc, { id, country }) => {
-      return {
-        ...acc,
-        [country]: acc[country]?.length > 0 ? [...acc[country], id] : [id],
-      };
-    }, {});
-
-    return Object.keys(list || {}).length;
-  }, [quizzesData?.quizList]);
 
   const countryColours = useMemo(() => {
     const quizzes = quizzesData?.quizList;
@@ -82,8 +71,17 @@ export const useCountryInformation = (): UseCountryInformation => {
     return {};
   }, [quizzesData?.quizList, attemptsData?.attempts]);
 
+  const countriesCompleted = useMemo(() => {
+    return Object.values(countryColours).reduce((acc: number, currentValue) => {
+      if (currentValue === "fill-green-400") {
+        return acc + 1;
+      }
+      return acc;
+    }, 0);
+  }, [countryColours]);
+
   return {
     countryColours,
-    countriesPassedBy,
+    countriesCompleted,
   };
 };

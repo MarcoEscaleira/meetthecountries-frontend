@@ -57,7 +57,7 @@ export function QuizComments() {
         </Typography>
       </CardHeader>
       <CardBody>
-        {userId && (
+        {userId ? (
           <form onSubmit={handleSubmit(onSubmit)}>
             <Textarea {...register("text")} size="lg" label="Comment" error={!!errors.text} />
             <Button
@@ -70,6 +70,10 @@ export function QuizComments() {
               Post a comment
             </Button>
           </form>
+        ) : (
+          <div className='flex items-center'>
+            <Typography variant="small" color='blue-gray'>Login to make a comment</Typography>
+          </div>
         )}
 
         <section className="mt-6 flex flex-col gap-6">
