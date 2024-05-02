@@ -1,8 +1,14 @@
 import { useMemo } from "react";
 import { useQuery } from "@apollo/client";
 import { Button, Card, CardBody, CardFooter, CardHeader, Spinner, Typography } from "@material-tailwind/react";
-import { flexRender, getCoreRowModel, SortDirection, useReactTable } from "@tanstack/react-table";
-import { ChevronsUpDown } from "lucide-react";
+import {
+  flexRender,
+  getCoreRowModel,
+  getSortedRowModel,
+  useReactTable,
+  getPaginationRowModel,
+} from "@tanstack/react-table";
+import { ChevronDown, ChevronsUpDown, ChevronUp } from "lucide-react";
 import { GET_QUIZZES } from "@utils/queries/Quizzes.ts";
 import { mapQuizList } from "./mapTableData.ts";
 import { tableColumns } from "./tableColumns.tsx";
@@ -11,12 +17,13 @@ export function Component() {
   const { data, loading, error } = useQuery(GET_QUIZZES, { variables: {} });
 
   const quizzes = useMemo(() => mapQuizList(data?.quizList || []), [data?.quizList]);
-  // const [columnFilters, setColumnFilters] = useState([]);
 
   const table = useReactTable({
     data: quizzes,
     columns: tableColumns,
     getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
   });
 
   if (loading || error)
@@ -43,27 +50,36 @@ export function Component() {
             <thead>
               {table.getHeaderGroups().map(headerGroup => (
                 <tr key={headerGroup.id}>
-                  {headerGroup.headers.map(header => (
-                    <th
-                      className={`w-[${header.getSize()}px] border-b border-blue-gray-100 bg-blue-gray-50 p-4`}
-                      key={header.id}
-                    >
-                      <div className="flex items-center justify-between">
-                        <Typography variant="small" color="blue-gray" className="font-normal leading-none opacity-70">
-                          {header.column.columnDef.header?.toString()}
-                        </Typography>
-                        {header.column.getCanSort() && (
-                          <ChevronsUpDown className="ml-3 size-5" onClick={header.column.getToggleSortingHandler()} />
-                        )}
-                        {
-                          {
-                            asc: "🔼",
-                            desc: "🔽",
-                          }[header.column.getIsSorted() as SortDirection]
-                        }
-                      </div>
-                    </th>
-                  ))}
+                  {headerGroup.headers.map(header => {
+                    const chevronProps = {
+                      className: "ml-1 size-5",
+                      onClick: header.column.getToggleSortingHandler(),
+                    };
+                    let sortChevron = <ChevronsUpDown {...chevronProps} />;
+
+                    if (header.column.getIsSorted() === "asc") {
+                      sortChevron = <ChevronUp {...chevronProps} />;
+                    }
+                    if (header.column.getIsSorted() === "desc") {
+                      sortChevron = <ChevronDown {...chevronProps} />;
+                    }
+
+                    return (
+                      <th
+                        className={`w-[${header.getSize()}px] border-b border-blue-gray-100 bg-blue-gray-50 p-4`}
+                        key={header.id}
+                      >
+                        <div className="flex items-center justify-between">
+                          <Typography variant="small" color="blue-gray" className="font-normal leading-none opacity-70">
+                            {header.column.columnDef.header?.toString()}
+                          </Typography>
+                          <div className="flex w-10 items-center justify-end">
+                            {header.column.getCanSort() && sortChevron}
+                          </div>
+                        </div>
+                      </th>
+                    );
+                  })}
                 </tr>
               ))}
             </thead>
