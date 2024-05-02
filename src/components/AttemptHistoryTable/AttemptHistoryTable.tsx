@@ -31,7 +31,7 @@ export function AttemptHistoryTable({ quizId }: AttemptHistoryTableProps) {
       {loading ? (
         <Loader2 size={20} className="mt-4 animate-spin" />
       ) : (
-        <List className="mt-4 flex flex-col p-0">
+        <List className="mt-4 flex flex-col p-0 max-h-[250px] overflow-y-auto">
           {data?.attempts.map(({ id, percentage, minutes, seconds }, index) => (
             <AttemptRow
               key={id}
